@@ -1,0 +1,563 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Escuela>
+
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">ESCUELAS</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEscuela" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">ESCUELA</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Nombre <span class="rojo">*</span></label>
+                            <input type="hidden" id="EscuelaID" value="0" />
+                            <input type="text" autocomplete="off" id="EscuelaNombre" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-EscuelaNombre" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                            <label id="EscuelaExiste" class="control-label ocultar FondoValidaciones validaciones">Ya se encuentra Registrada esta Escuela</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Directivo <span class="rojo">*</span></label>
+                            <input type="text" autocomplete="off" id="EscuelaPresidente" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-EscuelaPresidente" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Direccion <span class="rojo">*</span></label>
+                            <input type="text" autocomplete="off" id="EscuelaDireccion" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-EscuelaDireccion" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Telefono <span class="rojo">*</span></label>
+                            <input type="text" autocomplete="off" maxlength="13" id="EscuelaTelefono" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                            <label id="campo-obligatorio-EscuelaTelefono" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Email <span class="rojo">*</span></label>
+                            <input type="text" autocomplete="off" id="Email" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-Email" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" id="botonguardar" onclick="GuardarCambios()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    @*//Solo para el detalle*@
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton ">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto achicarinputbuscar text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BÚSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" onclick="Crear()" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalEscuela">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/colegio.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto  ">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion()">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+
+            <th class="text-left text-white">
+                @Html.DisplayNameFor(model => model.EscuelaNombre)
+            </th>
+            <th class="text-center ocultar1120 text-white">
+                Teléfono
+            </th>
+            <th class="text-left  ocultar1120  text-white">
+                @Html.DisplayNameFor(model => model.EscuelaDireccion)
+            </th>
+            <th class="text-left  ocultar1120  text-white">
+                Directivo
+            </th>
+            <th class="text-left  ocultar1430  text-white">
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody-Escuelas">
+    </tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead class="letra">
+        <tr>
+            <th>
+                N°
+            </th>
+            <th>
+                NOMBRE DE LA ESCUELA
+            </th>
+            <th>
+                TELÉFONO
+            </th>
+            <th>
+                DIRECCIÓN
+            </th>
+            <th>
+                DIRECTIVO
+            </th>
+            <th>
+                EMAIL
+            </th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody-Escuelashidden">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+        //////////////////// Guardar//////////////////////////////////
+
+        function GuardarCambios() {
+            var EscuelaID = $("#EscuelaID").val();
+            var EscuelaNombre = $("#EscuelaNombre").val();
+            var EscuelaTelefono = $("#EscuelaTelefono").val();
+            var Email = $("#Email").val();
+            var EscuelaPresidente = $("#EscuelaPresidente").val();
+            var EscuelaDireccion = $("#EscuelaDireccion").val();
+
+            $("#campo-obligatorio-EscuelaNombre").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaTelefono").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaDireccion").addClass("ocultar");
+            $("#campo-obligatorio-Email").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaPresidente").addClass("ocultar");
+
+            var registrar = true;
+
+            if (EscuelaNombre == "") {
+                registrar = false;
+                $("#campo-obligatorio-EscuelaNombre").removeClass("ocultar");
+            }
+
+            if (EscuelaTelefono == "") {
+                registrar = false;
+                $("#campo-obligatorio-EscuelaTelefono").removeClass("ocultar");
+            }
+
+            if (Email == "") {
+                registrar = false;
+                $("#campo-obligatorio-Email").removeClass("ocultar");
+            }
+
+            if (EscuelaPresidente == "") {
+                registrar = false;
+                $("#campo-obligatorio-EscuelaPresidente").removeClass("ocultar");
+            }
+
+            if (EscuelaDireccion == "") {
+                registrar = false;
+                $("#campo-obligatorio-EscuelaDireccion").removeClass("ocultar");
+            }
+
+            if (registrar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Escuelas/GuardarEscuela',
+                    data: {
+                        EscuelaNombre: EscuelaNombre, EscuelaPresidente: EscuelaPresidente, Email: Email,
+                        EscuelaTelefono: EscuelaTelefono, EscuelaDireccion: EscuelaDireccion, EscuelaID: EscuelaID
+                    },
+                    success: function (guardado) {
+                        if (guardado === true) {
+                            VaciarFormulario()
+                            BuscarListadoEscuelas();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'La Escuela Fue guardada Correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#ModalEscuela").modal("hide");
+                        }
+                        else {
+                            $("#EscuelaExiste").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+
+                        alert("Problemas al tratar de enviar el formulario");
+                    }
+                });
+            }
+        }
+
+        window.onload = BuscarListadoEscuelas();
+
+        function BuscarListadoEscuelas() {
+            $.ajax({
+                type: "POST",
+                url: '../../Escuelas/BuscarListadoEscuelas',
+                data: {},
+                success: function (escuelasMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#tbody-Escuelas").empty();
+                    $("#tbody-Escuelashidden").empty();
+                    var numeroColumna = 0;
+
+                    $.each(escuelasMostrar, function (index, Escuelas) {
+
+                        $("#tbody-Escuelas").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas  ContenidoTablaGris">' +
+                            Escuelas.EscuelaNombre + '</td>' +
+
+                            '<td class="text-center TextoNegroTablas ocultar1120 ContenidoTablaGris">' +
+                            Escuelas.EscuelaTelefono + '</td>' +
+
+                            '<td class="text-left TextoNegroTablas ocultar1120 ContenidoTablaGris">' +
+                            Escuelas.EscuelaDireccion + '</td>' +
+
+                            '<td class="text-left TextoNegroTablas ocultar1120 ContenidoTablaGris">' +
+                            Escuelas.EscuelaPresidente + '</td>' +
+
+                            '<td class="text-left TextoNegroTablas ocultar1430 ContenidoTablaGris">' +
+                            Escuelas.Email + '</td>' +
+
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a onclick="DatosEscolares(' + Escuelas.EscuelaID + ',0)" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalEscuela"/>' +
+                            '</a>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="DatosEscolares(' + Escuelas.EscuelaID + ',1);"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarEscuela(' + Escuelas.EscuelaID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        numeroColumna += 1;
+                        $("#tbody-Escuelashidden").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td>' +
+                            Escuelas.EscuelaNombre + '</td>' +
+
+                            '<td>' +
+                            Escuelas.EscuelaTelefono + '</td>' +
+
+                            '<td>' +
+                            Escuelas.EscuelaDireccion + '</td>' +
+
+                            '<td>' +
+                            Escuelas.EscuelaPresidente + '</td>' +
+
+                            '<td>' +
+                            Escuelas.Email + '</td>' +
+
+                            '</tr>');
+
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        //Limpiar modal//
+        function VaciarFormulario() {
+            $("#EscuelaNombre").val('');
+            $("#EscuelaPresidente").val('');
+            $("#Email").val('');
+            $("#EscuelaTelefono").val('');
+            $("#EscuelaDireccion").val('');
+            $("#EscuelaExiste").addClass('ocultar');
+
+            $("#campo-obligatorio-EscuelaNombre").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaTelefono").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaDireccion").addClass("ocultar");
+            $("#campo-obligatorio-Email").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaPresidente").addClass("ocultar");
+        }
+
+        //Datos para editar//
+        function DatosEscolares(escuelaID, Detalle) {
+            $.ajax({
+                type: "POST",
+                url: '../../Escuelas/DatosEscolares',
+                data: { EscuelaID: escuelaID },
+                success: function (escuelasmostrar) {
+                    $("#EscuelaID").val(escuelasmostrar.EscuelaID);
+                    $("#EscuelaNombre").val(escuelasmostrar.EscuelaNombre);
+                    $("#EscuelaPresidente").val(escuelasmostrar.EscuelaPresidente);
+                    $("#Email").val(escuelasmostrar.Email);
+                    $("#EscuelaTelefono").val(escuelasmostrar.EscuelaTelefono);
+                    $("#EscuelaDireccion").val(escuelasmostrar.EscuelaDireccion);
+
+                    if (Detalle == 1) {
+                        $("#EscuelaID").prop("disabled", true);
+                        $("#EscuelaNombre").prop("disabled", true);
+                        $("#EscuelaPresidente").prop("disabled", true);
+                        $("#Email").prop("disabled", true);
+                        $("#EscuelaTelefono").prop("disabled", true);
+                        $("#EscuelaDireccion").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+                        $("#ModalEscuela").modal("show");
+                    }
+                    else {
+                        $("#EscuelaID").prop("disabled", false);
+                        $("#EscuelaNombre").prop("disabled", false);
+                        $("#EscuelaPresidente").prop("disabled", false);
+                        $("#Email").prop("disabled", false);
+                        $("#EscuelaTelefono").prop("disabled", false);
+                        $("#EscuelaDireccion").prop("disabled", false);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+                        $("#ModalEscuela").modal("show");
+                    }
+
+
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Escuela.");
+                }
+            });
+        }
+
+        //Detalle//
+        function Crear() {
+            $("#EscuelaID").prop("disabled", false);
+            $("#EscuelaNombre").prop("disabled", false);
+            $("#EscuelaPresidente").prop("disabled", false);
+            $("#Email").prop("disabled", false);
+            $("#EscuelaTelefono").prop("disabled", false);
+            $("#EscuelaDireccion").prop("disabled", false);
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+            $("#ModalEscuela").modal("show");
+        }
+
+        //eliminar//
+        function EliminarEscuela(escuelaID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta Escuela?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Escuelas/EliminarEscuela',
+                        data: { id: escuelaID },
+                        success: function (validacion) {
+                            if (validacion === true) {
+                                BuscarListadoEscuelas();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta Escuela.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Esta Escuela esta relacionada con otros Registros',
+                                    'error'
+                                )
+                            }
+
+                        },
+                        error: function (validacion) {
+
+                        }
+                    });
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        }
+    </script>
+
+    <script>
+        function GenerarImpresion() {
+
+             //var doc = new jsPDF();//VERTICAL
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+                
+                //en el caso de que no halla filtro el titulo se centra.
+                
+                    doc.setFontSize(18);
+                    doc.text('LISTADO DE ESCUELAS', 38, 25);
+                
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 55 },
+                    2: { columnWidth: 30 },
+                    3: { columnWidth: 50 },
+                    4: { columnWidth: 60 },
+                    5: { columnWidth: 68 },
+                   
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 ) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 ) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+            var x = window.open();
+
+            x.document.open();
+            x.document.write(iframe)
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+    </script>
+}
+
+

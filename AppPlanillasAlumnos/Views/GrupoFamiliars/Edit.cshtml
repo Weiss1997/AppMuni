@@ -1,0 +1,107 @@
+﻿@model AppPlanillasAlumnos.Models.GrupoFamiliar
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Editar datos</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal ">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.GrupoFamiliarID)
+
+        <div class="cardfondo col-md-12 text-center">
+            <div class="form-group">
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarApellidoNombre, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarApellidoNombre, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @*<input type="text" class="form-control text-uppercase" name="GrupoFamiliarApellidoNombre" value="@Model.GrupoFamiliarApellidoNombre.ToUpper()" />*@
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarApellidoNombre, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarDNI, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarDNI, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarDNI, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarSexo, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EnumDropDownListFor(model => model.GrupoFamiliarSexo, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarSexo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarSalud, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarSalud, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarSalud, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarIngresos, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarIngresos, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarIngresos, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarNacimiento, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarNacimiento, new { htmlAttributes = new { @class = "form-control form-control-rounded" } })
+                    @*<input type="text" class="form-control text-uppercase" name="GrupoFamiliarEdad" value="@Model.GrupoFamiliarEdad.ToUpper()" />*@
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarNacimiento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group col-md-12">
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarVinculo, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarVinculo, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @*<input type="text" class="form-control text-uppercase" name="GrupoFamiliarVinculo" value="@Model.GrupoFamiliarVinculo.ToUpper()" />*@
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarVinculo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarEscolaridad, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarEscolaridad, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @*<input type="text" class="form-control text-uppercase" name="GrupoFamiliarEscolaridad" value="@Model.GrupoFamiliarEscolaridad.ToUpper()" />*@
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarEscolaridad, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-12">
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GrupoFamiliarOcupacion, htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.EditorFor(model => model.GrupoFamiliarOcupacion, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase;" } })
+                    @*<input type="text" class="form-control text-uppercase" name="GrupoFamiliarOcupacion" value="@Model.GrupoFamiliarOcupacion.ToUpper()" />*@
+                    @Html.ValidationMessageFor(model => model.GrupoFamiliarOcupacion, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.PersonaID, "Nombre Del Paciente", htmlAttributes: new { @class = "control-label TextoNegroFormulario" })
+                    @Html.DropDownList("PersonaID", null, htmlAttributes: new { @class = "form-control form-control-rounded" })
+                    @Html.ValidationMessageFor(model => model.PersonaID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        
+
+
+
+        <div class="form-group text-right">
+            <div class="col-md-10">
+                <button type="submit" title="Guardar Cambios" class="BotonGuardar">
+                    <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                </button>
+
+                <a class="BotonVolver" title="Volver al listado de grupo familiar" href="~/GrupoFamiliars/Index"><img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" /></a>
+            </div>
+        </div>
+    </div>
+}
+

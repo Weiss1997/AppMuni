@@ -1,0 +1,483 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.PreguntasIodi>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Preguntas para Desarrollo Infantil</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalPreguntaIodi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title" id="exampleModalLabel">PREGUNTA PARA DESARROLLO INFANTIL</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="row">
+                        <input type="hidden" id="PreguntaIodiID" value="0" class="form-control" />
+                        <div class="form-group col-lg-12">
+                            <label class="control-label TextoNegroFormulario">Pregunta<span class="rojo">*</span></label>
+                            <input type="text" id="PreguntasIodiDescripcion" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-PreguntasIodiDescripcion">* Campo Obligatorio</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Intervalo de edad</label>
+                            <select class="form-control form-control-rounded margen-top-select" id="PreguntasIodiEdadID">
+                                <option value="1">Todos</option>
+                                <option value="2">1°T</option>
+                                <option value="3">2°T</option>
+                                <option value="4">3°T</option>
+                                <option value="5">4°T</option>
+                                <option value="6">1 año</option>
+                                <option value="7">2 años</option>
+                                <option value="8">3 años</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Clasificación</label>
+                            <select class="form-control form-control-rounded margen-top-select" id="PreguntasIodiclasificacionID">
+                                <option value="1">M</option>
+                                <option value="2">C</option>
+                                <option value="3">SE</option>
+                                <option value="4">CVMC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer-2" id="OcultarDetalle">
+                    <button type="button" class="BotonCancelar-Modal" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="GuardarPreguntaIodi()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="Escriba aquí para acotar la búsqueda" />
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalPreguntaIodi">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/pregunta.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion();">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoPreguntas">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoPreguntas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFORMACIÓN PARA LA CREACIÓN DE PREGUNTAS</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para la creación de una pregunta no es necesario cargar datos previamente. </label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- tabla -->
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">
+                Pregunta
+            </th>
+            <th class="text-left text-white ocultar640">
+                Intervalo de edad
+            </th>
+            <th class="text-left text-white ocultar770">
+                Clasificación
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-preguntasIodi">
+    </tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                PREGUNTAS
+            </th>
+            <th>
+                INTERVALO DE EDAD
+            </th>
+            <th>
+                CLASIFICACIÓN
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-preguntasIodihidden">
+    </tbody>
+</table>
+<!-- tabla -->
+
+@section Scripts {
+    <script>
+        //FUNCION GUARDAR PREGUNTA IODI
+        function GuardarPreguntaIodi() {
+            var preguntasIodiDescripcion = $("#PreguntasIodiDescripcion").val();
+            var preguntasIodiEdadID = $("#PreguntasIodiEdadID").val();
+            var preguntasIodiclasificacionID = $("#PreguntasIodiclasificacionID").val();
+            var preguntaIodiID = $("#PreguntaIodiID").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS TRES INPUTS
+            $("#campo-obligatorio-PreguntasIodiDescripcion").addClass("ocultar");
+
+            var registrar = true;
+
+            if (preguntasIodiDescripcion == "") {
+                registrar = false;
+                $("#campo-obligatorio-PreguntasIodiDescripcion").removeClass("ocultar");
+            }
+
+            if (registrar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../PreguntasIodis/GuardarPreguntaIodi',
+                    data: {
+                        PreguntaIodiID: preguntaIodiID, PreguntasIodiDescripcion: preguntasIodiDescripcion, PreguntasIodiEdadID: preguntasIodiEdadID,
+                        PreguntasIodiclasificacionID: preguntasIodiclasificacionID
+                    },
+                    success: function (guardado) {
+                        if (guardado == true) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'La pregunta fue guardada correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            VaciarFormulario();
+                        }
+                        BuscarListadoPreguntasIodi();
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+
+
+        //FUNCION BUSCAR/MOSTRAR PREGUNTA IODI
+
+        window.onload = BuscarListadoPreguntasIodi();
+
+        function BuscarListadoPreguntasIodi() {
+            $.ajax({
+                type: "POST",
+                url: '../../PreguntasIodis/BuscarListadoPreguntasIodi',
+                data: {},
+                success: function (preguntasIodiMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#ModalPreguntaIodi").modal("hide");
+
+                    $("#tbody-preguntasIodi").empty();
+                    $("#tbody-preguntasIodihidden").empty();
+
+                    $.each(preguntasIodiMostrar, function (index, preguntaIodi) {
+
+                        $("#tbody-preguntasIodi").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris" style="text-transform:uppercase">' +
+                            preguntaIodi.PreguntasIodiDescripcion +
+                            '</td>' +
+                            '<td class="text-left text-uppercase TextoNegroTablas ContenidoTablaGris ocultar640">' +
+                            preguntaIodi.PreguntasIodiEdadDescripcion +
+                            '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris ocultar770">' +
+                            preguntaIodi.PreguntasIodiclasificacion +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoPreguntaIodi(' + preguntaIodi.PreguntasIodiID + ')" data-toggle="modal" data-target="#ModalPreguntaIodi"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarPreguntaIodi(' + preguntaIodi.PreguntasIodiID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        $("#tbody-preguntasIodihidden").append('<tr>' +
+
+                            '<td style="text-transform:uppercase">' +
+                            preguntaIodi.PreguntasIodiDescripcion +
+                            '</td>' +
+                            '<td>' +
+                            preguntaIodi.PreguntasIodiEdadDescripcion +
+                            '</td>' +
+                            '<td>' +
+                            preguntaIodi.PreguntasIodiclasificacion +
+                            '</td>' +
+                            '</tr>');
+
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        //FUNCION EDITAR PREGUNTA IODI
+        function BuscarInfoPreguntaIodi(PreguntaIodiID) {
+            $.ajax({
+                type: "POST",
+                url: '../../PreguntasIodis/BuscarInfoPreguntaIodi',
+                data: { PreguntaIodiID: PreguntaIodiID },
+                success: function (preguntaIodiMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#PreguntaIodiID").val(preguntaIodiMostrar.PreguntasIodiID);
+                    $("#PreguntasIodiDescripcion").val(preguntaIodiMostrar.PreguntasIodiDescripcion);
+                    $("#PreguntasIodiEdadID").val(preguntaIodiMostrar.PreguntasIodiEdadID);
+                    $("#PreguntasIodiclasificacionID").val(preguntaIodiMostrar.PreguntasIodiclasificacionID);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //FUNCION ELIMINAR PREGUNTA IODI
+
+        function EliminarPreguntaIodi(PreguntasIodiID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta pregunta?',
+                text: "Si la eliminas, será para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../PreguntasIodis/EliminarPreguntaIodi',
+                        data: { id: PreguntasIodiID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                BuscarListadoPreguntasIodi();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta pregunta.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }
+            })
+        }
+
+        //FUNCION VACIAR CAMPO PREGUNTA IODI CUANDO CIERRA O GUARDA
+        function VaciarFormulario() {
+            $("#PreguntaIodiID").val(0);
+            $("#PreguntasIodiDescripcion").val('');
+            $("#PreguntasIodiEdadID").val(1);
+            $("#PreguntasIodiclasificacionID").val(1);
+            $("#PreguntasIodiEdadDescripcion").val('');
+            $("#PreguntasIodiclasificacion").val('');
+
+            $("#campo-obligatorio-PreguntasIodiDescripcion").addClass("ocultar");
+        }
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /*            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DE FORMULARIO', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 80 },
+                    1: { columnWidth: 60 },
+                    2: { columnWidth: 45 },
+                    3: { columnWidth: 45 },
+                    4: { columnWidth: 0 },
+                    5: { columnWidth: 0 },
+                    6: { columnWidth: 0 },
+                    //7: { columnWidth: 40 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+
+    </script>
+
+}

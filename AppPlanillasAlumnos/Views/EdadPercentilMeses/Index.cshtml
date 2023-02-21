@@ -1,0 +1,480 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.EdadPercentilMeses>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">EDAD PARA PERCENTILES</h2>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEdadFormulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">EDAD - PERCENTIL - FORMULARIO</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="row">
+                        <input value="0" type="hidden" id="PercentilEdadID" class="form-control form-control-rounded">
+                        <div class="col-lg-7">
+                            <label class="control-label TextoNegroFormulario">Edad para formulario <span class="rojo">*</span></label>
+                            <input type="text" id="EdadFormularioDescripcion" style="text-transform:uppercase" class="form-control-rounded form-control" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-EdadFormularioDescripcion">* Campo Obligatorio</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario ">Tipo de Percentil <span class="rojo">*</span></label>
+                            <select class="form-control form-control-rounded" style="text-transform:uppercase" id="TipoPercentil">
+                                <option value="1">Percentil 75</option>
+                                <option value="2">Percentil 90</option>
+                            </select>
+                            <p class="ocultar validaciones" id="campo-obligatorio-TipoPercentil">* Campo Obligatorio</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="GuardarEdadFormulario()" id="botonguardar" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    @*//SOLO PARA EL DETALLE DE EDAD*@
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="Escriba aquí para acotar la búsqueda" />
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton TextoNegroTablas ColorCelesteBoton" onclick="Crear()" data-toggle="modal" data-target="#ModalEdadFormulario">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/grupoedad.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto">
+        <button onclick="GenerarImpresion()" class="SombraBoton ColorCelesteBoton TextoNegroTablas">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoEdadPercentil">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoEdadPercentil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFORMACIÓN PARA LA CREACIÓN DE EDADES</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para crear una edad, No es necesaria una carga previa de datos.</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">
+                EDAD FORMULARIO
+            </th>
+            <th class="text-center ocultar860 text-white">
+                TIPO PERCENTIL
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="EdadPercentilMeses">
+    </tbody>
+
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                EDAD FORMULARIO
+            </th>
+            <th>
+                TIPO PERCENTIL
+            </th>
+        </tr>
+    </thead>
+    <tbody id="EdadPercentilMeseshidden">
+    </tbody>
+
+</table>
+
+
+
+@section Scripts {
+
+    <script>
+        window.onload = BuscarListadoEdadFormularios();
+
+        function BuscarListadoEdadFormularios() {
+            $.ajax({
+                type: "POST",
+                url: '../../EdadPercentilMeses/BuscarListadoEdadFormularios',
+                data: {},
+                success: function (edadFormulariosMostrar) {
+
+                    $("#EdadPercentilMeses").empty();
+                    $("#EdadPercentilMeseshidden").empty();
+
+                    $.each(edadFormulariosMostrar, function (index, edadPercentilMeses) {
+
+                        $("#EdadPercentilMeses").append('<tr>' +
+
+                            '<td style="width:500px" class="text-left TextoNegroTablas ContenidoTablaGris"  style="text-transform:uppercase">' +
+                            edadPercentilMeses.EdadFormularioDescripcion + '</td>' +
+
+                            '<td style="width:200px" class="text-center TextoNegroTablas ocultar860 ContenidoTablaGris" style="text-transform:uppercase">' +
+                            edadPercentilMeses.percentiltipo + '</td>' +
+
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris " >' +
+                            '<a onclick="BuscarInfoEdad(' + edadPercentilMeses.PercentilEdadID + ',0)">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" />' +
+                            '</a>' + '</td>' +
+
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris " >' +
+                            '<a onclick="BuscarInfoEdad(' + edadPercentilMeses.PercentilEdadID + ',1)">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" />' +
+                            '</a>' + '</td>' +
+
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a onclick="EliminarEdadPercentil(' + edadPercentilMeses.PercentilEdadID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+
+                            '</tr>'
+                        );
+                        $("#EdadPercentilMeseshidden").append('<tr>' +
+
+                            '<td>' +
+                            edadPercentilMeses.EdadFormularioDescripcion + '</td>' +
+
+                            '<td>' +
+                            edadPercentilMeses.percentiltipo + '</td>' +
+
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+        function VaciarFormulario() {
+            $("#PercentilEdadID").val(0);
+            $("#EdadFormularioDescripcion").val('');
+            $("#TipoPercentil").val(1);
+
+            $("#campo-obligatorio-EdadFormularioDescripcion").addClass("ocultar");
+            $("#campo-obligatorio-TipoPercentil").addClass("ocultar");
+        }
+
+        function GuardarEdadFormulario() {
+            var PercentilEdadID = $("#PercentilEdadID").val();
+            var EdadFormularioDescripcion = $("#EdadFormularioDescripcion").val();
+            var TipoPercentil = $("#TipoPercentil").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS TRES INPUTS
+            $("#campo-obligatorio-EdadFormularioDescripcion").addClass("ocultar");
+
+            var registrar = true;
+
+            if (EdadFormularioDescripcion == 0) {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE EDAD FORMULARIO QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-EdadFormularioDescripcion").removeClass("ocultar");
+            }
+
+
+            if (registrar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../EdadPercentilMeses/GuardarEdadFormulario',
+                    data: { PercentilEdadID: PercentilEdadID, EdadFormularioDescripcion: EdadFormularioDescripcion, TipoPercentil: TipoPercentil },
+                    success: function (guardado) {
+                        if (guardado == true) {
+                            VaciarFormulario();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'La Edad fue guardada correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#ModalEdadFormulario").modal("hide");
+                            BuscarListadoEdadFormularios();
+                        }
+                        else {
+                            alert('LA EDAD YA SE ENCUENTRA CARGADA')
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        //FUNCION EDITAR EDAD
+        function BuscarInfoEdad(percentilEdadID, origen) {
+            $.ajax({
+                type: "POST",
+                url: '../../EdadPercentilMeses/BuscarInfoEdad',
+                data: { PercentilEdadID: percentilEdadID },
+                success: function (listado) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#PercentilEdadID").val(listado.PercentilEdadID);
+                    $("#EdadFormularioDescripcion").val(listado.EdadFormularioDescripcion);
+                    $("#TipoPercentil").val(listado.TipoPercentil);
+
+                    if (origen == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                        $("#PercentilEdadID").prop("disabled", true);
+                        $("#EdadFormularioDescripcion").prop("disabled", true);
+                        $("#TipoPercentil").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+
+                        $("#ModalEdadFormulario").modal("show");
+                    }
+                    else {
+                        $("#PercentilEdadID").prop("disabled", false);
+                        $("#EdadFormularioDescripcion").prop("disabled", false);
+                        $("#TipoPercentil").prop("disabled", false);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+                        $("#ModalEdadFormulario").modal("show");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //Detalle//
+        function Crear() {
+            $("#PercentilEdadID").prop("disabled", false);
+            $("#EdadFormularioDescripcion").prop("disabled", false);
+            $("#TipoPercentil").prop("disabled", false);
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+        }
+        function EliminarEdadPercentil(PercentilEdadID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta Edad?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../EdadPercentilMeses/EliminarEdadPercentil',
+                        data: { id: PercentilEdadID },
+                        success: function (validaciones) {
+                            if (validaciones === true) {
+
+
+                                BuscarListadoEdadFormularios();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta Edad.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (validaciones) {
+
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+        }
+
+    </script>
+
+    <script>
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /* var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DE EDAD - PERCENTIL', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 140 },
+                    1: { columnWidth: 45 },
+                    2: { columnWidth: 50 },
+                    //3: { columnWidth:  },
+                    //4: { columnWidth: 5 },
+                    //5: { columnWidth: 5 },
+                    //6: { columnWidth: 0 },
+                    //7: { columnWidth: 0 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+    </script>
+}

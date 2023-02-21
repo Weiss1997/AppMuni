@@ -1,0 +1,696 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.TrayectoriaEscolar>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">TRAYECTORIA ESCOLAR</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalTrayectoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">TRAYECTORIA ESCOLAR</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarModalTrayectoria()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-4 text-left">
+                            <label class="control-label TextoNegroFormulario">Fecha de Inicio <span class="rojo">*</span></label>
+                            <input type="date" id="TrayectoriaFecha" min="1920-01-01" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            <label id="FechaValidacion" class="control-label ocultar validaciones">Escriba una Fecha correcta</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Paciente <span class="rojo">*</span></label>
+                            <br />
+                            <input type="hidden" id="PacienteID" name="PacienteID" value="0" />
+                            <input id="PacienteNombre" autocomplete="off" class="form-control form-control-rounded" onKeyUp="ControlarAutocompletadoPaciente()" onKeyDown="ControlarAutocompletadoPaciente()" style="text-transform:uppercase">
+                            <label id="campo-obligatorio-PacienteID" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                            <label id="PacienteExiste" class="control-label ocultar FondoValidaciones validaciones">Ya se encuentra Registrado el Paciente en esta Escuela</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Escuela <span class="rojo">*</span></label>
+                            <input type="hidden" id="EscuelaID" name="EscuelaID" value="0" />
+                            <input id="EscuelaNombre" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-EscuelaID" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="control-label TextoNegroFormulario">Descripcion <span class="rojo">*</span></label>
+                            <input type="hidden" id="TrayectoriaEscolarID" name="TrayectoriaEscolarID" value="0" />
+                            <input type="text" autocomplete="off" id="TrayectoriaEscolarDescripcion" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-TrayectoriaEscolarDescripcion" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarModalTrayectoria()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" id="botonguardar" onclick="GuardarCambiosTrayectoria()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarModalTrayectoria()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton ">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BÚSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="FechaActual(); MetodoParaDetalle();" data-toggle="modal" data-target="#ModalTrayectoria">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/libros.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto  ">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion()">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoTrayectoria">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoTrayectoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. TRAYECTORIA ESCOLAR</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para poder crear una Trayectoria Escolar se debe tener creado un Paciente y una Escuela</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-center ocultar1430 text-white">
+                Fecha
+            </th>
+            <th class="text-white">
+                Paciente
+            </th>
+            <th class=" ocultar500  text-white">
+                Escuela
+            </th>
+            <th class=" ocultar1430 text-white">
+                Descripción
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody-TrayectoriaE">
+    </tbody>
+</table>
+
+<table hidden id="tablaTrayectoriahidden">
+    <thead>
+        <tr>
+            <th>
+                N°
+            </th>
+            <th>
+                FECHA
+            </th>
+            <th>
+                PACIENTE
+            </th>
+            <th>
+                ESCUELA
+            </th>
+            <th>
+                DESCRIPCIÓN
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-TrayectoriaEhidden">
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+    </script>
+
+    <script>
+        function GuardarCambiosTrayectoria() {
+            var trayectoriaEscolarDescripcion = $("#TrayectoriaEscolarDescripcion").val();
+            var trayectoriaFecha = $("#TrayectoriaFecha").val();
+            var pacienteID = $("#PacienteID").val();
+            var escuelaID = $("#EscuelaID").val();
+            var trayectoriaEscolarID = $("#TrayectoriaEscolarID").val();
+
+            $("#campo-obligatorio-TrayectoriaEscolarDescripcion").addClass("ocultar");
+            $("#campo-obligatorio-PacienteID").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaID").addClass("ocultar");
+
+            var guardar = true;
+
+            var date = new Date;
+            var mesActual = date.getMonth() + 1;
+            var dia = date.getDate();
+            if (mesActual < 10) {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+
+            }
+            else {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+            }
+            var FechaPredeterminada = "1920-01-01";
+
+            if (trayectoriaFecha == FechaPredeterminada || trayectoriaFecha < FechaPredeterminada || trayectoriaFecha > FechaHoy) {
+                registrar = false;
+                $("#FechaValidacion").removeClass("ocultar");
+            }
+
+            if (trayectoriaEscolarDescripcion == "") {
+                guardar = false;
+                $("#campo-obligatorio-TrayectoriaEscolarDescripcion").removeClass("ocultar");
+            }
+
+            if (pacienteID == 0) {
+                guardar = false;
+                $("#campo-obligatorio-PacienteID").removeClass("ocultar");
+            }
+
+            if (escuelaID == 0) {
+                guardar = false;
+
+                $("#campo-obligatorio-EscuelaID").removeClass("ocultar");
+            }
+            if (guardar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../TrayectoriaEscolars/GuardarTrayectoriaEscolar',
+                    data: { TrayectoriaEscolarDescripcion: trayectoriaEscolarDescripcion, TrayectoriasFecha: trayectoriaFecha, PacienteID: pacienteID, EscuelaID: escuelaID, TrayectoriaEscolarID: trayectoriaEscolarID },
+
+                    success: function (guardado) {
+                        if (guardado === true) {
+                            BuscarListadoTrayectoriaE();
+                            VaciarModalTrayectoria();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'La Trayectoria Escolar Fue guardada Correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+
+                            })
+
+                            $("#ModalTrayectoria").modal("hide");
+
+
+                        }
+                        else {
+                            $("#PacienteExiste").removeClass("ocultar");
+                        }
+
+                    },
+                    error: function (data) {
+                        alert("Problemas al tratar de enviar el formulario");
+                    }
+                });
+            }
+
+        }
+
+        function VaciarModalTrayectoria() {
+            $("#TrayectoriaEscolarID").val(0);
+            $("#TrayectoriaEscolarDescripcion").val('');
+            $("#TrayectoriaFecha").val('"1920-01-01"');
+            $("#PacienteID").val(0);
+            $("#PacienteNombre").val('');
+            $("#EscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+            $("#PacienteExiste").addClass('ocultar');
+
+            $("#campo-obligatorio-TrayectoriaEscolarDescripcion").addClass("ocultar");
+            $("#campo-obligatorio-PacienteNombre").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaNombre").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaID").addClass("ocultar");
+            $("#campo-obligatorio-PacienteID").addClass("ocultar");
+            $("#FechaValidacion").addClass("ocultar");
+
+        }
+
+
+        window.onload = BuscarListadoTrayectoriaE();
+
+        function BuscarListadoTrayectoriaE() {
+            $.ajax({
+                type: "POST",
+                url: '../../TrayectoriaEscolars/BuscarListadoTrayectoriaE',
+                data: {},
+                success: function (TrayectoriaEmostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+
+                    $("#tbody-TrayectoriaE").empty();
+                    $("#tbody-TrayectoriaEhidden").empty();
+                    var numeroColumna = 0;
+                    $.each(TrayectoriaEmostrar, function (index, trayectoriae) {
+
+                        $("#tbody-TrayectoriaE").append('<tr>' +
+
+                            '<td style="width:100px"  class="text-center ocultar1430 TextoNegroTablas  ContenidoTablaGris">' +
+                            trayectoriae.TrayectoriasFechaString + '</td>' +
+
+                            '<td  class=" TextoNegroTablas   ContenidoTablaGris">' +
+                            trayectoriae.Paciente.PersonaApellidoNombre + '</td>' +
+
+                            '<td   class=" TextoNegroTablas ocultar500 ContenidoTablaGris">' +
+                            trayectoriae.Escuela.EscuelaNombre + '</td>' +
+
+
+                            '<td  class=" TextoNegroTablas ocultar1430 ContenidoTablaGris T">' +
+                            trayectoriae.TrayectoriaEscolarDescripcion + '</td>' +
+
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a onclick= "BuscarInfoTrayectoriaEscolar(' + trayectoriae.TrayectoriaEscolarID + ',0)" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla"  />' +
+                            '</a>' +
+                            '<td style="width:50px"  class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoTrayectoriaEscolar(' + trayectoriae.TrayectoriaEscolarID + ',1);"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarTrayectoria(' + trayectoriae.TrayectoriaEscolarID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+                        numeroColumna += 1;
+                        $("#tbody-TrayectoriaEhidden").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td>' +
+                            trayectoriae.TrayectoriasFechaString + '</td>' +
+
+                            '<td>' +
+                            trayectoriae.Paciente.PersonaApellidoNombre + '</td>' +
+
+                            '<td>' +
+                            trayectoriae.Escuela.EscuelaNombre + '</td>' +
+
+                            '<td>' +
+                            trayectoriae.TrayectoriaEscolarDescripcion + '</td>' +
+
+                            '</tr>');
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function BuscarInfoTrayectoriaEscolar(trayectoriaEscolarID, Detalle) {
+            $.ajax({
+                type: "POST",
+                url: '../../TrayectoriaEscolars/BuscarInfoTrayectoriaEscolar',
+                data: { TrayectoriaEscolarID: trayectoriaEscolarID },
+                success: function (trayectoriaEscolar) {
+                    $("#TrayectoriaEscolarID").val(trayectoriaEscolar.TrayectoriaEscolarID);
+                    $("#TrayectoriaEscolarDescripcion").val(trayectoriaEscolar.TrayectoriaEscolarDescripcion);
+                    $("#TrayectoriaFecha").val(trayectoriaEscolar.TrayectoriasFechaString);
+                    $("#PacienteID").val(trayectoriaEscolar.Paciente.PacienteID);
+                    $("#PacienteNombre").val(trayectoriaEscolar.Paciente.PersonaApellidoNombre);
+                    $("#EscuelaID").val(trayectoriaEscolar.Escuela.EscuelaID);
+                    $("#EscuelaNombre").val(trayectoriaEscolar.Escuela.EscuelaNombre);
+
+                    if (Detalle == 1) {
+                        $("#TrayectoriaEscolarID").prop("disabled", true);
+                        $("#TrayectoriaEscolarDescripcion").prop("disabled", true);
+                        $("#TrayectoriaFecha").prop("disabled", true);
+                        $("#PacienteID").prop("disabled", true);
+                        $("#PacienteNombre").prop("disabled", true);
+                        $("#EscuelaID").prop("disabled", true);
+                        $("#EscuelaNombre").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+
+                        $("#ModalTrayectoria").modal("show");
+
+                    }
+                    else {
+                        $("#TrayectoriaEscolarID").prop("disabled", false);
+                        $("#TrayectoriaEscolarDescripcion").prop("disabled", false);
+                        $("#TrayectoriaFecha").prop("disabled", false);
+                        $("#PacienteID").prop("disabled", true);
+                        $("#PacienteNombre").prop("disabled", true);
+                        $("#EscuelaID").prop("disabled", true);
+                        $("#EscuelaNombre").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+
+                        $("#ModalTrayectoria").modal("show");
+                    }
+
+
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+
+            });
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoPaciente() {
+            var nombre = $("#PacienteNombre").val();
+            var pacienteID = $("#PacienteID").val();
+            if (nombre == "" && pacienteID != 0) {
+                $("#PacienteID").val(0);
+                $("#PacienteNombre").val('');
+                $("#EscuelaID").val(0);
+                $("#EscuelaNombre").val('');
+                $("#TrayectoriaEscolarDescripcion").val('');
+                $("#PacienteExiste").addClass('ocultar');
+
+            }
+        }
+
+        function EliminarTrayectoria(TrayectoriaEscolarID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: '¿Estas seguro de eliminar esta Trayectoria Escolar?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../TrayectoriaEscolars/EliminarTrayectoria',
+                        data: { id: TrayectoriaEscolarID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                BuscarListadoTrayectoriaE();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta Trayectoria Escolar.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+        }
+
+        function MetodoParaDetalle() {
+            $("#TrayectoriaEscolarID").prop("disabled", false);
+            $("#TrayectoriaEscolarDescripcion").prop("disabled", false);
+            $("#TrayectoriaFecha").prop("disabled", false);
+            $("#PacienteID").prop("disabled", false);
+            $("#PacienteNombre").prop("disabled", false);
+            $("#EscuelaID").prop("disabled", false);
+            $("#EscuelaNombre").prop("disabled", false);
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+        }
+
+        //Fecha actual por defecto
+        window.onload = FechaActual();
+        function FechaActual() {
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('TrayectoriaFecha').value = ano + "-" + mes + "-" + dia;
+
+
+        }
+    </script>
+
+    <script>
+        $("#EscuelaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Escuelas/BuscarEscuelas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (escuelaMostrar) {
+                        response($.map(escuelaMostrar, function (escuela) {
+                            return {
+                                id: escuela.EscuelaID,
+                                value: escuela.EscuelaNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#EscuelaID").val(ui.item.id);
+                $("#campo-obligatorio-EscuelaID").addClass("ocultar");
+            }
+        });
+    </script>
+
+    <script>
+        $("#PacienteNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Pacientes/BuscarPacientes',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (pacientesMostrar) {
+                        response($.map(pacientesMostrar, function (pacienteMostrar) {
+
+                            return {
+                                id: pacienteMostrar.PacienteID,
+                                value: pacienteMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PacienteID").val(ui.item.id);
+                BuscarInfoPaciente(ui.item.id);
+                $("#campo-obligatorio-PacienteID").addClass("ocultar");
+            }
+        });
+    </script>
+
+    <script>
+        function BuscarInfoPaciente(pacienteID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Pacientes/BuscarInfoPaciente',
+                data: { PacienteID: pacienteID },
+                success: function (pacienteMostrar) {
+                    $("#PersonaDireccion").val(pacienteMostrar.PersonaDireccion);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function GenerarImpresion() {
+
+            //var doc = new jsPDF();//VERTICAL
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+
+                doc.setFontSize(18);
+                doc.text('LISTADO DE TRAYECTORIA ESCOLAR', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+            var elem = document.getElementById("tablaTrayectoriahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 40 },
+                    2: { columnWidth: 100 },
+                    3: { columnWidth: 57 },
+                    4: { columnWidth: 66 },
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 1) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 1) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+    </script>
+}
+
+
+

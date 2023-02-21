@@ -1,0 +1,440 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.EdadFormulario>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">RANGO DE EDAD PARA FORMULARIO</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEdadFormulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">EDAD PARA FORMULARIO</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <label class="control-label texto_responsive TextoNegroFormulario" data-tablettext="T.Formulario" data-desktoptext="Tipo de Formulario" style="text-transform:uppercase"></label>
+                            <select class="form-control form-control-rounded" id="TipoFormularioID">
+                                <option value="1">Formulario 1</option>
+                                <option value="2">Formulario 2</option>
+                                <option value="3">Formulario 3</option>
+                                <option value="4">Formulario 4</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-9">
+                            <input type="hidden" id="EdadFormulariosID" value="0" class="form-control" />
+                            <div>
+                                <label class="control-label TextoNegroFormulario">Rango de Edad<span class="rojo">*</span></label>
+                                <input id="EdadFormularioDescripcion" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                <label id="EdadExiste" class="control-label ocultar validaciones">ESTE RANGO DE EDAD YA EXISTE</label>
+                                <label id="CampoEdadVacio" class="control-label ocultar validaciones">DEBE ESCRIBIR UN RANGO DE EDAD</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="GuardarCambios()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton TextoNegroTablas ColorCelesteBoton" data-toggle="modal" data-target="#ModalEdadFormulario">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/grupo-de-edad.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button onclick="GenerarImpresion()" class="SombraBoton ColorCelesteBoton TextoNegroTablas">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoEdad">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoEdad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INF. PARA LA CREACIÓN DE RANGO DE EDADES</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para crear los rangos de edades para cada formulario, no es necesario la carga de datos previamente.</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">
+                Rango de edad
+            </th>
+            <th class="text-left ocultar860 text-white">
+                Tipo de formulario
+            </th>
+            <th class="tdBotones"></th>
+            <th class="tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-Edadformulario">
+    </tbody>
+
+</table>
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                RANGO DE EDAD PARA FORMULARIO
+            </th>
+            <th>
+                FORMULARIO
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-Edadformulariohidden">
+    </tbody>
+
+</table>
+@section Scripts {
+    <script>
+
+        function GuardarCambios() {
+            var edadFormularioDescripcion = $("#EdadFormularioDescripcion").val();
+            var tipoFormularioID = $("#TipoFormularioID").val();
+            var edadFormulariosID = $("#EdadFormulariosID").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR Al INPUT
+            $("#EdadExiste").addClass("ocultar");
+
+            var registrar = true;
+
+            if (edadFormularioDescripcion == "") {
+                registrar = false;
+                $("#CampoEdadVacio").removeClass("ocultar");
+            }
+
+            if (registrar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../EdadFormularios/GuardarEdadFormulario',
+                    data: { EdadFormularioDescripcion: edadFormularioDescripcion, TipoFormularioID: tipoFormularioID, EdadFormulariosID: edadFormulariosID },
+                    success: function (guardado) {
+                        /*
+                        * Se ejecuta cuando termina la petición y esta ha sido
+                        * correcta
+                        * */
+                        if (guardado == true) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'El rango de edad fue guardado correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $("#EdadExiste").addClass("ocultar");
+                            VaciarFormulario();
+                            BuscarListadoEdadFormularios();
+                        }
+                        else {
+                            $("#EdadExiste").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+
+            }
+        }
+
+
+        window.onload = BuscarListadoEdadFormularios();
+
+        function BuscarListadoEdadFormularios() {
+            $.ajax({
+                type: "POST",
+                url: '../../EdadFormularios/BuscarListadoEdadFormularios',
+                data: {},
+                success: function (edadFormulariosMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#ModalEdadFormulario").modal("hide");
+
+                    $("#tbody-Edadformulario").empty();
+                    $("#tbody-Edadformulariohidden").empty();
+
+                    $.each(edadFormulariosMostrar, function (index, edadFormularios) {
+
+                        $("#tbody-Edadformulario").append('<tr>' +
+
+                            '<td style="width:400px" class="text-left text-uppercase TextoNegroTablas ContenidoTablaGris" style="text-transform:uppercase">' +
+                            edadFormularios.EdadFormularioDescripcion +
+                            '</td>' +
+                            '<td style="width:200px" class="text-left ocultar860 TextoNegroTablas ContenidoTablaGris "> FORMULARIO: ' +
+                            edadFormularios.TipoFormularioID +
+                            '</td>' +
+                            '<td class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a  onclick="BuscarInfoEdadFormularios(' + edadFormularios.EdadFormularioID + ')"data-toggle="modal" data-target="#ModalEdadFormulario"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a onclick="EliminarEdadFormulario(' + edadFormularios.EdadFormularioID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        $("#tbody-Edadformulariohidden").append('<tr>' +
+
+                            '<td>' +
+                            edadFormularios.EdadFormularioDescripcion +
+                            '</td>' +
+                            '<td> FORMULARIO: ' +
+                            edadFormularios.TipoFormularioID +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formularios");
+                }
+            });
+        }
+
+        function VaciarFormulario() {
+            $("#EdadFormulariosID").val(0);
+            $("#EdadFormularioDescripcion").val('');
+
+            $("#CampoEdadVacio").addClass("ocultar");
+        }
+
+
+        function EliminarEdadFormulario(EdadFormularioID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar este rango de edad?',
+                text: "Si lo eliminas, será para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../EdadFormularios/EliminarEdadFormulario',
+                        data: { id: EdadFormularioID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                BuscarListadoEdadFormularios();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este rango de edad.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }
+            })
+        }
+
+        function BuscarInfoEdadFormularios(EdadFormulariosID) {
+            $.ajax({
+                type: "POST",
+                url: '../../EdadFormularios/BuscarInfoEdadFormularios',
+                data: { EdadFormulariosID: EdadFormulariosID },
+                success: function (edadFormularioMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#EdadFormulariosID").val(edadFormularioMostrar.EdadFormularioID);
+                    $("#EdadFormularioDescripcion").val(edadFormularioMostrar.EdadFormularioDescripcion);
+                    $("#TipoFormularioID").val(edadFormularioMostrar.TipoFormularioID);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /* var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // horizontal line
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DE RANGO DE EDADES', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 145 },
+                    1: { columnWidth: 40 },
+                    2: { columnWidth: 35 },
+                    3: { columnWidth: 50 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1/* || opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+
+    </script>
+}

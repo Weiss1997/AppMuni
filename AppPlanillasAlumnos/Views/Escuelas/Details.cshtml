@@ -1,0 +1,42 @@
+﻿@model AppPlanillasAlumnos.Models.Escuela
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Escuela</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EscuelaNombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EscuelaNombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EscuelaTelefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EscuelaTelefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EscuelaDireccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EscuelaDireccion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EscuelaID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

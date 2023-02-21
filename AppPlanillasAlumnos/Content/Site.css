@@ -1,0 +1,200 @@
+﻿body {
+    /*padding-top: 50px;*/
+    padding-bottom: 20px;
+    background-color: #ffffff;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.botonpersona {
+    margin-top: 40px;
+}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+.backgroundnavbar {
+    background: #000;
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 9px 8px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.42857;
+}
+.btn-circle:hover {
+    text-decoration: none;
+}
+.btn-circle-index {
+    width: 60px;
+    height: 15px;
+    padding: 8px 8px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+    .btn-circle-index:hover {
+        text-decoration: none;
+    }
+.tdBotones {
+    padding: 6px 1px !important;
+    width: 20px !important;
+}
+
+
+
+
+/* ESTAS CLASES ES PARA EL TITULO DEL HOME/INDEX. */
+.tituloAzul {
+    color: blue;
+}
+
+/* ESTAS CLASES SON PARA LOS LOGOS DEL HOME/INDEX. */
+.logosHome {
+    max-width: 100%;
+    height: 60%;
+    width: 60%;
+}
+
+.logoCentrado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem 0;
+}
+
+/* ESTAS CLASES ES PARA DARLE MARGEN AL PARRAFO DEBAJO DE LOS LOGOS EN EL HOME/INDEX. */
+.margenTexto {
+    margin: 1rem 0;
+}
+.letratitulo {
+    font-family:'Lucida San';
+}
+@media (max-width:600px) {
+    .letratitulo {
+        font-size: 30px;
+    }
+}
+@media (max-width:500px) {
+    .letratitulo {
+        font-size: 25px;
+    }
+}
+
+/* ESTA CLASE ES PARA CAMBIARLE LAS PROPIEDADES AL TEXT AREA. */
+.textarea {
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    width: 100% !important;
+    resize: none;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+}
+
+
+
+
+/* FUENTE EN NEGRITA. */
+.text-bold{
+    font-weight: bold;
+}
+
+
+/* MARGENES RÁPIDOS BOOTSTRAP 4. */
+.mb-1{
+    margin-bottom: 10px;
+}
+.mb-2 {
+    margin-bottom: 20px;
+}
+.mb-3 {
+    margin-bottom: 30px;
+}
+.mb-4 {
+    margin-bottom: 40px;
+}
+.mb-5 {
+    margin-bottom: 50px;
+}
+
+
+
+
+
+
+
+
+
+/**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/
+/**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/
+/* ESTAS CLASE NOS PERMITE OCULTAR CIERTAS FILAS DE UNA TABLA PARA PANTALLA EN CELULAR. */
+@media (max-width:1430px) {
+    .ocultar1430 {
+        display: none;
+    }
+}
+
+@media (max-width:1120px){
+    .ocultar1120{
+        display:none;
+    }
+}
+
+@media (max-width:860px) {
+    .ocultar860 {
+        display: none;
+    }
+}
+
+@media (max-width:500px) {
+    .ocultar500 {
+        display: none;
+    }
+}
+@media (max-width:400px) {
+    .ocultar400 {
+        display: none;
+    }
+}
+
+
+/**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/
+/**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/
+/* OCULTAR BOTONES Y ELEMENTOS AL IMPRIMIR. */
+@media print{
+    .ocultarDeImpresion{
+        display: none;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    p {
+        font-size: 12px;
+    }
+}
+
+.fondo {
+    background-color: #343a40f0;
+}

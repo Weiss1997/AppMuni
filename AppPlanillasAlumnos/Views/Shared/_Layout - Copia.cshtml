@@ -1,0 +1,206 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewBag.Title Municipalidad de Morteros</title>
+    @*@Styles.Render("~/Content/assets")*@
+    <link href="~/Content/dashtreme-master/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/icons.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/sidebar-menu.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/app-style.css" rel="stylesheet" />
+    <link href="~/Content/Estilo3ro2021.css" rel="stylesheet" />
+    <link href="~/Content/dashtreme-master/assets/css/pace.min.css" rel="stylesheet" />
+    <link rel="icon" href="~/img/IconoSinLetrasySinFondo.ico" type="image/x-icon">
+
+    <link href="~/Scripts/Jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body class="bg-theme bg-theme16">
+    @if (Request.IsAuthenticated)
+    {
+        <div id="wrapper">
+            @Html.Partial("_Sidebar_Carga_Persona_Con_Discapacidad")
+            @Html.Partial("_Sidebar_Carga_Datos_General")
+            @Html.Partial("_Sidebar_Seguimiento_Infantil")
+            @Html.Partial("_Sidebar_Super_Usuario")
+
+            <!--End sidebar-wrapper-->
+            <!--Start topbar header-->
+            <header class="topbar-nav">
+                <nav class="navbar tecnavbar-expand fixed-top">
+                    <ul class="navbar-nav mr-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link toggle-menu" href="javascript:void();">
+                                <i class="menu-icon"><img src="~/Content/dashtreme-master/assets/images/iconos menu/boton-de-menu-de-tres-lineas-horizontales (1).png" class="icono-tabla" /></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center right-nav-link">
+
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link " data-toggle="dropdown" href="#">
+                                    <span class="user-profile"><img class="img-circle" src="~/Content/dashtreme-master/assets/images/iconos menu/perfil-del-usuario.png" /></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <li class="dropdown-item user-details">
+                                        <a href="javaScript:void();">
+                                            <div class="media">
+                                                <div class="avatar"><img class="align-self-start mr-3" src="~/Content/dashtreme-master/assets/images/iconos menu/perfil-del-usuario.png" /></div>
+                                                <div>
+                                                    <h6 class="mt-2 user-title">
+                                                        Administrador
+                                                    </h6>
+                                                    <p class="user-subtitle">
+                                                        @Html.ActionLink(User.Identity.GetUserName(), "Index", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+                                    @*<li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
+                                        <li class="dropdown-divider"></li>
+                                        <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+                                        <li class="dropdown-divider"></li>*@
+                                    <li class="dropdown-item">
+                                        <img class="icono-desplegableUsuario" src="~/Content/dashtreme-master/assets/images/iconos menu/configuraciones.png" />
+                                        @Html.ActionLink("Cambiar contraseña", "ChangePassword", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+                                    </li>
+                                    <li class="dropdown-divider"></li>
+
+                                    <li class="dropdown-item"><a href="javascript:document.getElementById('logoutForm').submit()"><img class="icono-desplegableUsuario" src="~/Content/dashtreme-master/assets/images/iconos menu/boton-de-encendido-apagado.png" /> Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </header>
+            <!--End topbar header-->
+
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <!--start overlay-->
+                    <div class="overlay toggle-menu"></div>
+                    <!--end overlay-->
+                    @RenderBody()
+                </div>
+                <!-- End container-fluid-->
+
+            </div><!--End content-wrapper-->
+            <!--Start Back To Top Button-->
+            <a href="javaScript:void();" class="back-to-top">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/doble-flecha-hacia-arriba.png" class="icono-back-to-top" />
+            </a>
+            <!--End Back To Top Button-->
+        </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/assets")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/JsPDF/jspdf.debug.js"></script>
+    <script src="~/Scripts/JsPDF/jspdf.plugin.autotable.js"></script>
+
+    <script src="~/Scripts/Jquery-ui/jquery-ui.js"></script>
+    <script src="~/SweetAlert2/dist/sweetalert2.all.js"></script>
+    @RenderSection("scripts", required: false)
+
+
+
+    <script>
+        window.onload = leerCookie();
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].onclick = function () {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
+
+        $(function () {
+            $("body").keypress(function (e) {
+                var key;
+                if (window.event)
+                    key = window.event.keyCode; //IE
+                else
+                    key = e.which; //firefox
+                return (key != 13);
+            });
+        });
+        function leerCookie() {
+            var listaCookies = document.cookie.split(";");
+
+            if ((listaCookies == "" || listaCookies == undefined || listaCookies == null)) {
+
+            }
+            else {
+                for (i in listaCookies) {
+                    var busca = listaCookies[i].search("userName");
+
+                    if (busca > -1) {
+                        micookie = listaCookies[i]
+                    }
+                }
+
+                var menu = "";
+                var vectorSinAmperson = micookie.split(";");
+
+                for (i = 0; i < vectorSinAmperson.length; i++) {
+                    var valor = vectorSinAmperson[i];
+
+                    if (i == 0) {
+                        //CAPTURAR EL CODIGO DEL MENÚ
+                        var igual1 = valor.indexOf("=");
+                        var valor1 = valor.substring(igual1 + 1);
+                        var igual2 = valor1.indexOf("=");
+                        menu = valor1.substring(igual2 + 1);
+                    }
+                }
+                if (menu == "1") { // MENÚ DATOS GENERALES
+                    $('#SidebarDatosGenerales').removeClass('ocultar');
+                    $('#PreguntaUsuario').addClass('ocultar');
+                }
+                if (menu == "2") { // MENÚ DE SEGUIMIENTO INFANTIL
+                    $('#SidebarSeguimientoInfantil').removeClass('ocultar');
+                    $('#PreguntaUsuario').addClass('ocultar');
+                }
+                if (menu == "3") { // MENÚ DE PERSONA CON DISCAPACIDAD
+                    $('#SidebarPersonaCondiscapacidad').removeClass('ocultar');
+                    $('#PreguntaUsuario').addClass('ocultar');
+                }
+                if (menu == "0") {  //MENU SUPER USUARIO
+                    $('#SidebarSuperUsuario').removeClass('ocultar');
+                    $('#PreguntaUsuario').removeClass('ocultar');
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+

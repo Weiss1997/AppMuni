@@ -1,0 +1,942 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.FormularioCPPP>
+
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Cuestionario Prunape Pre Pesquisa</h2>
+
+
+<div class="modal fade" id="Modalformulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">FORMULARIO CPPP</h5>
+                <button type="button" class="CruzBlanca" onclick="LimpiarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="tab-pane fade show active" id="nav-Formulario" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="cardfondoclaro text-left tab-content">
+                        <div class="row">
+                            <input value="0" type="hidden" id="FormularioCpppID" class="form-control form-control-rounded">
+                            <div class="col-lg-12">
+                                <h3 class="text-center text-dark letratitulo TituloDerivacion text-uppercase">DATOS DEL FORMULARIO</h3>
+                                <hr />
+                            </div>
+                            <div class=" form-group col-lg-4">
+                                <label class="control-label TextoNegroFormulario">TIPO DE FORMULARIO</label>
+                                <select class="form-control form-control-rounded" id="TipoFormularioID">
+                                    <option selected value="0">Seleccionar</option>
+                                    <option value="1">Formulario 1</option>
+                                    <option value="2">Formulario 2</option>
+                                    <option value="3">Formulario 3</option>
+                                    <option value="4">Formulario 4</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label class="control-label TextoNegroFormulario">Profesional <span class="rojo">*</span></label>
+                                <input type="hidden" id="ProfesionalID" name="ProfesionalID" value="0" />
+                                <input id="ProfesionalNombre" autocomplete="off" class="form-control TextArea-Modal form-control-rounded" style="text-transform:uppercase" />
+                                <label id="campo-obligatorio-profesionalID" class="control-label ocultar validaciones">INGRESE UN PROFESIONAL</label>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label class="control-label TextoNegroFormulario">Persona <span class="rojo">*</span></label>
+                                <input type="hidden" id="PersonaID" name="PpersonaID" value="0" />
+                                <input id="PersonaNombre" autocomplete="off" class="form-control TextArea-Modal form-control-rounded" style="text-transform:uppercase" />
+                                <label id="campo-obligatorio-personaID" class="control-label ocultar validaciones"> INGRESE UNA PERSONA</label>
+                                <label id="PersonaExiste" class="control-label ocultar validaciones">Ya se encuentra Registrada esa persona</label>
+                            </div>
+                            <div class="form-group form-group col-lg-12">
+                                <label class="control-label TextoNegroFormulario"></label>
+                                <hr />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <div class="col-lg-12">
+                                    <h3 class="text-center text-dark letratitulo TituloDerivacion">PREGUNTAS</h3>
+                                    <h5 class="text-dark">Debe elegir la pregunta a considerar y luego marque si CUMPLE o NO CUMPLE</h5>
+                                    <hr />
+                                </div>
+                                <div class="scroll form-group col-auto">
+                                    <div class="row" id="Div-preguntas">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 class="text-dark">El niño o niña no pasa el CPPP si dos de sus respuestas son: NO CUMPLE a las preguntas a considerar </h5>
+                                    <hr />
+                                    <div class="form-group col-lg-5">
+                                        <label class="control-label TextoNegroFormulario">Observación</label>
+                                        <textarea id="Observacion" name="Observacion" class="form-control TextArea-Modal" style="text-transform:uppercase" cols="40" rows="5"></textarea>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="control-label Letrainput TextoNegroFormulario">Resultado Final <span class="rojo">*</span></label>
+                                        <select name="Pasa" id="Pasa" class="form-control form-control-rounded">
+                                            <option selected value="0">Seleccionar</option>
+                                            <option value="true" selected>PASA</option>
+                                            <option value="false">NO PASA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group text-right">
+                        <button class="BotonCancelar-Modal" id="botoncancelar" title="Cancelar" onclick="LimpiarFormulario()" data-dismiss="modal">
+                            <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                        </button>
+                        <button type="button" onclick="GuardarCambios()" id="botonguardar" title="Guardar Formulario CPPP" class="BotonGuardar-Modal">
+                            <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                        </button>
+                        @*//SOLO PARA EL DETALLE DEL FORMULARIO*@
+                        <button type="button" class="ocultar BotonVolver" id="BotonVolver" onclick="LimpiarFormulario()" data-dismiss="modal">
+                            <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    <div class="row">
+        <div class="col-12 col-md-4 EspaciadoBoton">
+            <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="Escriba aquí para acotar la búsqueda" />
+        </div>
+        <div class="col-auto">
+            <button type="button" onclick="Crear()" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#Modalformulario">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/formulariocppp.png" class="icono-menu" />
+                CREAR
+            </button>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion();">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+                IMPRIMIR LISTADO
+            </button>
+        </div>
+        <div class="col-auto">
+            <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoFormularioCppp">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalInfoFormularioCppp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. FORMULARIO CPPP</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+                        <iframe width="853" height="480" src="https://www.youtube.com/embed/xC4Hf45TdhQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left ocultar400 text-white">
+               Tipo de formulario
+            </th>
+            <th class="text-left ocultar860 text-white">
+                Profesional
+            </th>
+            <th class="text-left text-white">
+                Persona
+            </th>
+            <th class="text-left ocultar1120 text-white">
+                Resultado
+            </th>
+            <th class=" text-center  tdBotones"></th>
+            <th class=" text-center tdBotones"></th>
+            <th class=" text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="FormulariocpppTabla">
+    </tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                PERSONA
+            </th>
+            <th>
+                PROFESIONAL
+            </th>
+            <th>
+                FORMULARIO
+            </th>
+            <th>
+                RESULTADO
+            </th>
+        </tr>
+    </thead>
+
+    <tbody id="FormulariocpppTablahidden" style="text-transform:uppercase">
+    </tbody>
+</table>
+
+
+    @section Scripts {
+        <script>
+            function GuardarCambios() {
+
+                //CREAMOS LOS VECTORES PRINCIPALES
+                var FormularioCpppID = $("#FormularioCpppID").val();
+                var tipoFormularioID = $("#TipoFormularioID").val();
+                var profesional = $("#ProfesionalID").val();
+                var persona = $("#PersonaID").val();
+                var vectorPreguntasID = [];
+                var vectorRespuestasPregunta = [];
+                var vectorRespuestasSeConsidera = [];
+                var observacion = $("#Observacion").val();
+                var cumple = $("#Cumple").val();
+                var pasa = $("#Pasa").val();
+
+                //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+
+                $("#campo-obligatorio-profesionalID").addClass("ocultar");
+                $("#campo-obligatorio-personaID").addClass("ocultar");
+
+                var registrar = true;
+
+
+                if (profesional == 0) {
+                    registrar = false;
+                    //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT PROFESIONAL QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                    $("#campo-obligatorio-profesionalID").removeClass("ocultar");
+                }
+
+                if (persona == 0) {
+                    registrar = false;
+                    //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE PERSONA QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                    $("#campo-obligatorio-personaID").removeClass("ocultar");
+                }
+
+                if (registrar == true) {
+
+
+                    //POR CADA PREGUNTA QUE EXISTA BUSCAR LA RESPUESTA ELEGIDA Y AGREGARLA EN EL SEGUNDO VECTOR
+                    //PRIMERO BUSCAMOS TODOS LOS ID DE PREGUNTAS DE LOS INPUT HIDDEN
+                    var hiddenPreguntasID = document.getElementsByName('PreguntasID');
+
+                    for (i = 0; i < hiddenPreguntasID.length; i++) //recoremos todos los hidden
+                    {
+                        if (hiddenPreguntasID[i].type == "hidden") //solo si es un hidden entramos
+                        {
+                            var preguntaID = hiddenPreguntasID[i].value;
+
+                            ////LUEGO EN BASE A ESE ID DE PREGUNTA BUSCAR LAS RESPUESTAS POSIBLES
+                            var radiosPreguntaID = document.getElementsByName('Respuesta_' + preguntaID);
+                            var respuestaValor = 0;
+                            //RECORREMOS ESOS RADIOS Y DEBEMOS BUSCAR EL QUE ESTA TILDADO
+                            for (f = 0; f < radiosPreguntaID.length; f++) //recoremos todos los radios
+                            {
+                                if (radiosPreguntaID[f].type == "radio" && radiosPreguntaID[f].checked == true) //solo si es un checkbox entramos
+                                {
+                                    respuestaValor = radiosPreguntaID[f].value;
+
+                                    vectorPreguntasID.push(preguntaID);
+                                    vectorRespuestasPregunta.push(respuestaValor);
+
+                                    var comboConsideraID = document.getElementById('Cumple_' + preguntaID).value;
+                                    vectorRespuestasSeConsidera.push(comboConsideraID);
+
+                                }
+                            }
+                        }
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: '../../FormularioCPPPs/GuardarCambios',
+                        data: {
+                            FormularioCpppID: FormularioCpppID,
+                            TipoFormularioID: tipoFormularioID,
+                            ProfesionalID: profesional,
+                            PersonaID: persona,
+                            PreguntasID: vectorPreguntasID,
+                            Respuestas: vectorRespuestasPregunta,
+                            SeConsidera: vectorRespuestasSeConsidera,
+                            Cumple: cumple,
+                            Observacion: observacion,
+                            Pasa: pasa
+                        },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                LimpiarFormulario();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'El Formulario fue guardado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                $("#Modalformulario").modal("hide");
+                                BuscarListadoFormularioCPPP();
+
+                            }
+                            else {
+                                Swal.fire(
+                                    'No se pudo realizar esta acción',
+                                    'El persona ya se encuentra registrado en otro formulario',
+                                    'error'
+                                )
+                        }
+                        },
+                        error: function (data) {
+
+                        }
+                    });
+                }
+            }
+
+            window.onload = BuscarListadoFormularioCPPP();
+
+            function BuscarListadoFormularioCPPP() {
+                /*     alert(FormularioCpppID + ".." + tipoFormularioID + ".." + profesional + ".." + persona + ".." + vectorPreguntasID + ".." + vectorRespuestasPregunta + ".." + cumple + ".." + observacion + ".." + pasa);*/
+                $.ajax({
+                    type: "POST",
+                    url: '../../FormularioCPPPs/BuscarListadoFormularioCPPP',
+                    data: {},
+                    success: function (FormulariocpppMostrar) {
+
+                        $("#Modalformulario").modal("hide");
+
+                        $("#FormulariocpppTabla").empty();
+                        $("#FormulariocpppTablahidden").empty();
+
+
+                        $.each(FormulariocpppMostrar, function (index, formulariocppp) {
+
+                            $("#FormulariocpppTabla").append('<tr>' +
+
+                                '<td style="width:200px" class="text-left ocultar400 TextoNegroTablas ContenidoTablaGris"  style="text-transform:uppercase"> FORMULARIO: ' +
+                                formulariocppp.TipoFormularioID + '</td>' +
+
+                                '<td style="width:400px" class="text-left ocultar860 TextoNegroTablas ContenidoTablaGris" style="text-transform:uppercase">' +
+                                formulariocppp.Profesionales.PersonaApellidoNombre + '</td>' +
+
+                                '<td style="width:400px"  class="text-left TextoNegroTablas ContenidoTablaGris"  style="text-transform:uppercase">' +
+                                formulariocppp.Persona.PersonaApellidoNombre + '</td>' +
+
+                                '<td style="width:200px" class="text-left ocultar1120 TextoNegroTablas ContenidoTablaGris"  style="text-transform:uppercase">' +
+                                formulariocppp.pasabool + '</td>' +
+
+                                '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris " >' +
+                                '<a onclick="BuscarInfoCppp(' + formulariocppp.FormularioCpppID + ',0)" class="btn-circle-index">' +
+                                '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#Modalformulario"/>' +
+                                '</a>' + '</td>' +
+                                '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris " >' +
+                                '<a onclick="BuscarInfoCppp(' + formulariocppp.FormularioCpppID + ',1)" class="btn-circle-index">' +
+                                '<img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" data-toggle="modal" data-target="#Modalformulario"/>' +
+                                '</a>' + '</td>' +
+
+                                '<td style="width:50px" class="text-centerTextoNegroTablas tdBotones ContenidoTablaGris">' +
+                                '<a class="btn-circle-index" onclick="EliminarFormCppp(' + formulariocppp.FormularioCpppID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                                '</td>' +
+
+                                '</tr>'
+                            );
+                            $("#FormulariocpppTablahidden").append('<tr>' +
+
+                                '<td>' +
+                                formulariocppp.Persona.PersonaApellidoNombre + '</td>' +
+
+                                '<td>' +
+                                formulariocppp.Profesionales.PersonaApellidoNombre + '</td>' +
+
+                                '<td class="text-center">' +
+                                formulariocppp.TipoFormularioID + '</td>' +
+
+                                '<td>' +
+                                formulariocppp.pasabool + '</td>'  +
+
+                                '</tr>'
+                            );
+                        });
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+
+
+            $("#PersonaNombre").autocomplete({
+                dataType: 'JSON',
+                source: function (request, response) {
+                    jQuery.ajax({
+                        url: '../../Personas/BuscarPersonas',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            texto: request.term,
+                        },
+                        success: function (personasMostrar) {
+                            response($.map(personasMostrar, function (personaMostrar) {
+                                return {
+                                    id: personaMostrar.PersonaID,
+                                    value: personaMostrar.PersonaApellidoNombre
+                                }
+                            }))
+                        }
+                    })
+                },
+                select: function (e, ui) {
+                    $("#PersonaID").val(ui.item.id);
+                    $("#campo-obligatorio-personaID").addClass("ocultar");
+                    ValidacionPersonaExiste(ui.item.id);
+                }
+            });
+
+
+            $("#ProfesionalNombre").autocomplete({
+                dataType: 'JSON',
+                source: function (request, response) {
+                    jQuery.ajax({
+                        url: '../../Profesionals/BuscarProfesional',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            texto: request.term,
+                        },
+                        success: function (profesionalesMostrar) {
+                            response($.map(profesionalesMostrar, function (profesionalMostrar) {
+
+                                return {
+                                    id: profesionalMostrar.ProfesionalID,
+                                    value: profesionalMostrar.PersonaApellidoNombre
+                                }
+                            }))
+                        }
+                    })
+                },
+                select: function (e, ui) {
+                    $("#ProfesionalID").val(ui.item.id);
+                    $("#campo-obligatorio-profesionalID").addClass("ocultar");
+                }
+            });
+
+
+
+            //FUNCION EDITAR FORMULARIO
+            function BuscarInfoCppp(FormularioCpppID, Detalle) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../FormularioCPPPs/BuscarInfoCppp',
+                    data: { FormularioCpppID: FormularioCpppID },
+                    success: function (formularioMostrar) {
+    
+                        $("#FormularioCpppID").val(formularioMostrar.FormularioCpppID);
+                        $("#TipoFormularioID").val(formularioMostrar.TipoFormularioID);
+                        $("#ProfesionalID").val(formularioMostrar.ProfesionalID);
+                        $("#ProfesionalNombre").val(formularioMostrar.PersonaApellidoNombreProfesional);
+                        $("#PersonaID").val(formularioMostrar.PersonaID);
+                        $("#PersonaNombre").val(formularioMostrar.PersonaApellidoNombrePersona);
+                        $("#Observacion").val(formularioMostrar.Observacion);
+                        if (formularioMostrar.Pasa == true) {
+                            $("#Pasa").val("true");
+                        } else {
+                            $("#Pasa").val("false");
+                        }
+
+                          if (Detalle == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                            $("#FormularioCpppID").prop("disabled", true);
+                            $("#TipoFormularioID").prop("disabled", true);
+                            $("#ProfesionalID").prop("disabled", true);
+                            $("#ProfesionalNombre").prop("disabled", true);
+                            $("#PersonaID").prop("disabled", true);
+                            $("#PersonaNombre").prop("disabled", true);
+                            $("#Observacion").prop("disabled", true);
+                            $("#Pasa").prop("disabled", true);
+                              BuscarPreguntasFormularioCPP(formularioMostrar.FormularioCpppID, 1);
+                            $("#botonguardar").prop("hidden", true);
+                            $("#BotonVolver").removeClass("ocultar");
+                            $("#botoncancelar").prop("hidden", true);
+                            $("#Modalformulario").modal("show");
+                        }
+                        else {
+                            $("#FormularioCpppID").prop("disabled", false);
+                            $("#TipoFormularioID").prop("disabled", false);
+                            $("#ProfesionalID").prop("disabled", false);
+                            $("#ProfesionalNombre").prop("disabled", false);
+                            $("#PersonaID").prop("disabled", false);
+                            $("#PersonaNombre").prop("disabled", true);
+                            $("#Observacion").prop("disabled", false);
+                            $("#Pasa").prop("disabled", false);
+                              BuscarPreguntasFormularioCPP(formularioMostrar.FormularioCpppID, 0);
+                            $("#botonguardar").prop("hidden", false);
+                            $("#botoncancelar").prop("hidden", false);
+                            $("#BotonVolver").addClass("ocultar");
+                            $("#Modalformulario").modal("show");
+                        }
+
+
+                    },
+                    error: function (data) {
+                    }
+                });
+            }        //CIERRE FUNCION BUSCAR INFO FORMULARIO
+
+            //Detalle//
+            function Crear() {
+                $("#TipoFormularioID").prop("disabled", false);
+                $("#ProfesionalID").prop("disabled", false);
+                $("#ProfesionalNombre").prop("disabled", false);
+                $("#PersonaID").prop("disabled", false);
+                $("#PersonaNombre").prop("disabled", false);
+                $("#Observacion").prop("disabled", false);
+                $("#Pasa").prop("disabled", false);
+                $("#botonguardar").prop("hidden", false);
+                $("#botoncancelar").prop("hidden", false);
+                $("#BotonVolver").addClass("ocultar");
+                $("#Modalformulario").modal("show");
+                $("#Div-preguntas").empty();
+            }
+            //INICIO FUNCION VACIAR FORMULARIO
+         
+            function LimpiarFormulario() {
+                $("#TipoFormularioID").val(0);
+                $("#ProfesionalID").val(0);
+                $("#ProfesionalNombre").val('');
+                $("#PersonaID").val(0);
+                $("#PersonaNombre").val('');
+                $("#Observacion").val('');
+                $("#Pasa").val(0);
+                $("#campo-obligatorio-profesionalID").addClass("ocultar");
+                $("#ProfesionalExiste").addClass("ocultar");
+                $("#campo-obligatorio-personaID").addClass("ocultar");
+                $("#PersonaExiste").addClass("ocultar");
+                $("#Div-preguntas").empty();
+
+            }
+
+            function ControlarAutocompletadoProfesional() {
+                var nombre = $("#ProfesionalNombre").val();
+                var profesionalID = $("#ProfesionalID").val();
+                if (nombre == "" && profesionalID != 0) {
+                    LimpiarProfesional();
+                }
+            }
+            function ControlarAutocompletadoPersona() {
+                var nombre = $("#PersonaNombre").val();
+                var personaID = $("#PersonaID").val();
+                if (nombre == "" && personaID != 0) {
+                    LimpiarPersona();
+                }
+            }
+            //funcion para limpiar los campos de profesional y persona
+            function LimpiarProfesional() {
+                $("#ProfesionalID").val(0);
+                $("#ProfesionalNombre").val('');
+                $("#campo-obligatorio-profesionalID").addClass("ocultar");
+            }
+
+            //funcion para limpiar los campos completados del persona
+            function LimpiarPersona() {
+                $("#PersonaID").val(0);
+                $("#PersonaNombre").val('');
+                $("#Div-preguntas").empty();
+                $("#campo-obligatorio-personaID").addClass("ocultar");
+                $("#PersonaExiste").addClass("ocultar");
+            }
+
+            function EliminarFormCppp(FormularioCpppID) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Esta seguro que desea eliminar este Formulario?',
+                    text: "Si lo eliminas, sera para siempre",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Eliminar',
+                    cancelButtonText: 'No, cancelar!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: '../../FormularioCPPPs/EliminarFormCppp',
+                            data: { id: FormularioCpppID },
+                            success: function (eliminar) {
+                                if (eliminar == true) {
+                                    BuscarListadoFormularioCPPP();
+                                    swalWithBootstrapButtons.fire(
+                                        'Eliminado!',
+                                        'Has Eliminado este Formulario.',
+                                        'success'
+                                    )
+                                }
+                                else {
+                                    swalWithBootstrapButtons.fire(
+                                        'No se pudo realizar esta acción',
+                                        'error'
+                                    )
+                                }
+
+                            },
+                            error: function (eliminar) {
+
+                            }
+                        });
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            }
+
+            //SECCIÓN DONDE BUSCA LAS PREGUNTAS SEGUN EL FORMULARIO
+            $("#TipoFormularioID").change(function () {
+                let personaID = $("#PersonaID").val();
+                if (personaID > 0) {
+                    ValidacionPersonaExiste(personaID);
+                }             
+            });
+
+
+            function BuscarPreguntasFormularioCPP(formularioCpppID, Origen) {
+                $("#Div-preguntas").empty();
+                var tipoFormularioID = $("#TipoFormularioID").val();
+                var personaID = $("#PersonaID").val();
+                $.ajax({
+                    type: "POST",
+                    url: '../../FormularioCPPPs/BuscarPreguntasFormularioCPPP',
+                    data: { FormularioCpppID: formularioCpppID, TipoFormularioID: tipoFormularioID, PersonaID: personaID },
+                    success: function (preguntasMostrar) {
+                        /*
+                        * Se ejecuta cuando termina la petición y esta ha sido
+                        * correcta
+                        * */
+                        $("#Div-preguntas").empty();
+                        var cumple = "";
+                        var Cumplimiento = "";
+                        if (Origen == 1) {
+                            $.each(preguntasMostrar, function (index, preguntaMostrar) {
+                                if (preguntaMostrar.Cumple == true) {
+
+                                    cumple = '<div class="form-group col-md-3">' +
+                                        '<select disabled id="Cumple_' + preguntaMostrar.PreguntasID + '" class="form-control form-control-rounded">' + '<option value="1" selected>SE CONSIDERA</option>' + '<option value="0">NO SE CONSIDERA</option>' +
+                                        '</div>';
+                                } else {
+                                    cumple = '<div class="form-group col-md-3">' +
+                                        '<select disabled id="Cumple_' + preguntaMostrar.PreguntasID + '" class="form-control form-control-rounded">' + '<option value="1">SE CONSIDERA</option>' + '<option value="0" selected>NO SE CONSIDERA</option>' +
+                                        '</div>';
+                                }
+                                if (preguntaMostrar.OpcionCumplimiento == 1) {
+                                    Cumplimiento = '<div class"col-md-3">' +
+                                        '<input type="Radio" class"RadioNuevo" disabled  id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuestas_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">CUMPLE  /</label>' +
+                                        '<input type="Radio" class"RadioNuevo"  checked id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuestas_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario">NO CUMPLE</label>' +
+                                        '</div>';
+                                } else {
+                                    Cumplimiento = '<div class"col-md-3">' +
+                                        '<input type="Radio" class"RadioNuevo" checked  id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuestas_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">CUMPLE  /</label>' +
+                                        '<input type="Radio" class"RadioNuevo"  disabled id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuestas_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario">NO CUMPLE</label>' +
+                                        '</div>';
+                                }
+
+                                $("#Div-preguntas").append(
+                                    '<div class="col-md-9">' +
+                                    '<label class="control-label text-left TextoNegroFormulario altoPreguntas">' + preguntaMostrar.PreguntasNombre + '</label>' +
+                                    '<input type="hidden" name="PreguntasID" value="' + preguntaMostrar.PreguntasID + '">' +
+
+                                    '<div class="row">' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormularios-0" name="RespuestaFormularios_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">No</label>' +
+                                    '</div>' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormularios-1" name="RespuestaFormularios_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario ">Si</label>' +
+                                    '</div>' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormularios-2" name="RespuestaFormularios_' + preguntaMostrar.PreguntasID + '" value="2"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-2" class="TextoNegroFormulario ">No sé</label>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    
+                                    '</div>' +
+                                    cumple +
+                                    '<div class="row">' +
+                                    Cumplimiento +
+                                    '<hr />' +
+                                    '</div>');
+                                document.getElementById(preguntaMostrar.PreguntasID + "-RespuestaFormularios-" + preguntaMostrar.OpcionRespuesta).checked = true;
+                                document.getElementById(preguntaMostrar.PreguntasID + "-RespuestaFormularios-" + preguntaMostrar.OpcionRespuesta).disabled = false;
+                            });
+                        } else {
+                            $.each(preguntasMostrar, function (index, preguntaMostrar) {
+                                if (preguntaMostrar.Cumple == true) {
+
+                                    cumple = '<div class="form-group col-md-3">' +
+                                        '<select  id="Cumple_' + preguntaMostrar.PreguntasID + '" class="form-control form-control-rounded">' + '<option value="1" selected>SE CONSIDERA</option>' + '<option value="0">NO SE CONSIDERA</option>' +
+                                        '</div>';
+                                } else {
+                                    cumple = '<div class="form-group col-md-3">' +
+                                        '<select  id="Cumple_' + preguntaMostrar.PreguntasID + '" class="form-control form-control-rounded">' + '<option value="1">SE CONSIDERA</option>' + '<option value="0" selected>NO SE CONSIDERA</option>' +
+                                        '</div>';
+                                }
+
+
+                                if (preguntaMostrar.OpcionCumplimiento == 1) {//SI ES 1 ES POR QUE NO CUMPLE
+                                    Cumplimiento = '<div class"col-md-3">' +
+                                        '<input type="Radio" class"RadioNuevo"   id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">CUMPLE  /</label>' +
+                                        '<input type="Radio" class"RadioNuevo"  checked id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario">NO CUMPLE</label>' +
+                                        '</div>';
+                                } else {
+                                   
+                                    Cumplimiento = '<div class"col-md-3">' +
+                                        '<input type="Radio" class"RadioNuevo" checked  id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">CUMPLE  /</label>' +
+                                        '<input type="Radio" class"RadioNuevo"   id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario">NO CUMPLE</label>' +
+                                        '</div>';
+                                }
+
+                                $("#Div-preguntas").append(
+                                    '<div class="col-md-9">' +
+                                    '<label class="control-label text-left TextoNegroFormulario altoPreguntas">' + preguntaMostrar.PreguntasNombre + '</label>' +
+                                    '<input type="hidden" name="PreguntasID" value="' + preguntaMostrar.PreguntasID + '">' +
+                                    '<div class="row">' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormulario-0" value="0"> ' + '<label class="TextoNegroFormulario ">No</label>' +
+                                    '</div>' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormulario-1" value="1"> ' + '<label class="TextoNegroFormulario ">Si</label>' +
+                                    '</div>' +
+                                    '<div class="col-md-4">' +
+                                    '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-RespuestaFormulario-2" value="2"> ' + '<label class="TextoNegroFormulario ">No sé</label>' +
+                                    '</div>' +
+                                    '</div>' +
+
+                                    '</div>' +
+                                    cumple +
+                                    '<div class="row">' +
+                                    Cumplimiento +
+                                    '<hr />' +
+                                    '</div>');
+                                document.getElementById(preguntaMostrar.PreguntasID + "-RespuestaFormulario-" + preguntaMostrar.OpcionRespuesta).checked = true;
+                                document.getElementById(preguntaMostrar.PreguntasID + "-RespuestaFormulario-" + preguntaMostrar.OpcionRespuesta).disabled = false;
+                            });
+                        }
+                       
+                    },
+                    error: function (data) {
+                        /*
+                        * Se ejecuta si la peticón ha sido erronea
+                        * */
+                    }
+                });
+            }
+         
+             
+    /*          funcion para validar que el persona seleccionado en el auto completar de formulario no exista como persona*/
+            function ValidacionPersonaExiste(personaID) {
+                let tipoFormularioID = $("#TipoFormularioID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../FormularioCPPPs/ValidacionPersonaExiste',
+                data: {
+                    PersonaID: personaID, TipoFormularioID: tipoFormularioID
+                },
+                success: function (Validacion) {
+                    if (Validacion == false) {
+                        $("#PersonaExiste").removeClass("ocultar");
+                        $("#Div-preguntas").empty();
+                    }
+                    else {
+                        $("#PersonaExiste").addClass("ocultar");
+                        let formularioCpppID = $("#FormularioCpppID").val();
+                        BuscarPreguntasFormularioCPP(formularioCpppID, 0);
+                    }
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+            }
+
+
+            //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+            document.querySelector("#buscar").onkeyup = function () {
+                $TableFilter("#tabla", this.value);
+            }
+
+            $TableFilter = function (id, value) {
+                var rows = document.querySelectorAll(id + ' tbody tr');
+
+                for (var i = 0; i < rows.length; i++) {
+                    var showRow = false;
+
+                    var row = rows[i];
+                    row.style.display = 'none';
+
+                    for (var x = 0; x < row.childElementCount; x++) {
+                        if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                            showRow = true;
+                            break;
+                        }
+                    }
+
+                    if (showRow) {
+                        row.style.display = null;
+                    }
+                }
+            }
+
+
+
+            //////////////////////////////////jsPDF
+
+
+            function GenerarImpresion() {
+
+                var doc = new jsPDF();//VERTICAL
+
+                /*            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+                var totalPagesExp = "{total_pages_count_string}";
+
+                var pageContent = function (data) {
+
+                    // CABECERA
+
+                    var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                    var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                    doc.setDrawColor(200, 226, 234);
+                    doc.setLineWidth(22);
+                    doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+
+                    var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                    doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                    doc.setFontSize(14);
+
+                    doc.text('LISTADO DE FORMULARIO', 38, 25);
+
+                    // PIE DE PAGINA
+                    var str = "Pagina " + data.pageCount;
+
+                    // Total page number plugin only available in jspdf v1.0+
+                    if (typeof doc.putTotalPages == 'function') {
+                        str = str + " de " + totalPagesExp;
+                    }
+
+                    doc.setFontSize(10);
+
+                    var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                    doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+                };
+
+
+                var elem = document.getElementById("tablahidden");
+                var res = doc.autoTableHtmlToJson(elem);
+
+                doc.autoTable(res.columns, res.data, {
+                    startY: 35, addPageContent: pageContent,
+                    margin: { top: 25 },
+                    styles: {
+                        overflow: 'linebreak',
+                    },
+                    theme: 'striped',
+                    headStyles: {
+                        fillColor: '#064768'
+                    },
+                    columnStyles: {
+                        0: { columnWidth: 50 },
+                        1: { columnWidth: 60 },
+                        2: { columnWidth: 30 },
+                        3: { columnWidth: 45 },
+                        4: { columnWidth: 0 },
+                        5: { columnWidth: 0 },
+                        6: { columnWidth: 0 },
+                        //7: { columnWidth: 40 },
+
+                    },
+                    createdHeaderCell: function (cell, opts) {
+                        if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                            cell.styles.halign = 'center';
+                        }
+                    },
+                    createdCell: function (cell, opts) {
+                        if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                            cell.styles.halign = 'center';
+                        }
+                        //cell.styles.fontSize = '7';
+                    }
+                });
+
+                // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+                if (typeof doc.putTotalPages === 'function') {
+                    doc.putTotalPages(totalPagesExp);
+                }
+
+                var string = doc.output('datauristring');
+
+                var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+                var x = window.open();
+
+                x.document.open();
+
+                x.document.write(iframe);
+
+                x.document.close();
+
+                //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+            }
+            function CerrarModalVideo() {
+                $('iframe').removeAttr('src');
+                $("#ModalEspecializacion").modal("hide");
+
+            }
+
+            function AbrirModalVideo() {
+                $("#ModalEspecializacion").modal("show");
+                $('iframe').attr('src', 'https://www.youtube.com/embed/xC4Hf45TdhQ');
+            }
+
+
+
+
+        </script>
+
+
+
+    }

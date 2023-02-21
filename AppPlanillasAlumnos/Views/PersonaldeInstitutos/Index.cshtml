@@ -1,0 +1,898 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.PersonaldeInstitutos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center text-uppercase text-dark letratitulo">PERSONAL DE INSTITUTO</h2>
+
+@if (ViewBag.ErrorEliminar != null)
+{
+    <div class="alert alert-danger alert-dismissible text-center" role="alert">
+        <div class="">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se puede eliminar el Personal!</strong>
+            <div>@ViewBag.ErrorEliminar</div>
+        </div>
+    </div>
+}
+
+<!--Button trigger Modal-->
+<div class="row">
+    <div class="col-12 col-md-4  EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalPersonal">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion()">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoPersonal">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="ModalPersonal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Cargo dentro de la Institución</h5>
+                <button type="button" class="CruzBlanca" onclick="LimpiarModalCargo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <input type="hidden" id="PersonaldeInstitutosID" value="0" />
+                            <label class="control-label TextoNegroFormulario">Persona <span class="rojo"> * </span></label>
+                            <input type="hidden" id="PersonaID" value="0" />
+                            <input type="text" id="PersonaApellidoNombre" autocomplete="off" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <p class="ocultar validaciones text-uppercase" id="campo-obligatorio-PersonaID">* Campo Obligatorio</p>
+                        </div>
+                        <div class=" form-group col-1 botonpersona">
+                            <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" id="BotonCrearPersona" onclick="CambiodevistaparcialPersonal()">
+                                <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                            </button>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Cargo <span class="rojo"> * </span></label>
+                            <input type="text" id="CargodentrodelaInstitucion" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <p class="ocultar validaciones text-uppercase" id="campo-obligatorio-CargodentrodelaInstitucion">* Campo Obligatorio</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Observaciones</label>
+                            <input type="text" id="Observaciones" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Instituto <span class="rojo"> * </span></label>
+                            <input type="hidden" id="EscuelaID" value="0" />
+                            <input type="text" id="EscuelaNombre" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <p class="ocultar validaciones text-uppercase" id="campo-obligatorio-EscuelaID">* Campo Obligatorio</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" data-dismiss="modal" onclick="LimpiarModalCargo()">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+
+                    </button>
+                    <button type="button" onclick="GuardarPersonal()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("../../Views/Localidades/Create")
+@Html.Partial("../../Views/Personas/_CrearPersona")
+<!-- Modal Info-->
+<div class="modal fade" id="ModalInfoPersonal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. PERSONAL INSTITUTO</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para poder crear un cargo debe existir una persona y un instituto creado antes.</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white">
+                Nombre Completo
+            </th>
+            <th class="ocultar400 text-white">
+                Cargo
+            </th>
+            <th class="ocultar1120 text-white">
+                Observaciones
+            </th>
+            <th class="ocultar640 text-white">
+                Instituto
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="body_personal">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        function LimpiarModalCargo() {
+            $("#PersonaldeInstitutosID").val(0);
+            $("#CargodentrodelaInstitucion").val('');
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombre").val('');
+            $("#Observaciones").val('');
+            $("#EscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+            $("#campo-obligatorio-PersonaID").addClass("ocultar");
+            $("#campo-obligatorio-CargodentrodelaInstitucion").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaID").addClass("ocultar");
+
+        }
+
+        //Guardar
+        function GuardarPersonal() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            var personaldeinstitutosID = $("#PersonaldeInstitutosID").val();
+            var personaID = $("#PersonaID").val();
+            var cargodentrodelaInstitucion = $("#CargodentrodelaInstitucion").val();
+            var observaciones = $("#Observaciones").val();
+            var escuelaID = $("#EscuelaID").val();
+
+            //recien prueba
+            $("#campo-obligatorio-PersonaID").addClass("ocultar");
+            $("#campo-obligatorio-CargodentrodelaInstitucion").addClass("ocultar");
+            $("#campo-obligatorio-EscuelaID").addClass("ocultar");
+
+            let guardar = true;
+
+            if (personaID == 0) {
+                $("#campo-obligatorio-PersonaID").removeClass("ocultar");
+                guardar = false;
+            }
+            if (cargodentrodelaInstitucion == '') {
+                $("#campo-obligatorio-CargodentrodelaInstitucion").removeClass("ocultar");
+                guardar = false;
+            }
+            if (escuelaID == 0) {
+                $("#campo-obligatorio-EscuelaID").removeClass("ocultar");
+                guardar = false;
+            }
+
+            if (guardar == true) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '../../PersonaldeInstitutos/GuardarPersonal',
+                    data: {
+                        PersonaID: personaID, PersonaldeInstitutosID: personaldeinstitutosID, CargodentrodelaInstitucion: cargodentrodelaInstitucion, Observaciones: observaciones, EscuelaID: escuelaID
+                    },
+
+                    success: function (guardado) {
+                        if (guardado == true) {
+                            swalWithBootstrapButtons.fire(
+                                'Correcto!',
+                                'Registro guardado correctamente.',
+                                'success'
+                            )
+                            $("#ModalPersonal").modal("hide");
+                        }
+                        else {
+                            $("#PersonaExiste").removeClass("ocultar");
+                        }
+
+                        BuscarListadoPersonal();
+                        LimpiarModalCargo()
+
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            }
+        }
+
+        //DATOS PARA EDITAR
+        function BuscarDatosPersonal(personaldeinstitutosID) {
+
+            $.ajax({
+                type: "POST",
+                url: '../../PersonaldeInstitutos/BuscarDatosPersonal',
+                data: { PersonaldeInstitutosID: personaldeinstitutosID },
+                success: function (personalMostrar) {
+
+                    $("#PersonaldeInstitutosID").val(personalMostrar.PersonaldeInstitutosID);
+                    $("#PersonaID").val(personalMostrar.Persona.PersonaID);
+                    $("#PersonaApellidoNombre").val(personalMostrar.Persona.PersonaApellidoNombre);
+                    $("#CargodentrodelaInstitucion").val(personalMostrar.CargodentrodelaInstitucion);
+                    $("#Observaciones").val(personalMostrar.Observaciones);
+                    $("#EscuelaID").val(personalMostrar.Escuela.EscuelaID);
+                    $("#EscuelaNombre").val(personalMostrar.Escuela.EscuelaNombre);
+
+
+                    $("#ModalPersonal").modal("show");
+
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Ficha.");
+                }
+            });
+        }
+
+        window.onload = BuscarListadoPersonal();
+
+        function BuscarListadoPersonal() {
+            //tbody-especializaciones
+            $.ajax({
+                type: "POST",
+                url: '../../PersonaldeInstitutos/BuscarListadoPersonal',
+                data: {},
+                success: function (listadopersonalIntitutoMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+
+                    $("#body_personal").empty();
+
+                    $.each(listadopersonalIntitutoMostrar, function (index, personal) {
+
+                        $("#body_personal").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            personal.Persona.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td class=" ocultar400 TextoNegroTablas ContenidoTablaGris  ">' +
+                            personal.CargodentrodelaInstitucion +
+                            '</td>' +
+                            '<td class="ocultar1120  TextoNegroTablas ContenidoTablaGris  ">' +
+                            personal.Observaciones +
+                            '</td>' +
+                            '<td class="ocultar640  TextoNegroTablas ContenidoTablaGris  ">' +
+                            personal.Escuela.EscuelaNombre +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="BuscarDatosPersonal(' + personal.PersonaldeInstitutosID + ')" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalPersonal"/>' +
+                            '</a>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a class="btn-circle-index" onclick="EliminarPersonal(' + personal.PersonaldeInstitutosID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la petición ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function EliminarPersonal(PersonaldeInstitutosID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: '¿Esta seguro que desea eliminar el cargo?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../PersonaldeInstitutos/EliminarPersonal',
+                        data: { id: PersonaldeInstitutosID },
+                        success: function (eliminar) {
+                            if (eliminar == true) {
+                                BuscarListadoPersonal();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado a este cargo.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Esta Persona esta realcionada con instituciones',
+                                    'error'
+                                )
+                            }
+
+                        },
+
+                    });
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                }
+            })
+        }
+
+        /*Seccion para Autocompletado.*/
+        $("#PersonaApellidoNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaID").val(ui.item.id);
+                $("#PersonaApellidoNombre").val(ui.item.value);
+            }
+        });
+        $("#EscuelaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Escuelas/BuscarEscuelas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (escuelaMostrar) {
+                        response($.map(escuelaMostrar, function (escuela) {
+                            return {
+                                id: escuela.EscuelaID,
+                                value: escuela.EscuelaNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#EscuelaID").val(ui.item.id);
+                $("#EscuelaNombre").val(ui.item.id);
+            }
+        });
+
+        function CambiodevistaparcialPersonal() {
+            $("#ModalPersonal").modal("hide");
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+        }
+
+        function VaciarFormularioPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombreCrear").val('');
+            $("#PersonaTelefonoCrear").val('');
+            $("#PersonaDNICrear").val('');
+            $("#PersonaFechaNacimientoCrear").val('');
+            $("#Edad").val('');
+            $("#PersonaDireccionCrear").val('');
+            $("#LocalidadesNombreCrearPersona").val('');
+            $("#LocalidadesIDCrearPersona").val('');
+            $("#PersonaCorreoCrear").val('');
+            $("#PersonaSexoCrear").val('');
+            $("#PersonaCovidCrear").val('');
+            $("#PersonaObraSocialCrear").val('');
+            $("#ObraSocialCualCrear").val('');
+            $("#Email_Sistema").val('');
+            $("#Contrasenia_Sistema").val('');
+            $("#Tipo_Sistema").val('1');
+            $("#Opcion_Crear_Usuario").val('false');
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#ModalPersona").modal("hide");
+            setTimeout('$("#ModalPersonal").modal("show");', 500);
+        }
+        //FUNCION PARA OCULTAR EL CREAR USUARIO EN EL MODAL DE CREAR PERSONA
+        window.onload = OcultarGuardadoUsuario();
+        function OcultarGuardadoUsuario() {
+            $("#PreguntaUsuario").prop("hidden", true);
+        }
+
+        function GuardarCrearPersona() {
+            var personaid = $("#PersonaID").val();
+            var personaApellidoNombre = $("#PersonaApellidoNombreCrear").val();
+            var personaTelefono = $("#PersonaTelefonoCrear").val();
+            var personaDni = $("#PersonaDNICrear").val();
+            var personaFechaNacimiento = $("#PersonaFechaNacimientoCrear").val();
+            var personaDireccion = $("#PersonaDireccionCrear").val();
+            var localidadesID = $("#LocalidadesIDCrearPersona").val();
+            var personaCorreo = $("#PersonaCorreoCrear").val();
+            var personaSexo = $("#PersonaSexoCrear").val();
+            var personaCovid = $("#PersonaCovidCrear").val();
+            var personaObraSocial = $("#PersonaObraSocialCrear").val();
+            var obraSocialCual = $("#ObraSocialCualCrear").val();
+            var emailSistema = $("#Email_Sistema").val();
+            var contraseniaSistema = $("#Contrasenia_Sistema").val();
+            var tipoSistema = $("#Tipo_Sistema").val();
+            var esUsuario = $("#Opcion_Crear_Usuario").val();
+            var personaSistemaID = $("#PersonaSistemaID").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#existe-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaFechaNacimientoCrear").addClass("ocultar");
+            $("#obligatorio-LocalidadesNombreCrearPersona").addClass("ocultar");
+
+            var registrar = true;
+
+            if (personaApellidoNombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaApellidoNombreCrear").removeClass("ocultar");
+            }
+            if (personaTelefono == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaTelefonoCrear").removeClass("ocultar");
+            }
+            if (personaDni == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDNICrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDireccionCrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-LocalidadesNombreCrearPersona").removeClass("ocultar");
+            }
+
+
+            var date = new Date;
+            var mesActual = date.getMonth() + 1;
+            var dia = date.getDate();
+            if (mesActual < 10) {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+
+            }
+            else {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+            }
+            var FechaPredeterminada = "1920-01-01";
+
+            if (personaFechaNacimiento <= FechaPredeterminada || personaFechaNacimiento == null || personaFechaNacimiento > FechaHoy) {
+
+                $("#obligatorio-PersonaFechaNacimientoCrear").removeClass("ocultar");
+                registrar = false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/ValidacionDNIExiste',
+                data: {
+                    PersonaDNI: personaDni, PersonaID: personaid
+                },
+                success: function (Validaciondni) {
+                    if (Validaciondni == true) {
+                        if (registrar == true) {
+                            if (esUsuario == "false") {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '../../Personas/GuardarPersona',
+                                    data: {
+                                        PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                                        PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                                        PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                                        ObraSocialCual: obraSocialCual, PersonaID: personaid
+                                    },
+                                    success: function (PersonaID) {
+                                        $("#ModalPersona").modal("hide");
+                                        setTimeout('$("#ModalPacientes").modal("show");', 500);
+                                        BuscarInfoPersona(PersonaID);
+
+                                        VaciarFormularioPersona();
+
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'success',
+                                            title: 'La Persona Fue guardada Correctamente',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                    },
+                                    error: function (data) {
+                                        /*
+                                        * Se ejecuta si la peticón ha sido erronea
+                                        * */
+
+                                    }
+
+                                });
+                            } else {
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: '../../Personas/GuardarPersonaUsuario',
+                                    data: {
+                                        PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                                        PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                                        PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                                        ObraSocialCual: obraSocialCual, PersonaID: personaid, Email: emailSistema, Constrasenia: contraseniaSistema, TipoSistemaID: tipoSistema,
+                                        EsUsuario: esUsuario, PersonaSistemaID: personaSistemaID
+                                    },
+                                    success: function (persona) {
+                                        $("#ModalPersona").modal("hide");
+                                        BuscarListadoPersonas();
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'success',
+                                            title: 'La Persona y el usuario Fue guardado Correctamente',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                        VaciarFormularioPersona();
+                                    },
+                                    error: function (data) {
+                                        /*
+                                        * Se ejecuta si la peticón ha sido erronea
+                                        * */
+
+                                    }
+
+                                });
+                            }
+
+                        }
+                    }
+                    else {
+                        $("#existe-PersonaDNICrear").removeClass("ocultar");
+                    }
+
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+
+                }
+
+            });
+        }
+        $("#PersonaObraSocialCrear").change(function () {
+            if ($(this).val() === "false") {
+                $("#div-obrasocial-cual").prop("hidden", true);
+            } else {
+                $("#div-obrasocial-cual").prop("hidden", false);
+            }
+        });
+
+        /Seccion para Autocompletado./
+        $("#LocalidadesNombreCrearPersona").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Localidades/BuscarLocalidades',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (localidadesMostrar) {
+                        response($.map(localidadesMostrar, function (localidadMostrar) {
+                            return {
+                                id: localidadMostrar.LocalidadesID,
+                                value: localidadMostrar.LocalidadesNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#LocalidadesIDCrearPersona").val(ui.item.id);
+                $("#LocalidadesNombreCrearPersona").val(ui.item.value);
+            }
+        });
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+
+
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#existe-LocalidadesNombreCrear").addClass("ocultar");
+
+
+            var registrarlocalidad = true;
+
+            if (localidadesnombre == "") {
+                registrarlocalidad = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-LocalidadesNombreCrear").removeClass("ocultar");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/ValidarNombreLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID
+                },
+                success: function (Validacionlocalidad) {
+                    if (Validacionlocalidad == true) {
+                        if (registrarlocalidad == true) {
+                            $.ajax({
+                                type: "POST",
+                                url: '../../Localidades/GuardarLocalidad',
+                                data: {
+                                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                                },
+                                success: function (localidadid) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'La Localidad Fue guardada Correctamente',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    BuscarInfoLocalidad(localidadid);
+                                    CerrarModalLocalidad();
+
+                                },
+                                error: function (data) {
+
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        $("#existe-LocalidadesNombreCrear").removeClass("ocultar");
+                    }
+                }
+            });
+        }
+
+        function Cambiodevistaparcial() {
+            $("#ModalPersona").modal("hide");
+            $("#ModalLocalidad").modal("show");
+        }
+
+        function BuscarInfoLocalidad(localidadid) {
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadid },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrearPersona").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrearPersona").val(localidadMostrar.LocalidadesNombreCompleto);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        function CerrarModalLocalidad() {
+            $("#LocalidadesNombreCrear").val('');
+            $("#LocalidadesDepartamento").val('');
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#ProvinciasID").val('');
+            $("#ModalLocalidad").modal("hide");
+
+            $("#existe-LocalidadesNombreCrear").addClass("ocultar");
+            cambiodeVistaLocalidadAPersona();
+        }
+        function cambiodeVistaLocalidadAPersona() {
+            $("#ModalLocalidad").modal("hide");
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+        }
+
+    </script>
+
+
+    <script>
+
+        //////////////////////////////////jsPDF
+
+        function GenerarImpresion() {
+
+            //var doc = new jsPDF();//VERTICAL
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+
+                doc.setFontSize(18);
+
+                doc.text('LISTADO CARGOS DE PERSONAL', 38, 25);
+                doc.setFontSize(10);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+            //ELEMENTOS Y ANCHO DE COLUMNAS
+            var elem = document.getElementById("tabla");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#8e8e8e'
+                },
+                columnStyles: {
+                    0: { columnWidth: 70 },
+                    1: { columnWidth: 40 },
+                    2: { columnWidth: 70 },
+                    3: { columnWidth: 50 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 || opts.column.index == 2 || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1 || opts.column.index == 2 || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+            var x = window.open();
+
+            x.document.open();
+            x.document.write(iframe);
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+    </script>
+}
+
+
+

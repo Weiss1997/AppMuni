@@ -1,0 +1,45 @@
+﻿
+<div class="modal fade" id="ModalLocalidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel" style="text-transform:uppercase">Localidades</h5>
+                <button type="button" onclick="CerrarModalLocalidad()" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro ">
+                    <div class="row tab-content">
+                        <div class="col-lg-4 ">
+                            <label class="control-label TextoNegroFormulario">Nombre de la Localidad <span class="rojo"> * </span></label>
+                            <input type="hidden" id="LocalidadesIDCrear" value="0" />
+                            <input type="text" id="LocalidadesNombreCrear" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-LocalidadesNombreCrear">* Campo Obligatorio</label>
+                            <label class="control-label ocultar validaciones text-uppercase" id="existe-LocalidadesNombreCrear">* Ya existe una Localidad con este nombre cargado</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Departamento <span class="rojo"> * </span></label>
+                            <input type="text" id="LocalidadesDepartamento" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Provincia <span class="rojo"> * </span></label>
+                            @Html.DropDownList("ProvinciasID", null, htmlAttributes: new { @class = "form-control  form-control-rounded" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2 botoneslocalidad">
+                    <button type="button" onclick="CerrarModalLocalidad()" class="BotonCancelar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="GuardarLocalidad()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

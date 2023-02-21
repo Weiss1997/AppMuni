@@ -1,0 +1,1208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5C76047B-9550-412C-A241-948F1D519134}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AppPlanillasAlumnos</RootNamespace>
+    <AssemblyName>AppPlanillasAlumnos</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44382</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AutorizeAttribute.cs" />
+    <Compile Include="Controllers\DatosAlumnosController.cs" />
+    <Compile Include="Controllers\DatosDeAdmisionsController.cs" />
+    <Compile Include="Controllers\DerivacionesController.cs" />
+    <Compile Include="Controllers\DesarrolloInfantilsController.cs" />
+    <Compile Include="Controllers\EdadFormulariosController.cs" />
+    <Compile Include="Controllers\EdadPercentilMesesController.cs" />
+    <Compile Include="Controllers\EscuelasController.cs" />
+    <Compile Include="Controllers\EspecializacionsController.cs" />
+    <Compile Include="Controllers\FormularioCPPPsController.cs" />
+    <Compile Include="Controllers\FormulariosController.cs" />
+    <Compile Include="Controllers\GrupoFamiliarsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InfantesEvaluadosController.cs" />
+    <Compile Include="Controllers\LocalidadesController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Controllers\PersonaConDiscapacidadsController.cs" />
+    <Compile Include="Controllers\PersonaldeInstitutosController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\PreguntasController.cs" />
+    <Compile Include="Controllers\PreguntasIodisController.cs" />
+    <Compile Include="Controllers\ProfesionalsController.cs" />
+    <Compile Include="Controllers\TratamientoesController.cs" />
+    <Compile Include="Controllers\TrayectoriaEscolarsController.cs" />
+    <Compile Include="Data\AppPlanillasAlumnosContext.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Discapacitados\AccesibilidadAlServicio.cs" />
+    <Compile Include="Models\DatosAlumnos.cs" />
+    <Compile Include="Models\DatosDeAdmision.cs" />
+    <Compile Include="Models\Derivaciones.cs" />
+    <Compile Include="Models\Discapacitados\RelacionInstitutoYPersona.cs" />
+    <Compile Include="Models\Discapacitados\NivelEducativo.cs" />
+    <Compile Include="Models\Discapacitados\TablaRelacionSitHabitYPersDiscapacidad.cs" />
+    <Compile Include="Models\Discapacitados\TipodeDiscapacidad.cs" />
+    <Compile Include="Models\Escuela.cs" />
+    <Compile Include="Models\Especializacion.cs" />
+    <Compile Include="Models\GrupoFamiliar.cs" />
+    <Compile Include="Models\GrupoFamiliarTemporal.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Localidades.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Paciente.cs" />
+    <Compile Include="Models\Persona.cs" />
+    <Compile Include="Models\Discapacitados\PersonaConDiscapacidad.cs" />
+    <Compile Include="Models\PersonaldeInstitutos.cs" />
+    <Compile Include="Models\PersonaSistema.cs" />
+    <Compile Include="Models\Profesional.cs" />
+    <Compile Include="Models\Discapacitados\SituacionHabitacional.cs" />
+    <Compile Include="Models\Discapacitados\SituacionLaboral.cs" />
+    <Compile Include="Models\Provincias.cs" />
+    <Compile Include="Models\SeguimientoInfantil\DesarrolloInfantil.cs" />
+    <Compile Include="Models\SeguimientoInfantil\DetalleCppp.cs" />
+    <Compile Include="Models\SeguimientoInfantil\DetalleDesarrolloInfantil.cs" />
+    <Compile Include="Models\SeguimientoInfantil\DetalleFormulario.cs" />
+    <Compile Include="Models\SeguimientoInfantil\EdadFormulario.cs" />
+    <Compile Include="Models\SeguimientoInfantil\EdadPercentilMeses.cs" />
+    <Compile Include="Models\SeguimientoInfantil\FormularioCPPP.cs" />
+    <Compile Include="Models\SeguimientoInfantil\Formularios.cs" />
+    <Compile Include="Models\SeguimientoInfantil\InfantesEvaluados.cs" />
+    <Compile Include="Models\SeguimientoInfantil\Preguntas.cs" />
+    <Compile Include="Models\SeguimientoInfantil\PreguntasIodi.cs" />
+    <Compile Include="Models\Tratamiento.cs" />
+    <Compile Include="Models\TrayectoriaEscolar.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dashtreme-master\assets\css\animate.css" />
+    <Content Include="Content\dashtreme-master\assets\css\app-style.css" />
+    <Content Include="Content\dashtreme-master\assets\css\bootstrap.css" />
+    <Content Include="Content\dashtreme-master\assets\css\bootstrap.min.css" />
+    <Content Include="Content\dashtreme-master\assets\css\icons.css" />
+    <Content Include="Content\dashtreme-master\assets\css\pace.min.css" />
+    <Content Include="Content\dashtreme-master\assets\css\sidebar-menu.css" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ad.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ae.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\af.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ag.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ai.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\al.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\am.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ao.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\aq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ar.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\as.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\at.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\au.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\aw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ax.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\az.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ba.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\be.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\br.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\by.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\bz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ca.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ch.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ci.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ck.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\co.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\cz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\de.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\dj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\dk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\dm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\do.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\dz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ec.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ee.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\eg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\eh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\er.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\es-ct.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\es.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\et.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\eu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\fr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ga.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gb-eng.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gb-nir.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gb-sct.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gb-wls.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ge.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\gy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\hk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\hm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\hn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\hr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ht.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\hu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\id.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ie.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\il.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\im.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\in.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\io.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\iq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ir.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\is.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\it.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\je.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\jm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\jo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\jp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ke.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ki.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\km.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ky.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\kz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\la.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\li.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ls.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\lv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ly.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ma.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\md.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\me.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ml.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ms.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\my.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\mz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\na.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ne.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ng.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ni.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\no.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\np.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\nz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\om.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pe.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ph.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ps.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\pw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\py.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\qa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\re.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ro.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\rs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ru.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\rw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\se.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\si.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\so.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ss.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\st.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\sz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\td.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\th.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\to.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\tz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ua.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ug.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\um.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\un.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\us.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\uy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\uz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\va.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\vc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ve.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\vg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\vi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\vn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\vu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\wf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ws.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\ye.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\yt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\za.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\zm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\1x1\zw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ad.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ae.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\af.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ag.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ai.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\al.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\am.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ao.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\aq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ar.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\as.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\at.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\au.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\aw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ax.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\az.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ba.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\be.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\br.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\by.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\bz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ca.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ch.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ci.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ck.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\co.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\cz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\de.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\dj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\dk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\dm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\do.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\dz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ec.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ee.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\eg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\eh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\er.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\es-ct.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\es.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\et.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\eu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\fr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ga.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gb-eng.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gb-nir.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gb-sct.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gb-wls.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ge.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\gy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\hk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\hm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\hn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\hr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ht.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\hu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\id.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ie.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\il.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\im.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\in.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\io.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\iq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ir.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\is.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\it.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\je.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\jm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\jo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\jp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ke.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ki.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\km.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ky.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\kz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\la.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\li.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ls.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\lv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ly.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ma.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\md.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\me.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ml.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mo.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mp.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mq.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ms.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\my.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\mz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\na.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ne.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ng.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ni.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\no.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\np.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\nz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\om.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pe.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ph.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ps.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\pw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\py.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\qa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\re.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ro.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\rs.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ru.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\rw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sa.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sb.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sd.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\se.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sh.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\si.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\so.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ss.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\st.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sx.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\sz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\td.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\th.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tj.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tk.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tl.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\to.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tr.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tv.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tw.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\tz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ua.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ug.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\um.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\un.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\us.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\uy.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\uz.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\va.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\vc.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ve.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\vg.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\vi.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\vn.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\vu.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\wf.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ws.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\ye.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\yt.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\za.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\zm.svg" />
+    <Content Include="Content\dashtreme-master\assets\flags\4x3\zw.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\line-awesome.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\themify.svg" />
+    <Content Include="Content\dashtreme-master\assets\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\1.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\2.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\3.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\4.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\5.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\6.png" />
+    <Content Include="Content\dashtreme-master\assets\images\bg-themes\FONDO-MUNI.png" />
+    <Content Include="Content\dashtreme-master\assets\images\favicon.ico" />
+    <Content Include="Content\dashtreme-master\assets\images\gallery\cd-icon-navigation.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\ICONO.ico" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\agregar-usuario.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\archivo.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\basura.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\boton-de-encendido-apagado.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\boton-de-menu-de-tres-lineas-horizontales %281%29.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\buscar.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\candado.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\cargo.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\carpeta.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\carpetae.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\cerrar.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\colegio.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\configuraciones.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\contrato.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\crecimiento.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\detalles.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\discapacitado.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\doble-flecha-hacia-arriba.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\editar.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\empresario.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\estudiante.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\familia.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\formu.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\formulariocppp.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\grafico-de-barras.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\grupo-de-edad.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\grupoedad.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\hombre.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\icono mas.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\icono menos.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\impresora %282%29.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\impresora.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\informacion blanco.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\informacion negro.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\libros.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\localidad.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\local.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\ninos.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\paciente %281%29.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\paciente.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\perfil-del-usuario.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\persona.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\pregunta.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\preguntaio.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\preguntaq.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\registros-medicos.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\regreso.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\salvar.png" />
+    <Content Include="Content\dashtreme-master\assets\images\iconos menu\trabajo.png" />
+    <Content Include="Content\dashtreme-master\assets\images\Logo muni.png" />
+    <Content Include="Content\dashtreme-master\assets\images\logo-icon.png" />
+    <Content Include="Content\dashtreme-master\assets\images\morteros copia.png" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\angular-icon.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\bootstrap-4.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\cd-arrow.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\cd-icon-location.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\cd-icon-movie.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\cd-icon-picture.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\css-3.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\html5.svg" />
+    <Content Include="Content\dashtreme-master\assets\images\timeline\react.svg" />
+    <Content Include="Content\dashtreme-master\assets\js\app-script.js" />
+    <Content Include="Content\dashtreme-master\assets\js\bootstrap.js" />
+    <Content Include="Content\dashtreme-master\assets\js\bootstrap.min.js" />
+    <Content Include="Content\dashtreme-master\assets\js\index.js" />
+    <Content Include="Content\dashtreme-master\assets\js\jquery.min.js" />
+    <Content Include="Content\dashtreme-master\assets\js\pace.min.js" />
+    <Content Include="Content\dashtreme-master\assets\js\popper.min.js" />
+    <Content Include="Content\dashtreme-master\assets\js\sidebar-menu.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\Chart.js\Chart.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\Chart.js\chartjs-script.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\css\fullcalendar.css" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\css\fullcalendar.min.css" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\css\fullcalendar.print.css" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\css\fullcalendar.print.min.css" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\js\fullcalendar-custom-script.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\js\fullcalendar.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\js\fullcalendar.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\js\jquery-ui.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\fullcalendar\js\moment.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\jquery.easy-pie-chart\easy-pie-chart.init.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\jquery.easy-pie-chart\easypiechart.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\jquery.easy-pie-chart\jquery.easypiechart.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\simplebar\css\simplebar.css" />
+    <Content Include="Content\dashtreme-master\assets\plugins\simplebar\js\simplebar.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\sparkline-charts\jquery.sparkline.min.js" />
+    <Content Include="Content\dashtreme-master\assets\plugins\sparkline-charts\sparkline-chart-script.js" />
+    <Content Include="Content\Estilo3ro2021.css" />
+    <Content Include="Content\font-awesome-4.7.0\css\font-awesome.css" />
+    <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\FontAwesome.otf" />
+    <Content Include="Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="Content\font-awesome-4.7.0\less\animated.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\bordered-pulled.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\core.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\fixed-width.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\font-awesome.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\icons.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\larger.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\list.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\mixins.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\path.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\rotated-flipped.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\screen-reader.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\stacked.less" />
+    <Content Include="Content\font-awesome-4.7.0\less\variables.less" />
+    <Content Include="Content\font-awesome-4.7.0\scss\font-awesome.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_animated.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_bordered-pulled.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_core.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_fixed-width.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_icons.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_larger.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_list.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_mixins.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_path.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_rotated-flipped.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_stacked.scss" />
+    <Content Include="Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="Content\logo-1.jpg" />
+    <Content Include="Content\logo-2.jpg" />
+    <Content Include="img\IconoSinLetrasySinFondo.ico" />
+    <Content Include="img\Imagen Fondo Muni.jpeg" />
+    <Content Include="img\Logo muni Nuevo.jpeg" />
+    <Content Include="img\LogoEzpeleta.jpg" />
+    <Content Include="img\LogoHorizontalSinFondo.png" />
+    <Content Include="img\LogoMuni.jpg" />
+    <Content Include="img\LogoSinFondo.png" />
+    <Content Include="img\LogoSinLetrasySinFondo.png" />
+    <Content Include="Login\Login.css" />
+    <Content Include="Login\Login.js" />
+    <Content Include="Menu\Menu.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Menu\Menu.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\dashtreme-master\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\dashtreme-master\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\line-awesome.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\line-awesome.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\line-awesome.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\line-awesome.woff2" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Simple-Line-Icons.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Content\dashtreme-master\assets\fonts\themify.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\themify.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\themify.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="Content\dashtreme-master\assets\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Content\dashtreme-master\assets\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="Content\dashtreme-master\assets\fonts\weathericons-regular-webfont.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\GrupoFamiliar\CrearGrupoFamiliar.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Jquery-ui\external\jquery\jquery.js" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.css" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.js" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.min.css" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.min.js" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.structure.min.css" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Scripts\Jquery-ui\jquery-ui.theme.min.css" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\JsPDF\d3.js" />
+    <Content Include="Scripts\JsPDF\faker.min.js" />
+    <Content Include="Scripts\JsPDF\grids-responsive-min.css" />
+    <Content Include="Scripts\JsPDF\jquery.js" />
+    <Content Include="Scripts\JsPDF\jsPDF-2.1.1.js" />
+    <Content Include="Scripts\JsPDF\jspdf.debug.js" />
+    <Content Include="Scripts\JsPDF\jspdf.plugin.autotable.js" />
+    <Content Include="Scripts\JsPDF\moment.js" />
+    <Content Include="Scripts\JsPDF\pure-min.css" />
+    <Content Include="Scripts\JsPDF\require.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PersonaConDiscapacidad\CrearPersonaCondiscapacidad.js" />
+    <Content Include="Scripts\PersonaConDiscapacidad\DetallePersonaConDiscapacidad.js" />
+    <Content Include="Scripts\PersonaConDiscapacidad\EditarPersonaConDiscapacidad.js" />
+    <Content Include="SweetAlert2\dist\sweetalert2.all.js" />
+    <Content Include="SweetAlert2\dist\sweetalert2.all.min.js" />
+    <Content Include="SweetAlert2\dist\sweetalert2.css" />
+    <Content Include="SweetAlert2\dist\sweetalert2.js" />
+    <Content Include="SweetAlert2\dist\sweetalert2.min.css" />
+    <Content Include="SweetAlert2\dist\sweetalert2.min.js" />
+    <Content Include="SweetAlert2\src\constants.js" />
+    <Content Include="SweetAlert2\src\globalState.js" />
+    <Content Include="SweetAlert2\src\instanceMethods.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\buttons-handlers.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\close.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\enable-disable-elements.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\getInput.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\hideLoading.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\keydown-handler.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\popup-click-handler.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\progress-steps.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\update.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\validation-message.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\_destroy.js" />
+    <Content Include="SweetAlert2\src\instanceMethods\_main.js" />
+    <Content Include="SweetAlert2\src\privateMethods.js" />
+    <Content Include="SweetAlert2\src\privateProps.js" />
+    <Content Include="SweetAlert2\src\staticMethods.js" />
+    <Content Include="SweetAlert2\src\staticMethods\argsToParams.js" />
+    <Content Include="SweetAlert2\src\staticMethods\bindClickHandler.js" />
+    <Content Include="SweetAlert2\src\staticMethods\dom.js" />
+    <Content Include="SweetAlert2\src\staticMethods\fire.js" />
+    <Content Include="SweetAlert2\src\staticMethods\mixin.js" />
+    <Content Include="SweetAlert2\src\staticMethods\showLoading.js" />
+    <Content Include="SweetAlert2\src\staticMethods\timer.js" />
+    <Content Include="SweetAlert2\src\SweetAlert.js" />
+    <Content Include="SweetAlert2\src\sweetalert2.js" />
+    <Content Include="SweetAlert2\src\utils\aria.js" />
+    <Content Include="SweetAlert2\src\utils\classes.js" />
+    <Content Include="SweetAlert2\src\utils\defaultInputValidators.js" />
+    <Content Include="SweetAlert2\src\utils\DismissReason.js" />
+    <Content Include="SweetAlert2\src\utils\dom\animationEndEvent.js" />
+    <Content Include="SweetAlert2\src\utils\dom\domUtils.js" />
+    <Content Include="SweetAlert2\src\utils\dom\getters.js" />
+    <Content Include="SweetAlert2\src\utils\dom\index.js" />
+    <Content Include="SweetAlert2\src\utils\dom\init.js" />
+    <Content Include="SweetAlert2\src\utils\dom\inputUtils.js" />
+    <Content Include="SweetAlert2\src\utils\dom\measureScrollbar.js" />
+    <Content Include="SweetAlert2\src\utils\dom\parseHtmlToContainer.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\render.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderActions.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderCloseButton.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderContainer.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderContent.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderFooter.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderIcon.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderImage.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderInput.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderPopup.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderProgressSteps.js" />
+    <Content Include="SweetAlert2\src\utils\dom\renderers\renderTitle.js" />
+    <Content Include="SweetAlert2\src\utils\getTemplateParams.js" />
+    <Content Include="SweetAlert2\src\utils\iosFix.js" />
+    <Content Include="SweetAlert2\src\utils\isNodeEnv.js" />
+    <Content Include="SweetAlert2\src\utils\openPopup.js" />
+    <Content Include="SweetAlert2\src\utils\params.js" />
+    <Content Include="SweetAlert2\src\utils\scrollbarFix.js" />
+    <Content Include="SweetAlert2\src\utils\setParameters.js" />
+    <Content Include="SweetAlert2\src\utils\Timer.js" />
+    <Content Include="SweetAlert2\src\utils\utils.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\DatosAlumnos\Create.cshtml" />
+    <Content Include="Views\DatosAlumnos\Delete.cshtml" />
+    <Content Include="Views\DatosAlumnos\Details.cshtml" />
+    <Content Include="Views\DatosAlumnos\Edit.cshtml" />
+    <Content Include="Views\DatosAlumnos\Index.cshtml" />
+    <Content Include="Views\Personas\Index.cshtml" />
+    <Content Include="Views\DatosDeAdmisions\Index.cshtml" />
+    <Content Include="Views\Tratamientoes\Index.cshtml" />
+    <Content Include="Views\Especializacions\Index.cshtml" />
+    <Content Include="Views\Profesionals\Index.cshtml" />
+    <Content Include="Views\Pacientes\Index.cshtml" />
+    <Content Include="Views\GrupoFamiliars\Details.cshtml" />
+    <Content Include="Views\GrupoFamiliars\Index.cshtml" />
+    <Content Include="Views\TrayectoriaEscolars\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout - Copia.cshtml" />
+    <Content Include="Views\Derivaciones\Index.cshtml" />
+    <Content Include="Views\Derivaciones\Details.cshtml" />
+    <Content Include="Views\Escuelas\Details.cshtml" />
+    <Content Include="Views\Escuelas\Index.cshtml" />
+    <Content Include="Views\PersonaConDiscapacidads\CargaDiscapacitado.cshtml" />
+    <Content Include="Views\PersonaConDiscapacidads\Details.cshtml" />
+    <Content Include="Views\PersonaConDiscapacidads\Edit.cshtml" />
+    <Content Include="Views\PersonaConDiscapacidads\Index.cshtml" />
+    <Content Include="Views\Preguntas\Index.cshtml" />
+    <Content Include="Views\Formularios\Index.cshtml" />
+    <Content Include="Views\EdadFormularios\Index.cshtml" />
+    <Content Include="Views\FormularioCPPPs\Index.cshtml" />
+    <Content Include="Views\Personas\_CrearPersona.cshtml" />
+    <Content Include="Views\GrupoFamiliars\_CrearGrupoFamiliar.cshtml" />
+    <Content Include="Views\InfantesEvaluados\Index.cshtml" />
+    <Content Include="Views\Localidades\Create.cshtml" />
+    <Content Include="Views\Localidades\Index.cshtml" />
+    <Content Include="Views\Shared\_CrearRelacionInstitutoYPersona.cshtml" />
+    <Content Include="Views\EdadPercentilMeses\Index.cshtml" />
+    <Content Include="SweetAlert2\CHANGELOG.md" />
+    <Content Include="SweetAlert2\LICENSE" />
+    <Content Include="SweetAlert2\package.json" />
+    <Content Include="SweetAlert2\README.md" />
+    <Content Include="SweetAlert2\src\scss\_animations.scss" />
+    <Content Include="SweetAlert2\src\scss\_body.scss" />
+    <Content Include="SweetAlert2\src\scss\_core.scss" />
+    <Content Include="SweetAlert2\src\scss\_mixins.scss" />
+    <Content Include="SweetAlert2\src\scss\_theming.scss" />
+    <Content Include="SweetAlert2\src\scss\_toasts-animations.scss" />
+    <Content Include="SweetAlert2\src\scss\_toasts-body.scss" />
+    <Content Include="SweetAlert2\src\scss\_toasts.scss" />
+    <Content Include="SweetAlert2\src\sweetalert2.scss" />
+    <Content Include="SweetAlert2\src\variables.scss" />
+    <Content Include="Views\PreguntasIodis\Index.cshtml" />
+    <Content Include="Views\DesarrolloInfantils\Details.cshtml" />
+    <Content Include="Views\DesarrolloInfantils\Edit.cshtml" />
+    <Content Include="Views\DesarrolloInfantils\Index.cshtml" />
+    <Content Include="Views\PersonaldeInstitutos\Index.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Seguimiento_Infantil.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Carga_Datos_General.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Carga_Persona_Con_Discapacidad.cshtml" />
+    <Content Include="Views\Shared\_Sidebar_Super_Usuario.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="SweetAlert2\sweetalert2.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58157</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44382/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

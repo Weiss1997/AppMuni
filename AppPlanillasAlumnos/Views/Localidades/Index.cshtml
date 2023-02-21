@@ -1,0 +1,283 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Localidades>
+
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Localidades</h2>
+
+
+@if (ViewBag.ErrorEliminar != null)
+{
+    <div class="alert alert-danger alert-dismissible text-center" role="alert">
+        <div class="">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se puede eliminar la Localidad!</strong>
+            <div>@ViewBag.ErrorEliminar</div>
+        </div>
+    </div>
+}
+
+@Html.Partial("../../Views/Localidades/Create")
+
+<!-- Button trigger modal -->
+
+<div class="row">
+        <div class="col-12 col-md-4 EspaciadoBoton">
+            <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+        </div>
+        <div class="col-auto">
+            <button type="button" class="SombraBoton TextoNegroTablas ColorCelesteBoton" data-toggle="modal" data-target="#ModalLocalidad">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/localidad.png" class="icono-menu" />
+                Crear
+            </button>
+        </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white">
+                @Html.DisplayNameFor(model => model.LocalidadesNombre)
+            </th>
+            <th class="ocultar400 text-white">
+                @Html.DisplayNameFor(model => model.LocalidadesDepartamento)
+            </th>
+            <th class="ocultar400 text-white">
+                @Html.DisplayNameFor(model => model.ProvinciasID)
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            @*<th class="text-center tdBotones"></th>*@
+        </tr>
+    </thead>
+
+    <tbody id="body-localidad">
+    </tbody>
+</table>
+
+
+
+
+@section Scripts {
+
+    <script>
+        window.onload = BuscarListadoLocalidades();
+
+
+
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+
+
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#existe-LocalidadesNombreCrear").addClass("ocultar");
+            
+
+            var registrarlocalidad = true;
+
+            if (localidadesnombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-LocalidadesNombreCrear").removeClass("ocultar");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/ValidarNombreLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID
+                },
+                success: function (Validacionlocalidad) {
+                    if (Validacionlocalidad == true) {
+                        if (registrarlocalidad == true) {
+                            $.ajax({
+                                type: "POST",
+                                url: '../../Localidades/GuardarLocalidad',
+                                data: {
+                                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                                },
+                                success: function (localidadid) {
+                                    CerrarModalLocalidad();
+                                    BuscarListadoLocalidades();
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'La Localidad Fue guardada Correctamente',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                },
+                                error: function (data) {
+
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        $("#existe-LocalidadesNombreCrear").removeClass("ocultar");
+                    }
+                }
+            });
+        }
+
+
+
+        function BuscarListadoLocalidades() {
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarListadoLocalidades',
+                data: {},
+                success: function (localidadesMostrar) {
+                    $("#body-localidad").empty();
+
+                    $.each(localidadesMostrar, function (index, localidad) {
+
+                        $("#body-localidad").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            localidad.LocalidadesNombre +
+                            '</td>' +
+                            '<td class="text-left ocultar400 TextoNegroTablas ContenidoTablaGris">' +
+                            localidad.LocalidadesDepartamento +
+                            '</td>' +
+                            '<td class="text-left ocultar400 TextoNegroTablas ContenidoTablaGris">' +
+                            localidad.Provincia.ProvinciasNombre +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="BuscarInfoLocalidad(' + localidad.LocalidadesID + ',1)" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalLocalidad"/>' +
+                            '</a>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="EliminarLocalidad(' + localidad.LocalidadesID + ')" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla"/>' +
+                            '</a>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (data) {
+                   
+                }
+            });
+        }
+
+        function CerrarModalLocalidad() {
+            $("#LocalidadesIDCrear").val(0);
+            $("#LocalidadesNombreCrear").val('');
+            $("#LocalidadesDepartamento").val('');
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#ProvinciasID").val('');
+            $("#ModalLocalidad").modal("hide");
+
+            $("#existe-LocalidadesNombreCrear").addClass("ocultar");
+        }
+
+        function BuscarInfoLocalidad(localidadesID) {
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadesID },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrear").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrear").val(localidadMostrar.LocalidadesNombre);
+                    $("#LocalidadesDepartamento").val(localidadMostrar.LocalidadesDepartamento);
+                    $("#ProvinciasID").val(localidadMostrar.ProvinciasID);
+
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+
+
+        function EliminarLocalidad(LocalidadesID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta localidad?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Localidades/EliminarLocalidad',
+                        data: { id: LocalidadesID },
+                        success: function (eliminar) {
+                            if (eliminar == true) {
+                                BuscarListadoLocalidades();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado a esta localidad.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                BuscarListadoLocalidades();
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Esta Localidad esta realcionada con una Persona',
+                                    'error'
+                                )
+                            }
+
+                        },
+
+                    });
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                }
+            })
+        }
+
+    </script>
+
+
+}

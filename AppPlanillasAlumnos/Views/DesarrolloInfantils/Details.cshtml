@@ -1,0 +1,133 @@
+﻿@model AppPlanillasAlumnos.Models.SeguimientoInfantil.DesarrolloInfantil
+
+<h2 class="text-center text-uppercase text-dark letratitulo">DETALLE DESARROLLO INFANTIL</h2>
+
+
+<input type="hidden" value="@Model.DesarrolloInfantilID" id="DesarrolloInfantilID" />
+
+<div class="cardfondo">
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Persona relacionada</label>
+            <input type="text" disabled id="PersonaApellidoNombre" class="form-control form-control-rounded" style="text-transform:uppercase" />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Fecha de nacimiento</label>
+            <input type="text" disabled id="PersonaFechaNacimiento" class="form-control form-control-rounded" style="text-transform:uppercase" />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Edad gestional al nacer</label>
+            <input type="text" disabled id="DesarrolloInfantilEdadGestionalAlNacer" class="form-control-rounded form-control" style="text-transform:uppercase" />
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white text-center">Pregunta</th>
+            <th class="text-white text-center">0</th>
+            <th class="text-white text-center">1</th>
+            <th class="text-white text-center">2</th>
+            <th class="text-white text-center">3</th>
+            <th class="text-white text-center">4</th>
+            <th class="text-white text-center">5</th>
+            <th class="text-white text-center">6</th>
+            <th class="text-white text-center">7</th>
+            <th class="text-white text-center">8</th>
+            <th class="text-white text-center">9</th>
+            <th class="text-white text-center">10</th>
+            <th class="text-white text-center">11</th>
+            <th class="text-white text-center">12/17</th>
+            <th class="text-white text-center">18/23</th>
+            <th class="text-white text-center">24/35</th>
+            <th class="text-white text-center">36/47</th>
+        </tr>
+    </thead>
+    <tbody id="tbody-detalle-desarrollo-infantil">
+    </tbody>
+</table>
+<div class="cardfondo">
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Observación</label>
+            <textarea class="TextArea TextArea-Modal-di-details" disabled rows="8" cols="69" id="DesarrolloInfantilObservacion"></textarea>
+        </div>
+    </div>
+</div>
+<div class="row div-editar-di">
+    <div>
+        <a type="button" class="BotonVolver btn-flotante" href="~/DesarrolloInfantils/Index">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu imagen-link" />
+        </a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        window.onload = BuscarInfoDesarrolloInfantil();
+
+        function BuscarInfoDesarrolloInfantil() {
+            var desarrolloInfantilID = $("#DesarrolloInfantilID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/BuscarInfoDesarrolloInfantil',
+                data: { DesarrolloInfantilID: desarrolloInfantilID },
+                success: function (desarrolloInfantilMostrar) {
+
+                    $("#PersonaID").val(desarrolloInfantilMostrar.PersonaID);
+                    $("#PersonaApellidoNombre").val(desarrolloInfantilMostrar.PersonaApellidoNombre);
+                    $("#PersonaFechaNacimiento").val(desarrolloInfantilMostrar.PersonaFechaNacimientoString);
+                    $("#DesarrolloInfantilEdadGestionalAlNacer").val(desarrolloInfantilMostrar.DesarrolloInfantilEdadGestionalAlNacer);
+                    $("#DesarrolloInfantilObservacion").val(desarrolloInfantilMostrar.DesarrolloInfantilObservacion);
+
+                    $("#tbody-detalle-desarrollo-infantil").empty();
+
+                    $.each(desarrolloInfantilMostrar.ListadoDetalleDesarrolloInfantil, function (index, detalleDesarrolloInfantilMostrar) {
+
+                        var cuadroColorUno = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorUno;
+                        var cuadroColorDos = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDos;
+                        var cuadroColorTres = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorTres;
+                        var cuadroColorCuatro = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCuatro;
+                        var cuadroColorCinco = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCinco;
+                        var cuadroColorSeis = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorSeis;
+                        var cuadroColorSiete = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorSiete;
+                        var cuadroColorOcho = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorOcho;
+                        var cuadroColorNueve = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorNueve;
+                        var cuadroColorDiez = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDiez;
+                        var cuadroColorOnce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorOnce;
+                        var cuadroColorDoce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDoce;
+                        var cuadroColorTrece = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorTrece;
+                        var cuadroColorCatorce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCatorce;
+                        var cuadroColorQuince = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorQuince;
+                        var cuadroColorDieciseis = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDieciseis;
+
+                        $("#tbody-detalle-desarrollo-infantil").append('<tr>' +
+
+                            '<td style="width:40%" class="text-left TextoNegroTablas contentcasilla ContenidoTablaGris">' + detalleDesarrolloInfantilMostrar.PreguntasIodiDescripcion + '</td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorUno + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDos + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorTres + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCuatro + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCinco + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorSeis + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorSiete + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorOcho + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorNueve + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDiez + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorOnce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDoce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorTrece + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCatorce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorQuince + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDieciseis + '"></td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+    </script>
+}
+

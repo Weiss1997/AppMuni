@@ -1,0 +1,829 @@
+﻿@model AppPlanillasAlumnos.Models.Discapacitados.PersonaConDiscapacidad
+
+
+@*@{
+    ViewBag.Title = "CargaDiscapacitado";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">PERSONA CON DISCAPACIDAD</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link SelectorVista active" id="navDatosPersonales" data-toggle="tab" href="#nav-DatosPersonales" role="tab" aria-controls="nav-home" aria-selected="true" title="Datos Personales">Datos Person.</a>
+            <a class="nav-item nav-link SelectorVista" id="navInfoDiscapacitado" data-toggle="tab" href="#nav-InfoDiscapacitado" role="tab" aria-controls="nav-InfoDiscapacitado" aria-selected="false" title="Informacion sobre la discapacidad">INFO. DE LA DISCAPACIDAD</a>
+            <a class="nav-item nav-link SelectorVista" id="navSituacionHabitacionalylaboral" data-toggle="tab" href="#nav-SituacionHabitacionalylaboral" role="tab" aria-controls="nav-SituacionHabitacionalylaboral" aria-selected="false" title="Situacion Habitacional y laboral">SITUACION HABIT./LAB.</a>
+            <a class="nav-item nav-link SelectorVista" id="navGrupoFAmiliar" data-toggle="tab" href="#nav-GrupoFAmiliar" role="tab" aria-controls="nav-GrupoFAmiliar" aria-selected="false">VINCULACIONES</a>
+            <a class="nav-item nav-link SelectorVista" id="navAntecenteViolencia" data-toggle="tab" href="#nav-AntecenteViolencia" role="tab" aria-controls="nav-AntecenteViolencia" aria-selected="false" title="Antecedente de violencia">ANTEc. DE VIOLENCIA</a>
+        </div>
+    </nav>
+
+
+    @Html.Partial("../../Views/Personas/_CrearPersona")
+
+    @Html.Partial("../../Views/GrupoFamiliars/_CrearGrupoFamiliar")
+    @Html.Partial("_CrearRelacionInstitutoYPersona")
+    @Html.Partial("../../Views/Localidades/Create")
+
+    <div class="cardfondo tab-content">
+        <div class="tab-pane fade show active" id="nav-DatosPersonales" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS PERSONALES</h3>
+                    <hr />
+                </div>
+                <div class="row form-group col-12">
+                    <div class="row col-12 col-md-8">
+                        <div class="col-12">
+                            <label class="control-label TextoNegroFormulario">Persona Relacionada<span class="rojo">*</span></label>
+                        </div>
+
+                        <div class="form-group col-10">
+                            <input type="hidden" id="PersonaIDCrear" name="PersonaID" value="0" />
+                            <input type="text" style="text-transform:uppercase" class="form-control TextArea-Modal form-control-rounded" autocomplete="off" name="PersonaNombre" id="PersonaNombre" onKeyUp="ControlarAutocompletado()" onKeyDown="ControlarAutocompletado()" />
+                            <label id="PersonaConDiscapacidadExistenteValidacion" class="control-label ocultar  validaciones ">ESTA PERSONA YA ESTA RELACIONADA A UNA DISCAPACIDAD</label>
+                            <label id="PersonaNombreValidacion" class="control-label ocultar  validaciones">Selecciona o Crea una Persona</label>
+                        </div>
+                        <div class="form-group col-1">
+                            <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" data-toggle="modal" data-target="#ModalPersona">
+                                <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">DNI</label>
+                        <input type="text" id="PersonaDNI" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">Fecha de Nacimiento</label>
+                        <input type="text" id="PersonaFechaNacimiento" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">Domicilio</label>
+                        <input type="text" id="PersonaDomicilio" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">Teléfono de Contacto</label>
+                        <input type="text" id="PersonaTelefono" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">Obra Social</label>
+                        <input type="text" id="Obrasocialsino" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label class="control-label TextoNegroFormulario">¿Cuál?</label>
+                        <input type="text" id="Obrasocialcual" disabled class="form-control form-control-rounded" />
+                    </div>
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿planilla completada por un consultante?</label>
+                    <select name="ExisteConsultante" id="ExisteConsultante" class="form-control form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+
+                <div id="div-consultante" class="row form-group col-12 ocultar">
+                    <div class="form-group col-12 col-md-8">
+                        <label id="NombreConsultanteTitulo" class="control-label TextoNegroFormulario">Nombre y Apellido del Consultante <span class="rojo">*</span></label>
+                        @Html.EditorFor(model => model.NombreConsultante, new { htmlAttributes = new { @class = "form-control  form-control-rounded ", @style = "text-transform:uppercase" } })
+                        <label id="NombreConsultanteValidacion" class="control-label ocultar  validaciones">Escriba el nombre del consultante</label>
+
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label id="DniConsultanteTitulo" class="control-label TextoNegroFormulario">DNI del Consultante <span class="rojo">*</span></label>
+                        <input type="text" maxlength="8" name="DniConsultante" id="DniConsultante" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                        <label id="DniConsultanteValidacion" class="control-label ocultar  validaciones">Escriba el DNI del consultante</label>
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                        <label id="FechaNacimientoConsultanteTitulo" class="control-label TextoNegroFormulario">Fecha Nacimiento Consul. <span class="rojo">*</span></label>
+                        @Html.EditorFor(model => model.FechaNacimientoConsultante, new { htmlAttributes = new { @class = "form-control  form-control-rounded" } })
+                        <label id="FechaNacimientoConsultanteValidacion" class="control-label ocultar  validaciones">Escriba la Fecha de nacimiento del consultante</label>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3">
+                        <label id="DireccionConsultanteTitulo" class="control-label TextoNegroFormulario">Domicilio del Consultante</label>
+                        @Html.EditorFor(model => model.DireccionConsultante, new { htmlAttributes = new { @class = "form-control  form-control-rounded", @style = "text-transform:uppercase" } })
+                        @Html.ValidationMessageFor(model => model.DireccionConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                        <label id="LocalidadConsultanteTitulo" class="control-label TextoNegroFormulario">Localidad del Consultante</label>
+                        <input type="text" style = "text-transform:uppercase" name="LocalidadConsultante" id="LocalidadConsultante" class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                        <label id="TelefonoConsultanteTitulo" class="control-label TextoNegroFormulario">Telefono del Consultante</label>
+                        <input type="text" maxlength="13" name="TelefonoConsultante" id="TelefonoConsultante" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">NIVEL EDUCATIVO</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <label class="control-label TextoNegroFormulario">Nivel Educativo de Persona Con Discapacidad</label>
+                    @Html.DropDownList("NivelEducativoIDDiscapacitado", null, htmlAttributes: new { @class = "form-control  form-control-rounded" })
+                    @Html.ValidationMessageFor(model => model.NivelEducativoIDDiscapacitado, "", new { @class = "validaciones" })
+                </div>
+                <div id="div-niveleducativoconsultante" class="form-group col-12 col-sm-6 ocultar">
+                    <label id="NivelEducativoIDConsultanteTitulo" class="control-label TextoNegroFormulario">Nivel Educativo Consultante</label>
+                    @Html.DropDownList("NivelEducativoIDConsultante", null, htmlAttributes: new { @class = "form-control  form-control-rounded"})
+                    @Html.ValidationMessageFor(model => model.NivelEducativoIDConsultante, "", new { @class = "validaciones" })
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">INSTITUCIONES A LA CUAL ASISTE</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-12">
+                    <table class="tablaanchodevista" >
+                        <thead class="letra">
+                            <tr class="RenglonGris">
+                                <th class="thRelacionInstitucionyPersona TextoNegroFormulario">
+                                    Nombre de la institutcion
+                                </th>
+                                <th class="text-center tdBotones" id="ColumnaEditarInstitutoRelacionado"></th>
+                                <th class="text-center tdBotones" id="ColumnaEliminarInstitutoRelacionado">
+                                    <button type="button" id="BotonModalRelacionInstitutoYPErsona" class="BotonAgregarRedondo text-dark ColorCelesteBoton ocultar" onclick="LimpiarFormularioRelacionEscuelayPersona(1)">
+                                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/colegio.png " class="IconoBotonAgregar" />
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-RelacionInstitutoYPersona">
+                            @*se compreta con ajax*@
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">ACCESIBILIDAD AL SERVICIO</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Como accedio al servicio?</label>
+                    @Html.DropDownList("AccesibilidadAlServicioID", null, htmlAttributes: new { @class = "form-control  form-control-rounded" })
+                    @Html.ValidationMessageFor(model => model.AccesibilidadAlServicioID, "", new { @class = "validaciones" })
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-InfoDiscapacitado" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">INFORMACION SOBRE LA DISCAPACIDAD</h3>
+                    <hr />
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label TextoNegroFormulario">Diagnostico <span class="rojo">*</span> </label>
+                    @Html.EditorFor(model => model.Diagnostico, new { htmlAttributes = new { @class = "form-control form-control-rounded", @style = "text-transform:uppercase" } })
+                    @Html.ValidationMessageFor(model => model.Diagnostico, "", new { @class = "validaciones" })
+                    <label id="DiagnosticoValidacion" class="control-label ocultar  validaciones">Debe escribir Un Diagnostico.</label>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario">Tiene C.U.D.?</label>
+                    <select name="CudExistente" id="CudExistente" class="form-control form-control-rounded">
+                        <option value="1">Sí</option>
+                        <option value="2" selected>No</option>
+                        <option value="3">En Tramite</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario" hidden id="NumeroCUDTitulo">Numero de C.U.D. <span class="rojo">*</span></label>
+                    <input type="text" name="NumeroCUD" id="NumeroCUD" hidden value="0" class="form-control form-control-rounded" />
+                    <label id="NumeroCUDValidacion" class="control-label ocultar  validaciones">Debe escribir el Número del C.U.D.</label>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario" hidden id="VencimientoCUDTitulo">Fecha de Vencimienot de C.U.D.<span class="rojo">*</span></label>
+                    <input type="date" name="VencimientoCud" hidden id="VencimientoCud" class="form-control form-control-rounded" />
+                    <label id="VencimientoCudValidacion" class="control-label ocultar  validaciones">Debe Poner la Fecha de vencimiento del C.U.D.</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Pencion Por incapacidad</label>
+                    <select name="PencionPorincapacidad" id="PencionPorincapacidad" class="form-control form-control-rounded">
+                        <option value="1">Sí</option>
+                        <option value="2" selected>No</option>
+                        <option value="3">En Tramite</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Situacion de Postracion</label>
+                    <select name="Postrado" id="Postrado" class="form-control form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-4">
+                    <label class="control-label TextoNegroFormulario">Inicio de la Discapacidad</label>
+                    <select name="InicioDiscapacidadNacimiento" id="InicioDiscapacidadNacimiento" class="form-control form-control-rounded">
+                        <option value="true" selected>Nacimiento</option>
+                        <option value="false">Adquirido</option>
+                    </select>
+                </div>
+
+                <div id="div-Fechainiciodiscapacidad" class="form-group col-12 col-md-4 ocultar">
+                    <label class="control-label TextoNegroFormulario" id="FechaInicioDiscapacidadTitulo">Fecha de Inicio de Discapacidad <span class="rojo">*</span></label>
+                    <input type="date" name="FechaInicioDiscapacidad" id="FechaInicioDiscapacidad" class=" form-control form-control-rounded" />
+                    <label id="FechaInicioDiscapacidadValidacion" class="control-label ocultar  validaciones">Debe Poner la Fecha en la que se adquirio la Discapacidad</label>
+                </div>
+                <div class="form-group col-12 col-md-4">
+                    <label class="control-label TextoNegroFormulario">Tipo de Discapacitado</label>
+                    @Html.DropDownList("TipodeDiscapacidadID", null, htmlAttributes: new { @class = "form-control  form-control-rounded" })
+                    @Html.ValidationMessageFor(model => model.TipodeDiscapacidadID, "", new { @class = "validaciones" })
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD</h3>
+                    <hr />
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD PERSONA CON DISCAPACIDAD</h4>
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Tiene Algun Diagnostico de enfermedad?</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <select name="DiagnosticoEnfermedad" id="DiagnosticoEnfermedad" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label hidden class="control-label TextoNegroFormulario" id="CualDiagnostico">¿Cual?</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" style = "text-transform:uppercase" name="DetalleDiagnosticoEnfermedad" hidden id="DetalleDiagnosticoEnfermedad" class="form-control  form-control-rounded" />
+                            <label id="DetalleDiagnosticoEnfermedadValidacion" class="control-label ocultar  validaciones">Debe escribir un diagnostico de la enfermedad</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Se encuentra actualmente con tratamiento medico?</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <select name="TratamientoMedico" id="TratamientoMedico" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label class="control-label TextoNegroFormulario" hidden id="cualTratamiento">¿Cual?</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" style = "text-transform:uppercase" name="DetalleTratamientoMedico" hidden id="DetalleTratamientoMedico" class="form-control  form-control-rounded" />
+                            <label id="DetalleTratamientoMedicoValidacion" class="control-label ocultar  validaciones">Debe escribir un detalle del tratamiento de la enfermedad realizada </label>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" hidden id="DondeTratamiento">¿Donde realiza el Tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" style = "text-transform:uppercase" name="LugarTratamientoMedico" hidden id="LugarTratamientoMedico" class="form-control  form-control-rounded" />
+                            <label id="LugarTratamientoMedicoValidacion" class="control-label ocultar  validaciones">Debe escribir el lugar donde se realizo el tratamiento de la enfermedad </label>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Interrumpio en el ultimo periodo este tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="InterrumpioTratamientoMedico" id="InterrumpioTratamientoMedico" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" hidden id="TiempoInterrupcionPregunta">¿Tiempo de interrupcion del Tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" style = "text-transform:uppercase" name="TiempoInterrupcionTratamientoMedico" hidden id="TiempoInterrupcionTratamientoMedico" class="form-control  form-control-rounded" />
+                            <label id="TiempoInterrupcionTratamientoMedicoValidacion" class="control-label ocultar  validaciones">Debe escribir el tiempo por el que se interrumpio el tratamiento de la enfermedad</label>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" hidden id="MotivoInterrupcionPregunta">¿Motivo de la interrupcion?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" style = "text-transform:uppercase" name="MotivoInterrupcionTratamientoMedico" hidden id="MotivoInterrupcionTratamientoMedico" class="form-control  form-control-rounded" />
+                            <label id="MotivoInterrupcionTratamientoMedicoValidacion" class="control-label ocultar  validaciones">Debe escribir el tiempo por el que se interrumpio el tratamiento de la enfermedad</label>
+                        </div>
+                    </div>
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD CONSULTANTE</h4>
+                    <div class="row">
+                        <div class="form-group text-left col-md-12">
+                            <label class="control-label TextoNegroFormulario">En el embarazo tuvo:</label>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Trastorno de sueño?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="TrastornoSuenio" id="TrastornoSuenio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Trastornos Alimenticios?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="TrastornoAlimenticio" id="TrastornoAlimenticio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Ingirio Ansio/Antidepre?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="IngestaAnsioAntidepre" id="IngestaAnsioAntidepre" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Consumio Alcohol/Droga?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="ConsumioAlcoholoDroga" id="ConsumioAlcoholoDroga" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Otros trastornos?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="OtrosTrastornos" id="OtrosTrastornos" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Aborto por golpes?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="AbortoPorGolpe" id="AbortoPorGolpe" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Intento de Suicidio?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select name="IntentoDeSuicidio" id="IntentoDeSuicidio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-SituacionHabitacionalylaboral" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACION HABITACIONAL</h3>
+                    <hr />
+                </div>
+                <div class="row col-12" id="SituacionesHabitacionales">
+                    @*El div es rellenado con Json*@
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <hr />
+                        <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACION LABORAL</h3>
+                        <hr />
+                    </div>
+                    <div class="form-group col-3 col-md-4">
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Consultante</label>
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Discapacitado</label>
+                    </div>
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Obrero/a</label>
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionObreroConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionObreroConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionObreroDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionObreroDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group  col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Empresario/a</label>
+                    </div>
+                    <div class="form-group  col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionEmpresarioConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionEmpresarioConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionEmpresarioDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionEmpresarioDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Empleado/a</label>
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionEmpleadoConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionEmpleadoConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionEmpleadoDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionEmpleadoDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Jub/Pen/ren</label>
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionJubiladoConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionJubiladoConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionJubiladoDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionJubiladoDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Serv. Domestico</label>
+                    </div>
+                    <div class="form-group  col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionServicioDomesticoConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionServicioDomesticoConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionServicioDomesticoDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionServicioDomesticoDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Profesional</label>
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionProfesionalConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionProfesionalConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionProfesionalDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionProfesionalDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">No trabaja</label>
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionNoTrabajaConsultante, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionNoTrabajaConsultante, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-md-4 col-4">
+                        @Html.EditorFor(model => model.SituacionNoTrabajaDiscapacitado, new { htmlAttributes = new { @class = "CheckNuevo" } })
+                        @Html.ValidationMessageFor(model => model.SituacionNoTrabajaDiscapacitado, "", new { @class = "validaciones" })
+                    </div>
+                    <div class="form-group col-4"></div>
+                    <div class="form-group col-4">
+                        <label class="control-label TextoNegroFormulario TextonegroCelu">Ingresos</label>
+                    </div>
+                    <div class="form-group col-4">
+                        <input type="text" maxlength="13" name="IngresosFamiliarLaboral" id="IngresosFamiliarLaboral" value="0" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-GrupoFAmiliar" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">GRUPO FAMILIAR</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-12">
+                    <table id="TablaGrupoFAmiliar">
+                        <thead class="letra">
+                            <tr class="RenglonGris">
+                                <th class=" TextoNegroFormulario col-md-3">
+                                    Apellido y Nombre Familiar
+                                </th>
+                                <th class="text-center ocultar860 TextoNegroFormulario col-md-1">
+                                    Fecha de Nacimiento
+                                </th>
+                                <th class="text-center ocultar1120 TextoNegroFormulario col-md-1">
+                                    Sexo
+                                </th>
+                                <th class=" ocultar640 TextoNegroFormulario col-md-2">
+                                    Parentesco
+                                </th>
+                                <th class=" ocultar1430 TextoNegroFormulario col-md-1">
+                                    Educacion
+                                </th>
+                                <th class="text-center ocultar640 TextoNegroFormulario col-md-1">
+                                    DNI
+                                </th>
+                                <th class=" ocultar1120 TextoNegroFormulario col-md-1">
+                                    Ocupacion
+                                </th>
+                                <th class=" ocultar1120 TextoNegroFormulario col-md-1">
+                                    Salud
+                                </th>
+                                <th class="ocultar1120 TextoNegroFormulario col-md-1">
+                                    Ingresos
+                                </th>
+                                <th class="text-center tdBotones" id="ColumnaEditarGRupoFamiliar"></th>
+                                <th class="text-center tdBotones" id="ColumnaEliminarGRupoFamiliar">
+                                    <button type="button" id="BotonCrearGrupoFamiliar" class="BotonAgregarRedondo text-dark ColorCelesteBoton ocultar" onclick="LimpiarFormularioGrupoFamiliar(1)" data-toggle="modal" data-target="#ModalCrearGrupoFamiliar">
+                                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/familia.png " class="IconoBotonAgregar" />
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-GrupoFamiliar">
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">RED SOCIAL Y COMUNITARIA (persona o instituciones con los que cuenta)</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Tiene Parientes a quien concurrir? (no convivientes)</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select name="CuentaConParienteAQuienRecurir" id="CuentaConParienteAQuienRecurir" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" hidden id="AQueParienteRecurirTitulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" style="text-transform:uppercase" name="AQueParienteRecurir" hidden id="AQueParienteRecurir" class="form-control form-control-rounded" />
+                    <label id="AQueParienteRecurirValidacion" class="control-label ocultar validaciones">campo oblicatorio</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Tiene Amigo/as, Vecinos/as, Compañeros/as de trabajo, etc.?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select name="CuentaConAmigosVecinosCompanieroTrabajo" id="CuentaConAmigosVecinosCompanieroTrabajo" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" hidden id="QueAmigosVecinosCompanieroTrabajoTirulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" style="text-transform:uppercase" name="QueAmigosVecinosCompanieroTrabajo" hidden id="QueAmigosVecinosCompanieroTrabajo" class="form-control form-control-rounded" />
+                    <label id="QueAmigosVecinosCompanieroTrabajoValidacion" class="control-label ocultar validaciones">campo oblicatorio</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Asiste a una institucion Comunitaria?(iglesia, Centro Vecinal, Centro de salud, etc.)</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select name="AsisteAIntitucionComunitaria" id="AsisteAIntitucionComunitaria" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" hidden id="CualIntitucionComunitariaTitulo">¿A Cual?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" style="text-transform:uppercase" name="CualIntitucionComunitaria" hidden id="CualIntitucionComunitaria" class="form-control form-control-rounded" />
+                    <label id="CualIntitucionComunitariaValidacion" class="control-label ocultar  validaciones">campo oblicatorio</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario" hidden id="PersonaDeContactoIntitucionComunitaria">¿Cual es la persona con la que se contacta en esa intitucion?</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" style = "text-transform:uppercase" name="ConQuienSeContactaEnIntitucionComunitaria" hidden id="ConQuienSeContactaEnIntitucionComunitaria" class="form-control form-control-rounded" />
+                    <label id="ConQuienSeContactaEnIntitucionComunitariaValidacion" class="control-label ocultar  validaciones">campo oblicatorio</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿A Partir de la discapacidad dejo de conectar con algun contacto?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select name="DejoDeContactarAAlguien" id="DejoDeContactarAAlguien" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" hidden id="AQuienDejoDeContactarTitulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" style="text-transform:uppercase" name="AQuienDejoDeContactar" hidden id="AQuienDejoDeContactar" class="form-control form-control-rounded" />
+                    <label id="AQuienDejoDeContactarValidacion" class="control-label ocultar  validaciones">campo oblicatorio</label>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-AntecenteViolencia" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">ANTECEDENTE DE VIOLENCIA</h3>
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion">(Antecedente de violencia en la familia de origen y con otras personas)</h4>
+                    <hr />
+                </div>
+                <div class="col-12 row">
+                    <div class="col-12 col-sm-6">
+                        <div class="col-12">
+                            <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DISCAPACITADO</h3>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">a) Violencia Fisica</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="VioleciaFisicaOPiscDiscapacitado" id="VioleciaFisicaOPiscDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">b) Violacion/Abuso sexual</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="ViolacionAbusoSexualDiscapacitado" id="ViolacionAbusoSexualDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">c) Testigo de Violencia</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="TestigoDeViolenciaDiscapacitado" id="TestigoDeViolenciaDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">d) Abandono</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="AbandonoDiscapacitado" id="AbandonoDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">e) Otras Parejas</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="OtrasParejasDiscapacitado" id="OtrasParejasDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">f) Ignorado</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="IgnoradoDiscapacitado" id="IgnoradoDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">g) Otras...</label>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <select name="SeleccionOtrosDiscapacitado" id="SeleccionOtrosDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div  id="CualOtraViolenciaDiscapacitado"  class="ocultar col-12">
+                            <div class="form-group text-left col-12">
+                                <label class="control-label TextoNegroFormulario">¿Cual?</label>
+                            </div>
+                            <div class="form-group col-12">
+                                <input type="text" style="text-transform:uppercase" name="OtraViolenciaDiscapacitado" id="OtraViolenciaDiscapacitado" class="form-control form-control-rounded" />
+                            </div>
+                        </div>
+                        
+
+                    </div>
+
+
+                    <div class="col-12 col-sm-6">
+                        <div class="col-12">
+                            <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">CONSULTANTE</h3>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">a) Violencia Fisica</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="VioleciaFisicaOPiscConsultante" id="VioleciaFisicaOPiscConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">b) Violacion/Abuso sexual</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="ViolacionAbusoSexualConsultante" id="ViolacionAbusoSexualConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">c) Testigo de Violencia</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="TestigoDeViolenciaConsultante" id="TestigoDeViolenciaConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">d) Abandono</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="AbandonoConsultante" id="AbandonoConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">e) Otras Parejas</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select name="OtrasParejasConsultante" id="OtrasParejasConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">g) Otras...</label>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <select name="SeleccionOtrosConsultante" id="SeleccionOtrosConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div id="CualOtraViolenciaConsultante" class="ocultar col-12">
+                            <div class="form-group text-left col-12">
+                                <label class="control-label TextoNegroFormulario">¿Cual?</label>
+                            </div>
+                            <div class="form-group col-12">
+                                <input type="text" style="text-transform:uppercase" name="OtraViolenciaConsultante"  id="OtraViolenciaConsultante" class="form-control form-control-rounded" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">OBSERVACIONES</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-12">
+                    @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control form-control-rounded" } })
+                    @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "validaciones" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group text-right">
+        <button hidden type="submit" id="BotonGuardarDiscapacitado"></button>
+    </div>
+</div>
+
+}
+<div class="form-group text-right">
+    <button class="BotonGuardar-Modal btn-flotante-guardar" id="Boton-Guardar-PersonaConDiscapaciad" title="Guardar Persona Con Discapacidad" onclick="ValidacionesCrear()"><img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="iconoFlotantecentrado" /></button>
+    <button class="btn-flotante-cancelar btn-flotante-cancelar-PersonaCondiscapacidad " title="Volver al listado de personas" onclick="VolveraVistaIndex()"><img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="iconoFlotantecentrado" /></button>
+</div>
+
+
+@section Scripts {
+    <script src="~/Scripts/PersonaConDiscapacidad/CrearPersonaCondiscapacidad.js"></script>
+}

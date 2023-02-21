@@ -1,0 +1,1658 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Derivaciones>
+
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Derivaciones</h2>
+
+
+<div class="row">
+
+    <div class="col-12 col-md-4 EspaciadoBoton ">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="row col-12 col-lg-3 col-md-7 col-sm-10">
+        <div class=" form-group col-11 col-md-9 EspaciadoBoton">
+            <input id="buscarfecha" type="date" class="form-control BarraBusqueda form-controlCorto achicarinputbuscar" autocomplete="off" autofocus />
+        </div>
+        <div class="form-group col-1 col-md-3">
+            <button title="VACIAR FILTRADO POR FECHA" class="BotonCancelarFiltrado" onclick="ControlarAutocompletadoFecha()">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+            </button>
+        </div>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="FechaActual()" data-toggle="modal" data-target="#ModalDerivacionesInicial">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/carpeta.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion()">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+    <div class="col-auto EspaciadoBoton">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoDerivaciones">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+
+</div>
+
+@Html.Partial("../../Views/Personas/_CrearPersona")
+@Html.Partial("../../Views/Localidades/Create")
+
+<div class="modal fade" id="ModalInfoDerivaciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. DERIVACIONES</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/QmFSYqUeDXg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade " data-backdrop="static" data-keyboard="false" id="ModalDerivacionesInicial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home" data-toggle="tab" href="#nav-Niveles" role="tab" aria-controls="nav-home" aria-selected="true">Nivel Educativo</a>
+                        <a class="nav-item nav-link disabled" id="nav-profile" onclick="ValidarNivel(1)" data-toggle="tab" href="#nav-Preguntas" role="tab" aria-controls="nav-profile" aria-selected="false">Formulario</a>
+                        <a class="nav-item nav-link ocultar" id="nav-profileeditar" onclick="ValidarNivel()" data-toggle="tab" href="#nav-Preguntas" role="tab" aria-controls="nav-profile" aria-selected="false">Formulario</a>
+                    </div>
+                </nav>
+                <button onclick=" VolveraVistaIndex()" type="button" class="CruzBlanca" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-center tab-content">
+                    <div class="tab-pane fade show active text-center" id="nav-Niveles" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <p class=" TextoNegroFormulario text-center font-weight-bold  TituloDerivacion text-uppercase">
+                            Nivel Educativo al que corresponde el Niño/Adolescente con su respectivo formulario, en la siguiente solapa.
+                        </p>
+                        <div class="row ">
+                            <div class="col-md-5 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Nivel Educativo <span class="rojo">*</span></label>
+                                <select class="form-control form-control-rounded" style="text-transform:uppercase" id="nivel" name="nivel">
+                                    <option selected value="0">Seleccionar</option>
+                                    <option id="Inicial" value="1">Nivel Inicial</option>
+                                    <option id="Primario" value="2">Nivel Primario</option>
+                                    <option id="Secundario" value="3">Nivel Secundario</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show row" id="nav-Preguntas" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+
+                            <input value="0" type="hidden" id="DerivacionesID" class="form-control  form-control-rounded" />
+
+                            <div class="col-12 col-lg-3 text-left TextonegroCelu">
+                                <label class="control-label TextoNegroFormulario Letrainput">Fecha Derivacion</label>
+                                <input type="date" id="DerivacionFecha" min="1920-01-01" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                                <label id="FechaValidacion" class="control-label ocultar validaciones">Escriba una Fecha correcta</label>
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Escuela Relacionada <span class="rojo">*</span></label>
+                                <input type="hidden" id="DerivacionesEscuelaID" value="0" />
+                                <input id="EscuelaNombre" disabled class="form-control  form-control-rounded" onKeyUp="ControlarAutocompletadoEscuela()" onKeyDown="ControlarAutocompletadoEscuela()" autocomplete="off" style="text-transform:uppercase">
+                                <label id="campo-obligatorio-escuelaID" class="control-label ocultar validaciones">SELECCIONA O CREA UNA ESCUELA</label>
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Teléfono</label>
+                                <input type="text" id="EscuelaTelefono" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-3  text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Email</label>
+                                <input type="text" id="EscuelaEmail" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+
+                        </div>
+
+                        <hr />
+                        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS FILIATORIOS DEL NIÑO</h4>
+                        <hr />
+
+                        <div class="row">
+                            <div class="row col-12 col-lg-5 text-left">
+                                <div class="col-12">
+                                    <label class="control-label TextoNegroFormulario Letrainput">Apellido y Nombre (Persona) <span class="rojo">*</span></label>
+                                </div>
+                                <div class="form-group col-10">
+                                    <input type="hidden" id="DerivacionesPersonaID" name="DerivacionesPersonaID" value="0" />
+                                    <input id="PersonaNombre"  disabled class="form-control  form-control-rounded" onKeyUp="ControlarAutocompletadoPersona()" onKeyDown="ControlarAutocompletadoPersona()" autocomplete="off" style="text-transform:uppercase">
+                                    <label id="campo-obligatorio-personaID" class="control-label ocultar validaciones">SELECCIONA O CREA UNA PERSONA</label>
+                                    @*<label id="PersonaExiste" class="control-label ocultar validaciones">Ya se encuentra Registrada esta Persona</label>*@
+                                    <label id="PersonaNombreValidacion" class="control-label ocultar validaciones">Debe crear o seleccionar una persona existente</label>
+                                </div>
+                                <div class="form-group col-1 ocultar" id="botoncrearpersona">
+                                    <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" onclick="Cambiodevistaparcial()" >
+                                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Fecha de Nacimiento</label>
+                                <input type="text" id="PersonaFechaNacimiento" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-2 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Edad</label>
+                                <input type="text" id="PersonaEdad" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-2  text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">DNI</label>
+                                <input type="text" id="PersonaDNI" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Domicilio</label>
+                                <input type="text" id="PersonaDomicilio" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Teléfono de Contacto</label>
+                                <input type="text" id="PersonaTelefono" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Obra Social</label>
+                                <input type="text" id="Obrasocialsino" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+                            <div class="col-12 col-lg-3 text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">¿Cuál?</label>
+                                <input type="text" id="Obrasocialcual" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+                            </div>
+
+                        </div>
+                        <hr />
+                        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">TRAYECTORIA ESCOLAR DEL NIÑO</h4>
+                        <hr />
+                        <div class="row">
+                            <div id="AnioingresonivelInicaldiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*Inicial Y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Ingreso Niv. Inicial</label>
+                                <input type="date" id="AnioingresonivelInical" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                                <label id="AnioingresonivelInicalValidacion" class="control-label ocultar validaciones">Escriba una Fecha correcta</label>
+                            </div>
+                            <div id="Anioingresonivelactualdiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*Primario y Secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Ingreso al Niv. Actual</label>
+                                <input type="date" id="Anioingresonivelactual" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                                <label id="AnioingresonivelactualValidacion" class="control-label ocultar validaciones">Escriba una Fecha correcta</label>
+                            </div>
+                            <div id="Anioingresoinstitucionactualdiv" class="col-12 col-lg-3 col-md-6  ocultar text-left">
+                                @*Secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Ingreso Institución Actual</label>
+                                <input type="date" id="Anioingresoinstitucionactual" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                                <label id="AnioingresoinstitucionactualValidacion" class="control-label ocultar  validaciones">Escriba una Fecha correcta</label>
+                            </div>
+                            <div id="InstitucionAsistiodiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Institución a la que Asistió </label>
+                                <input id="InstitucionAsistio" type="text" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="DiferentesInstitucionesdiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Dif. Instituciones Asistidas</label>
+                                <input id="DiferentesInstituciones" autocomplete="off" style="text-transform:uppercase" type="text" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Rehizodiv" class="col-12 col-lg-4 ocultar text-left">
+                                @*Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">¿Rehizo?</label>
+                                <select id="Rehizo" class="form-control form-control-rounded" autocomplete="off" style="text-transform:uppercase" name="Rehizo">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="Saladiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*inicial*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Sala</label>
+                                <input id="Sala" type="text" class="form-control  form-control-rounded" autocomplete="off" style="text-transform:uppercase" />
+                            </div>
+                            <div id="ObservacionesRehizoSaladiv" class="col-12 col-lg-6 ocultar text-left">
+                                @*Inicial y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Observaciones</label>
+                                <input id="ObservacionesRehizoSala" type="text" autocomplete="off" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            </div>
+                            <div id="Repitenciadiv" class="col-12 col-lg-4 text-left ocultar">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput text-left">¿Repitencia?</label>
+                                <select id="Repitencia" class="form-control  form-control-rounded" autocomplete="off" style="text-transform:uppercase" name="Repitencia">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="GradoRepitenciadiv" class="col-12 col-lg-3 ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">GRADO/S / Años</label>
+                                <input type="text" id="GradoRepitencia" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="MotivoRepitenciadiv" class="col-12 col-lg-5 ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Misma</label>
+                                <input type="text" id="MotivoRepitencia" autocomplete="off" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            </div>
+                            <div id="PeriodosdeInasistenciadiv" class="col-12 col-lg-4  ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Periodos de Inasistencia</label>
+                                <select class="form-control form-control-rounded" autocomplete="off" style="text-transform:uppercase" id="PeriodosdeInasistencia">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="Motivoinasistenciadiv" class="col-12 col-lg-8 ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Misma</label>
+                                <input type="text" id="Motivoinasistencia" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="PeriodosDeserciondiv" class="col-12 col-lg-4 ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label text-left TextoNegroFormulario Letrainput">Periodos de Desercion</label>
+                                <select class="form-control form-control-rounded " autocomplete="off" style="text-transform:uppercase" id="PeriodosDesercion">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="MotivoDeserciondiv" class="col-12 col-lg-8 ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput text-left">Motivo de la Misma</label>
+                                <input type="text" id="MotivoDesercion" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Acompaniamientopedagogicoyterapeuticodiv" class="col-12 col-lg-6   ocultar text-left">
+                                @*inicial y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput text-left">¿Recibió Acompañamiento pedagogico y terapeutico?</label>
+                                <select class="form-control form-control-rounded" autocomplete="off" style="text-transform:uppercase" id="Acompaniamientopedagogicoyterapeutico">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv" class="col-12 col-lg-6 col-md-6  text-left ocultar">
+                                @*inicial y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Consignar tiempo y modalidad</label>
+                                <input type="text" id="Acompaniamientopedagogicoyterapeuticotiempoymodalidad" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                        </div>
+                        <hr />
+                        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACIÓN ACTUAL DEL NIÑO</h4>
+                        <hr />
+                        <div class="row">
+                            <div id="SalaCusoAsistediv" class="col-12 col-lg-3   ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Sala/Curso al que Asiste</label>
+                                <input type="text" id="SalaCusoAsiste" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="TurnoJornadadiv" class="col-12 col-lg-3   ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Turno</label>
+                                <input type="text" id="TurnoJornada" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="MotivoDerivaciondiv" class="col-12 col-lg-6  ocultar text-left">
+                                @*Secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Derivación</label>
+                                <input type="text" id="MotivoDerivacion" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Fortalezasdiv" class="col-12 col-lg-6 ocultar text-left">
+                                @*inicial y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Fortalezas de niño</label>
+                                <input type="text" id="Fortalezas" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Dificultadesdiv" class="col-12 col-lg-6  ocultar text-left">
+                                @*inicial  y Primario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Dificultades y/o problemáticas del alumno</label>
+                                <input type="text" id="Dificultades" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Estrategiasdiv" class="col-12 col-lg-6 ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Estrategias/Acciones implementadas y resultados</label>
+                                <input type="text" id="Estrategias" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="AcompaniamientopedagogicoyterapeuticoActualdiv" class="col-12 col-lg-6 ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">¿Recibe acompañamiento pedagogico y terapeutico hoy?</label>
+                                <select class="form-control form-control-rounded" autocomplete="off" style="text-transform:uppercase" id="AcompaniamientopedagogicoyterapeuticoActual">
+                                    <option value="false" selected>NO</option>
+                                    <option value="true">SI</option>
+                                </select>
+                            </div>
+                            <div id="AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv" class="col-12 col-lg-6 text-left ocultar">
+                                <label class="control-label TextoNegroFormulario Letrainput">Consignar tiempo y modalidad</label>
+                                <input type="text" id="AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                        </div>
+                        <hr />
+                        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS INSTITUCIONALES</h4>
+                        <hr />
+                        <div class="row">
+                            <div id="NombreApellidoDocenteDerivadiv" class="col-12 col-lg-4 ocultar text-left">
+                                <label class="control-label TextoNegroFormulario Letrainput">Docente/s que efectua la Derivacion</label>
+                                <input type="text" id="NombreApellidoDocenteDeriva" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="Areacurriculardiv" class="col-12 col-lg-4  ocultar text-left">
+                                @*primario y secundarioo*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Area Curricular a Cargo</label>
+                                <input type="text" id="Areacurricular" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                            <div id="otrosDocentesdiv" class="col-12 col-lg-4  ocultar text-left">
+                                @*Primario y secundario*@
+                                <label class="control-label TextoNegroFormulario Letrainput">Otros docentes del Alumno</label>
+                                <input type="text" id="otrosDocentes" autocomplete="off" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-right">
+                    <button onclick=" VolveraVistaIndex();" class="BotonCancelar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+
+                    </button>
+                    <button type="button" onclick="GuardarDerivacion();"class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra" style="text-transform:uppercase">
+        <tr class="tablaAzul">
+            <th class="text-center text-white ocultar860">
+                Fecha
+            </th>
+            <th class=" text-white">
+                Nombre y Apellido
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody-derivaciones" style="text-transform:uppercase">
+    </tbody>
+
+</table>
+
+<table hidden class="table table-bordered table-active table-hover" id="tablahidden">
+    <thead class="letra" style="text-transform:uppercase">
+        <tr class="tablaAzul">
+            <th>
+                N°
+            </th>
+            <th >
+                FECHA
+            </th>
+            <th>
+                NOMBRE Y APELLIDO
+            </th>
+            <th >
+                ESCUELA
+            </th>
+            <th >
+                EMAIL DE LA ESCUELA
+            </th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody-derivacioneshidden" style="text-transform:uppercase">
+    </tbody>
+
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        function CerrarModalVideo() {
+            $('iframe').removeAttr('src');
+            $("#ModalInfoDerivaciones").modal("hide");
+
+        }
+
+        function AbrirModalVideo() {
+            $("#ModalInfoDerivaciones").modal("show");
+            $('iframe').attr('src', 'https://www.youtube.com/embed/QmFSYqUeDXg');
+        }
+
+
+        $("#buscarfecha").change(function () {
+            let buscarfecha = $("#buscarfecha").val();
+            var FechaPredeterminada = "1920-01-01";
+            if (buscarfecha > FechaPredeterminada) {
+                BuscarListadoDerivaciones();
+            }
+
+        });
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoFecha() {
+            let buscarfecha = $("#buscarfecha").val();
+            if (buscarfecha != null) {
+                $("#buscarfecha").val('');
+                $("#buscar").val('');  
+                BuscarListadoDerivaciones();
+            }
+        }
+
+        window.onload = BuscarListadoDerivaciones();
+
+        function BuscarListadoDerivaciones() {
+            let buscarfecha = $("#buscarfecha").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Derivaciones/BuscarListadoDerivaciones',
+                data: { Buscarfecha: buscarfecha},
+                success: function (derivacionesMostrar) {
+
+                    $("#ModalDerivacionesInicial").modal("hide");
+
+                    $("#tbody-derivaciones").empty();
+                    $("#tbody-derivacioneshidden").empty();
+                    var numeroColumna = 0;
+                    $.each(derivacionesMostrar, function (index, derivacion) {
+
+                        $("#tbody-derivaciones").append('<tr>' +
+
+                            '<td style="width:100px"  class="text-center TextoNegroTablas ocultar860 ContenidoTablaGris">' +
+                            derivacion.DerivacionesFechaString +
+                            '<td  class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            derivacion.Persona.PersonaApellidoNombre + '</td>' +
+                            '<td style="width:50px"  class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="DatosDerivaciones(' + derivacion.DerivacionesID + ')" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalDerivacionesInicial"/>' +
+                            '</a>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a class="btn-circle-index" href="../Derivaciones/Details/' + derivacion.DerivacionesID + '"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarDerivacion(' + derivacion.DerivacionesID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+
+                        numeroColumna += 1;
+                        $("#tbody-derivacioneshidden").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td style="width:100px"  class="text-left TextoNegroTablas ocultar860 ContenidoTablaGris">' +
+                            derivacion.DerivacionesFechaString +
+                            '<td  class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            derivacion.Persona.PersonaApellidoNombre + '</td>' +
+                            '<td  class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            derivacion.Escuela.EscuelaNombre + '</td>' +
+                            '<td  class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            derivacion.Escuela.Email + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        $("#PersonaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#DerivacionesPersonaID").val(ui.item.id);
+                BuscarInfoPersona(ui.item.id);
+                $("#campo-obligatorio-personaID").addClass("ocultar");
+              /*  $("#PersonaExiste").addClass("ocultar");*/
+            }
+        });
+
+        function BuscarInfoPersona(personaID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/BuscarInfoPersona',
+                data: { PersonaID: personaID },
+                success: function (personaMostrar) {
+                    $("#DerivacionesPersonaID").val(personaMostrar.PersonaID);
+                    $("#PersonaNombre").val(personaMostrar.PersonaApellidoNombre);
+                    $("#PersonaDomicilio").val(personaMostrar.PersonaDireccion);
+                    $("#PersonaFechaNacimiento").val(personaMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaEdad").val(personaMostrar.PersonaEdad);
+                    $("#PersonaDNI").val(personaMostrar.PersonaDNI);
+                    $("#PersonaTelefono").val(personaMostrar.PersonaTelefono);
+                    if (personaMostrar.PersonaObraSocial === true) {
+                        $("#Obrasocialsino").val("Sí");
+                    }
+                    else {
+                        $("#Obrasocialsino").val("No");
+                    }
+                    $("#Obrasocialcual").val(personaMostrar.ObraSocialCual);
+                    /* ValidacionPersonaExiste(personaMostrar.PersonaID);*/
+
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#PersonaNombre").val();
+            var personaID = $("#DerivacionesPersonaID").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarPersona();
+            }
+        }
+
+        //funcion para limpiar los campos completados de localidad
+        function LimpiarPersona() {
+            $("#DerivacionesPersonaID").val(0);
+            $("#PersonaNombre").val('');
+            $("#PersonaFechaNacimiento").val('');
+            $("#PersonaEdad").val('');
+            $("#PersonaDNI").val('');
+            $("#PersonaDomicilio").val('');
+            $("#PersonaTelefono").val('');
+            $("#Obrasocialsino").val('');
+            $("#Obrasocialcual").val('');
+            $("#campo-obligatorio-personaID").addClass("ocultar");
+            $("#PersonaExiste").addClass("ocultar");
+
+        }
+
+        $("#EscuelaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Escuelas/BuscarEscuelas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (escuelaMostrar) {
+                        response($.map(escuelaMostrar, function (escuelaMostrar) {
+                            return {
+                                id: escuelaMostrar.EscuelaID,
+                                value: escuelaMostrar.EscuelaNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#DerivacionesEscuelaID").val(ui.item.id);
+                BuscarInfoEscuela(ui.item.id);
+                $("#campo-obligatorio-escuelaID").addClass("ocultar");
+            }
+        });
+
+        function BuscarInfoEscuela(escuelaID) {
+            /*  var hoy = new Date();*/
+            $.ajax({
+                type: "POST",
+                url: '../../Escuelas/BuscarInfoEscuela',
+                data: { EscuelaID: escuelaID },
+                success: function (escuelaMostrar) {
+                    $("#EscuelaTelefono").val(escuelaMostrar.EscuelaTelefono);
+                    $("#EscuelaEmail").val(escuelaMostrar.Email);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoEscuela() {
+            var nombre = $("#EscuelaNombre").val();
+            var escuelaID = $("#EscuelaID").val();
+            if (nombre == "" && escuelaID != 0) {
+                LimpiarEscuela();
+            }
+        }
+        //funcion para limpiar los campos completados de la escuela
+        function LimpiarEscuela() {
+            $("#DerivacionesEscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+            $("#EscuelaTelefono").val('');
+            $("#EscuelaEmail").val('');
+            $("#campo-obligatorio-escuelaID").addClass("ocultar");
+        }
+
+        $("#Rehizo").change(function () {
+            if ($(this).val() === "false") {
+                $("#ObservacionesRehizoSaladiv").addClass("ocultar");
+            } else {
+                $("#ObservacionesRehizoSaladiv").removeClass("ocultar");
+            }
+        });
+
+        $("#Repitencia").change(function () {
+            if ($(this).val() === "false") {
+                $("#GradoRepitenciadiv").addClass("ocultar");
+                $("#MotivoRepitenciadiv").addClass("ocultar");
+            } else {
+                $("#GradoRepitenciadiv").removeClass("ocultar");
+                $("#MotivoRepitenciadiv").removeClass("ocultar");
+            }
+        });
+
+        $("#PeriodosDesercion").change(function () {
+            if ($(this).val() === "false") {
+                $("#MotivoDeserciondiv").addClass("ocultar");
+            } else {
+                $("#MotivoDeserciondiv").removeClass("ocultar");
+            }
+        });
+
+        $("#PeriodosdeInasistencia").change(function () {
+            if ($(this).val() === "false") {
+                $("#Motivoinasistenciadiv").addClass("ocultar");
+            } else {
+                $("#Motivoinasistenciadiv").removeClass("ocultar");
+            }
+        });
+
+        $("#Acompaniamientopedagogicoyterapeutico").change(function () {
+            if ($(this).val() === "false") {
+                $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").addClass("ocultar");
+            } else {
+                $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").removeClass("ocultar");
+            }
+        });
+
+        $("#AcompaniamientopedagogicoyterapeuticoActual").change(function () {
+            if ($(this).val() === "false") {
+                $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").addClass("ocultar");
+
+            } else {
+                $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").removeClass("ocultar");
+            }
+        });
+
+        $("#nivel").change(function () {
+            ValidarNivel();
+        });
+
+        function ValidarNivel(origen) {
+            if (origen == 1){
+                $("#GradoRepitenciadiv").addClass("ocultar");
+                $("#ObservacionesRehizoSaladiv").addClass("ocultar");
+                $("#MotivoRepitenciadiv").addClass("ocultar");
+                $("#Motivoinasistenciadiv").addClass("ocultar");
+                $("#MotivoDeserciondiv").addClass("ocultar");
+                $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").addClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").addClass("ocultar");
+            }
+            var nivel = $("#nivel").val();
+            if (nivel == 0) {
+                $("#nav-profile").addClass("disabled");
+            }
+            else {
+                $("#nav-profile").removeClass("disabled");
+            }
+            $("#AnioingresonivelInicaldiv").addClass("ocultar");
+            $("#Anioingresonivelactualdiv").addClass("ocultar");
+            $("#Anioingresoinstitucionactualdiv").addClass("ocultar");
+            $("#InstitucionAsistiodiv").addClass("ocultar");
+            $("#DiferentesInstitucionesdiv").addClass("ocultar");
+            $("#Rehizodiv").addClass("ocultar");
+            $("#Saladiv").addClass("ocultar");
+            $("#Repitenciadiv").addClass("ocultar");
+            $("#PeriodosdeInasistenciadiv").addClass("ocultar");
+            $("#PeriodosDeserciondiv").addClass("ocultar");
+            $("#Acompaniamientopedagogicoyterapeuticodiv").addClass("ocultar");
+            $("#SalaCusoAsistediv").addClass("ocultar");
+            $("#TurnoJornadadiv").addClass("ocultar");
+            $("#MotivoDerivaciondiv").addClass("ocultar");
+            $("#Fortalezasdiv").addClass("ocultar");
+            $("#Dificultadesdiv").addClass("ocultar");
+            $("#Estrategiasdiv").addClass("ocultar");
+            $("#AcompaniamientopedagogicoyterapeuticoActualdiv").addClass("ocultar");
+            $("#NombreApellidoDocenteDerivadiv").addClass("ocultar");
+            $("#Areacurriculardiv").addClass("ocultar");
+            $("#otrosDocentesdiv").addClass("ocultar");
+
+            if (nivel === "1") {
+
+                $("#AnioingresonivelInicaldiv").removeClass("ocultar");
+                $("#Saladiv").removeClass("ocultar");
+                $("#ObservacionesRehizoSaladiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#Acompaniamientopedagogicoyterapeuticodiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#Fortalezasdiv").removeClass("ocultar");
+                $("#Dificultadesdiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+            }
+
+            if (nivel === "2") {
+
+                $("#AnioingresonivelInicaldiv").removeClass("ocultar");
+                $("#Anioingresonivelactualdiv").removeClass("ocultar");
+                $("#InstitucionAsistiodiv").removeClass("ocultar");
+                $("#DiferentesInstitucionesdiv").removeClass("ocultar");
+                $("#Rehizodiv").removeClass("ocultar");
+                $("#Repitenciadiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#PeriodosDeserciondiv").removeClass("ocultar");
+                $("#Acompaniamientopedagogicoyterapeuticodiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#Fortalezasdiv").removeClass("ocultar");
+                $("#Dificultadesdiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#Areacurriculardiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+                $("#otrosDocentesdiv").removeClass("ocultar");
+            }
+
+            if (nivel === "3") {
+
+                $("#Anioingresonivelactualdiv").removeClass("ocultar");
+                $("#Anioingresoinstitucionactualdiv").removeClass("ocultar");
+                $("#DiferentesInstitucionesdiv").removeClass("ocultar");
+                $("#Repitenciadiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#PeriodosDeserciondiv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#MotivoDerivaciondiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#Areacurriculardiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+                $("#otrosDocentesdiv").removeClass("ocultar");
+            }
+        }
+
+        //Fecha actual por defecto
+        window.onload = FechaActual();
+        function FechaActual() {
+
+            $("#botoncrearpersona").removeClass("ocultar");
+            $("#nav-profile").removeClass("ocultar");
+            $("#nav-profileeditar").addClass("ocultar");
+            $("#PersonaNombre").prop("disabled", false);
+            $("#EscuelaNombre").prop("disabled", false);
+
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('DerivacionFecha').value = ano + "-" + mes + "-" + dia;
+            document.getElementById('AnioingresonivelInical').value = ano + "-" + mes + "-" + dia;
+            document.getElementById('Anioingresonivelactual').value = ano + "-" + mes + "-" + dia;
+            document.getElementById('Anioingresoinstitucionactual').value = ano + "-" + mes + "-" + dia;
+        }
+
+        function GuardarDerivacion() {
+
+            var derivacionesID = $("#DerivacionesID").val();//SI ES DISTINTO DE 0, QUIERE DECIR QUE EDITA
+
+            var derivacionFecha = $("#DerivacionFecha").val();
+            var niveles = $("#nivel").val();
+            var anioingresonivelInical = $("#AnioingresonivelInical").val();
+            var anioingresonivelactual = $("#Anioingresonivelactual").val();
+            var anioingresoinstitucionactual = $("#Anioingresoinstitucionactual").val();
+            var institucionAsistio = $("#InstitucionAsistio").val();
+            var diferentesinstituciones = $("#DiferentesInstituciones").val();
+            var rehizo = $("#Rehizo").val();
+            var sala = $("#Sala").val();
+            var observaciones = $("#ObservacionesRehizoSala").val();
+            var repitencia = $("#Repitencia").val();
+            var gradoRepitencia = $("#GradoRepitencia").val();
+            var motivoRepitencia = $("#MotivoRepitencia").val();
+            var periodosdeInasistencia = $("#PeriodosdeInasistencia").val();
+            var motivoinasistencia = $("#Motivoinasistencia").val();
+            var periodosDesercion = $("#PeriodosDesercion").val();
+            var motivoDesercion = $("#MotivoDesercion").val();
+            var acompaniamientopedagogicoyterapeutico = $("#Acompaniamientopedagogicoyterapeutico").val();
+            var acompaniamientopedagogicoyterapeuticotiempoymodalidad = $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidad").val();
+            var salaAsiste = $("#SalaCusoAsiste").val();
+            var turnoJornada = $("#TurnoJornada").val();
+            var motivoDerivacion = $("#MotivoDerivacion").val();
+            var fortalezas = $("#Fortalezas").val();
+            var dificultades = $("#Dificultades").val();
+            var estrategias = $("#Estrategias").val();
+            var acompaniamientopedagogicoyterapeuticoActual = $("#AcompaniamientopedagogicoyterapeuticoActual").val();
+            var acompaniamientopedagogicoyterapeuticoActualtiempoymodalidad = $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad").val();
+            var nombreApellidoDocenteDeriva = $("#NombreApellidoDocenteDeriva").val();
+            var areacurricular = $("#Areacurricular").val();
+            var otrosdocentes = $("#otrosDocentes").val();
+            var personaID = $("#DerivacionesPersonaID").val();
+            var escuelaID = $("#DerivacionesEscuelaID").val();
+
+            var registrar = true;
+
+            if (personaID == 0) {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE PROFESIONAL QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-personaID").removeClass("ocultar");
+            }
+
+            if (escuelaID == 0) {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE PACIENTE QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-escuelaID").removeClass("ocultar");
+            }
+
+            var date = new Date;
+            var mesActual = date.getMonth() + 1;
+            var dia = date.getDate();
+            if (mesActual < 10) {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+
+            }
+            else {
+                if (dia < 10) {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-0" + date.getDate();
+                }
+                else {
+                    var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                }
+            }
+
+            var FechaPredeterminada = "1920-01-01";
+
+            if (derivacionFecha == FechaPredeterminada || derivacionFecha == null || derivacionFecha < FechaPredeterminada || derivacionFecha > FechaHoy) {
+                registrar = false;
+                $("#FechaValidacion").removeClass("ocultar");
+            }
+            if (anioingresonivelInical == FechaPredeterminada || anioingresonivelInical == null || anioingresonivelInical < FechaPredeterminada || anioingresonivelInical > FechaHoy) {
+                registrar = false;
+                $("#AnioingresonivelInicalValidacion").removeClass("ocultar");
+            }
+            if (anioingresonivelactual == FechaPredeterminada || anioingresonivelactual == null || anioingresonivelactual < FechaPredeterminada || anioingresonivelactual > FechaHoy) {
+                registrar = false;
+                $("#AnioingresonivelactualValidacion").removeClass("ocultar");
+            }
+            if (anioingresoinstitucionactual == FechaPredeterminada || anioingresoinstitucionactual == null || anioingresoinstitucionactual < FechaPredeterminada || anioingresoinstitucionactual > FechaHoy) {
+                registrar = false;
+                $("#AnioingresoinstitucionactualValidacion").removeClass("ocultar");
+            }
+
+            if (registrar == true ) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Derivaciones/GuardarDerivacion',
+                    data: {
+                        DerivacionesFecha: derivacionFecha, DerivacionesNiveles: niveles, DerivacionesAnioIngresoNivel: anioingresonivelInical,
+                        DerivacionesAnioIngresoNivelActual: anioingresonivelactual, DerivacionesSalaCurso: sala,
+                        DerivacionesObservaciones: observaciones, DerivacionesInstitucionAsistio: institucionAsistio,
+                        DerivacionesAnioIngresoInstitucionActual: anioingresoinstitucionactual, DerivacionesDiferentesInstituaciones: diferentesinstituciones,
+                        DerivacionesRehizo: rehizo, DerivacionesRepitencia: repitencia, DerivacionesGradoAnioRepitencia: gradoRepitencia,
+                        DerivacionesMotivosRepitencia: motivoRepitencia, DerivacionesInasistencias: periodosdeInasistencia,
+                        DerivacionesMotivosInasistencias: motivoinasistencia, DerivacionesDesercion: periodosDesercion,
+                        DerivacionesMotivosDesercion: motivoDesercion, DerivacionesAcompañamientoPedagogicoTerapeutico: acompaniamientopedagogicoyterapeutico,
+                        DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidad: acompaniamientopedagogicoyterapeuticotiempoymodalidad,
+                        DerivacionesSalaAsiste: salaAsiste, DerivacionesTurnoJornada: turnoJornada, DerivacionesMotivosSecundario: motivoDerivacion,
+                        DerivacionesFortalezasNinio: fortalezas, DerivacionesDificultades: dificultades, DerivacionesEstrategiasResultados: estrategias,
+                        DerivacionesAcompañamientoPedagogicoTerapeuticoActualmente: acompaniamientopedagogicoyterapeuticoActual,
+                        DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidadActual: acompaniamientopedagogicoyterapeuticoActualtiempoymodalidad,
+                        DerivacionesNombreDocente: nombreApellidoDocenteDeriva, DerivacionesAreaCurricular: areacurricular,
+                        DerivacionesOtrosDocentesInformacion: otrosdocentes, PersonaID: personaID, EscuelaID: escuelaID, DerivacionesID: derivacionesID
+                    },
+                    success: function (guardado) {
+                        if (guardado == true) {
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'La Derivación Fue guardada Correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            $("#ModalDerivacionesInicial").modal("hide");
+                            VaciarFormulario();
+                            BuscarListadoDerivaciones();
+
+                        }
+                        else {
+                            Swal.fire(
+                                'No se pudo realizar esta acción',
+                                'Revise el formulario que los datos sean válidos.',
+                                'error'
+                            )
+                        }
+                    },
+                    error: function (data) {
+                        alert("Problemas al tratar de enviar el formulario");
+                    }
+                });
+            }
+
+
+        }
+
+        //funcion para validar que la persona seleccionada en el auto completar de persona no exista 
+        //function ValidacionPersonaExiste(personaID) {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: '../../Derivaciones/ValidacionPersonaExiste',
+        //        data: {
+        //            PersonaID: personaID
+        //        },
+        //        success: function (Validacion) {
+        //            if (Validacion == false) {
+        //                $("#PersonaExiste").removeClass("ocultar");
+        //            }
+        //            else {
+        //                $("#PersonaExiste").addClass("ocultar");
+        //            }
+        //        },
+        //        error: function (data) {
+        //            alert("Problemas al tratar de enviar el formulario");
+        //        }
+        //    });
+        //}
+
+        function DatosDerivaciones(derivacionesID) {
+           
+            $.ajax({
+                type: "POST",
+                url: '../../Derivaciones/DatosDerivaciones',
+                data: { DerivacionesID: derivacionesID },
+                success: function (derivacionmostrar) {
+
+                    $("#nav-profile").addClass("ocultar");
+                    $("#nav-profileeditar").removeClass("ocultar");
+                    $("#botoncrearpersona").addClass("ocultar");
+                    $("#DerivacionesID").val(derivacionmostrar.DerivacionesID);
+                    $("#DerivacionFecha").val(derivacionmostrar.DerivacionesFechaString);
+                    $("#nivel").val(derivacionmostrar.DerivacionesNiveles);
+                    ValidarNivel();
+                    $("#AnioingresonivelInical").val(derivacionmostrar.DerivacionesAnioIngresoNivelString);
+                    $("#Anioingresonivelactual").val(derivacionmostrar.DerivacionesAnioIngresoInstitucionActualString);
+                    $("#Anioingresoinstitucionactual").val(derivacionmostrar.DerivacionesAnioIngresoNivelActualString);
+                    $("#InstitucionAsistio").val(derivacionmostrar.DerivacionesInstitucionAsistio);
+                    $("#DiferentesInstituciones").val(derivacionmostrar.DerivacionesDiferentesInstituaciones);
+                    if (derivacionmostrar.DerivacionesRehizo === true) {
+                        $("#Rehizo").val("true")
+                        $("#ObservacionesRehizoSaladiv").removeClass("ocultar");
+                        $("#ObservacionesRehizoSala").val(derivacionmostrar.DerivacionesObservaciones);
+                    }
+                    else {
+                        $("#Rehizo").val("false");
+                    }
+                    $("#Sala").val(derivacionmostrar.DerivacionesSalaCurso);
+                    $("#ObservacionesRehizoSala").val(derivacionmostrar.DerivacionesObservaciones);
+                    if (derivacionmostrar.DerivacionesRepitencia === true) {
+                        $("#Repitencia").val("true");
+                        $("#GradoRepitenciadiv").removeClass("ocultar");
+                        $("#MotivoRepitenciadiv").removeClass("ocultar");
+                        $("#GradoRepitencia").val(derivacionmostrar.DerivacionesGradoAnioRepitencia);
+                        $("#MotivoRepitencia").val(derivacionmostrar.DerivacionesMotivosRepitencia);
+                    }
+                    else {
+                        $("#Repitencia").val("false");
+                    }
+                    if (derivacionmostrar.DerivacionesInasistencias === true) {
+                        $("#PeriodosdeInasistencia").val("true");
+                        $("#Motivoinasistenciadiv").removeClass("ocultar");
+                        $("#Motivoinasistencia").val(derivacionmostrar.DerivacionesMotivosInasistencias);
+
+                    }
+                    else {
+                        $("#PeriodosdeInasistencia").val("false");
+                    }
+
+                    if (derivacionmostrar.DerivacionesDesercion === true) {
+                        $("#PeriodosDesercion").val("true");
+                        $("#MotivoDeserciondiv").removeClass("ocultar");
+                        $("#MotivoDesercion").val(derivacionmostrar.DerivacionesMotivosDesercion);
+                    }
+                    else {
+                        $("#PeriodosDesercion").val("false");
+                    }
+                    if (derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeutico === true) {
+                        $("#Acompaniamientopedagogicoyterapeutico").val("true");
+                        $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").removeClass("ocultar");
+                        $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidad").val(derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidad);
+                    }
+                    else {
+                        $("#Acompaniamientopedagogicoyterapeutico").val("false");
+                    }
+                    $("#SalaCusoAsiste").val(derivacionmostrar.DerivacionesSalaAsiste);
+                    $("#TurnoJornada").val(derivacionmostrar.DerivacionesTurnoJornada);
+                    $("#MotivoDerivacion").val(derivacionmostrar.DerivacionesMotivosSecundario);
+                    $("#Fortalezas").val(derivacionmostrar.DerivacionesFortalezasNinio);
+                    $("#Dificultades").val(derivacionmostrar.DerivacionesDificultades);
+                    $("#Estrategias").val(derivacionmostrar.DerivacionesEstrategiasResultados);
+                    if (derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoActualmente === true) {
+                        $("#AcompaniamientopedagogicoyterapeuticoActual").val("true");
+                        $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").removeClass("ocultar");
+                        $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad").val(derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidadActual);
+                    }
+                    else {
+                        $("#AcompaniamientopedagogicoyterapeuticoActual").val("false");
+                    }
+                    $("#NombreApellidoDocenteDeriva").val(derivacionmostrar.DerivacionesNombreDocente);
+                    $("#Areacurricular").val(derivacionmostrar.DerivacionesAreaCurricular);
+                    $("#otrosDocentes").val(derivacionmostrar.DerivacionesOtrosDocentesInformacion);
+                    $("#DerivacionesPersonaID").val(derivacionmostrar.Persona.PersonaID);
+                    $("#PersonaNombre").val(derivacionmostrar.Persona.PersonaApellidoNombre);
+                    $("#PersonaNombre").prop("disabled", true);
+                    $("#PersonaDomicilio").val(derivacionmostrar.Persona.PersonaDireccion);
+                    $("#PersonaFechaNacimiento").val(derivacionmostrar.Persona.PersonaFechaNacimientoString);
+                    $("#PersonaDNI").val(derivacionmostrar.Persona.PersonaDNI);
+                    $("#PersonaTelefono").val(derivacionmostrar.Persona.PersonaTelefono);
+                    $("#PersonaEdad").val(derivacionmostrar.Persona.PersonaEdad);
+                    if (derivacionmostrar.Persona.PersonaObraSocial === true) {
+                        $("#Obrasocialsino").val("Sí");
+                    }
+                    else {
+                        $("#Obrasocialsino").val("No");
+                    }
+                    $("#Obrasocialcual").val(derivacionmostrar.Persona.ObraSocialCual);
+                    $("#DerivacionesEscuelaID").val(derivacionmostrar.Escuela.EscuelaID);
+                    $("#EscuelaEmail").val(derivacionmostrar.Escuela.Email);
+                    $("#EscuelaTelefono").val(derivacionmostrar.Escuela.EscuelaTelefono);
+                    $("#EscuelaNombre").val(derivacionmostrar.Escuela.EscuelaNombre);
+                    $("#EscuelaNombre").prop("disabled", true);
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Derivación.");
+                }
+            });
+        }
+
+        //Boton para preguntar si quiere volver al index sin guardar ningun dato
+
+        function VolveraVistaIndex() {
+            var nivel = $("#nivel").val();
+            if (nivel != 0) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Esta seguro que desea salir?',
+                    text: "Si lo hace sus datos no seran guardados",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Salir',
+                    cancelButtonText: 'No, cancelar!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        VaciarFormulario();
+                        $("#ModalDerivacionesInicial").modal("hide");
+
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    }
+                })
+            }
+            else {
+                VaciarFormulario();
+                $("#ModalDerivacionesInicial").modal("hide");
+          
+            }
+        }
+           
+        function EliminarDerivacion(DerivacionesID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: '¿Estas seguro de eliminar esta Derivación?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Derivaciones/EliminarDerivacion',
+                        data: { id: DerivacionesID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+
+                                BuscarListadoDerivaciones();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta Derivación.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'error'
+                                )
+                            }
+
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+        }
+
+        function VaciarFormulario() {
+
+            $("#nivel").val(0);
+            $("#DerivacionesID").val(0);
+            $("#DerivacionFecha").val("1920-01-01");
+            $("#EscuelaNombre").val('');
+            $("#DerivacionesEscuelaID").val(0);
+            $("#EscuelaTelefono").val('');
+            $("#EscuelaEmail").val('');
+            $("#DerivacionesPersonaID").val(0);
+            $("#PersonaNombre").val('');
+            $("#PersonaFechaNacimiento").val('');
+            $("#PersonaEdad").val('');
+            $("#PersonaDNI").val('');
+            $("#PersonaDomicilio").val('');
+            $("#PersonaTelefono").val('');
+            $("#Obrasocialsino").val('');
+            $("#Obrasocialcual").val('');
+            $("#AnioingresonivelInical").val("1920-01-01");
+            $("#Anioingresonivelactual").val("1920-01-01");
+            $("#Anioingresoinstitucionactual").val("1920-01-01");
+            $("#InstitucionAsistio").val('');
+            $("#DiferentesInstituciones").val('');
+            $("#Rehizo").val("false");
+            $("#Sala").val('');
+            $("#ObservacionesRehizoSala").val('');
+            $("#Repitencia").val("false");
+            $("#GradoRepitencia").val('');
+            $("#MotivoRepitencia").val('');
+            $("#PeriodosdeInasistencia").val("false");
+            $("#Motivoinasistencia").val('');
+            $("#PeriodosDesercion").val("false");
+            $("#MotivoDesercion").val('');
+            $("#Acompaniamientopedagogicoyterapeutico").val("false");
+            $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidad").val('');
+            $("#SalaCusoAsiste").val('');
+            $("#TurnoJornada").val('');
+            $("#MotivoDerivacion").val('');
+            $("#Fortalezas").val('');
+            $("#Dificultades").val('');
+            $("#Estrategias").val('');
+            $("#AcompaniamientopedagogicoyterapeuticoActual").val("false");
+            $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad").val('');
+            $("#NombreApellidoDocenteDeriva").val('');
+            $("#Areacurricular").val('');
+            $("#otrosDocentes").val('');
+
+            $("#AnioingresonivelInicaldiv").addClass("ocultar");
+            $("#Anioingresonivelactualdiv").addClass("ocultar");
+            $("#Anioingresoinstitucionactualdiv").addClass("ocultar");
+            $("#InstitucionAsistiodiv").addClass("ocultar");
+            $("#DiferentesInstitucionesdiv").addClass("ocultar");
+            $("#Rehizodiv").addClass("ocultar");
+            $("#Saladiv").addClass("ocultar");
+            $("#ObservacionesRehizoSaladiv").addClass("ocultar");
+            $("#Repitenciadiv").addClass("ocultar");
+            $("#GradoRepitenciadiv").addClass("ocultar");
+            $("#MotivoRepitenciadiv").addClass("ocultar");
+            $("#PeriodosdeInasistenciadiv").addClass("ocultar");
+            $("#Motivoinasistenciadiv").addClass("ocultar");
+            $("#PeriodosDeserciondiv").addClass("ocultar");
+            $("#MotivoDeserciondiv").addClass("ocultar");
+            $("#Acompaniamientopedagogicoyterapeuticodiv").addClass("ocultar");
+            $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").addClass("ocultar");
+            $("#SalaCusoAsistediv").addClass("ocultar");
+            $("#TurnoJornadadiv").addClass("ocultar");
+            $("#MotivoDerivaciondiv").addClass("ocultar");
+            $("#Fortalezasdiv").addClass("ocultar");
+            $("#Dificultadesdiv").addClass("ocultar");
+            $("#Estrategiasdiv").addClass("ocultar");
+            $("#AcompaniamientopedagogicoyterapeuticoActualdiv").addClass("ocultar");
+            $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").addClass("ocultar");
+            $("#NombreApellidoDocenteDerivadiv").addClass("ocultar");
+            $("#Areacurriculardiv").addClass("ocultar");
+            $("#otrosDocentesdiv").addClass("ocultar");
+
+            $("#campo-obligatorio-personaID").addClass("ocultar");
+            $("#campo-obligatorio-escuelaID").addClass("ocultar");
+            $("#PersonaExiste").addClass("ocultar");
+            $("#AnioingresoinstitucionactualValidacion").addClass("ocultar");
+            $("#AnioingresonivelactualValidacion").addClass("ocultar");
+            $("#AnioingresonivelInicalValidacion").addClass("ocultar");
+            $("#FechaValidacion").addClass("ocultar");
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#botoncrearpersona").addClass("ocultar");
+
+            $("#nav-home").click();
+
+            ValidarNivel();
+        }
+
+        function Cambiodevistaparcial() {
+            $("#ModalDerivacionesInicial").modal("hide");
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+        }
+
+        function GuardarCrearPersona() {
+
+            var personaid = $("#PersonaID").val();
+            var personaApellidoNombre = $("#PersonaApellidoNombreCrear").val();
+            var personaTelefono = $("#PersonaTelefonoCrear").val();
+            var personaDni = $("#PersonaDNICrear").val();
+            var personaFechaNacimiento = $("#PersonaFechaNacimientoCrear").val();
+            var personaDireccion = $("#PersonaDireccionCrear").val();
+            var localidadesID = $("#LocalidadesIDCrearPersona").val();
+            var personaCorreo = $("#PersonaCorreoCrear").val();
+            var personaSexo = $("#PersonaSexoCrear").val();
+            var personaCovid = $("#PersonaCovidCrear").val();
+            var personaObraSocial = $("#PersonaObraSocialCrear").val();
+            var obraSocialCual = $("#ObraSocialCualCrear").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#existe-PersonaDNICrear").addClass("ocultar");
+
+            var registrar = true;
+
+            if (personaApellidoNombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaApellidoNombreCrear").removeClass("ocultar");
+            }
+            if (personaTelefono == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaTelefonoCrear").removeClass("ocultar");
+            }
+            if (personaDni == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDNICrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDireccionCrear").removeClass("ocultar");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/ValidacionDNIExiste',
+                data: {
+                    PersonaDNI: personaDni, PersonaID: personaid
+                },
+                success: function (Validaciondni) {
+                    if (Validaciondni == true) {
+                        if (registrar == true) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '../../Personas/GuardarPersona',
+                                    data: {
+                                        PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                                        PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                                        PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                                        ObraSocialCual: obraSocialCual, PersonaID: personaid
+                                    },
+                                    success: function (PersonaID) {
+                                        BuscarInfoPersona(PersonaID);
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'success',
+                                            title: 'La Persona Fue guardada Correctamente',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+                                        $("#ModalPersona").modal("hide");
+                                        setTimeout('$("#ModalDerivacionesInicial").modal("show");', 500);
+                                        VaciarFormularioPersona();
+                                    },
+                                    error: function (data) {
+                                        /*
+                                        * Se ejecuta si la peticón ha sido erronea
+                                        * */
+                                    }
+                                });
+                            }
+                    }
+                    else {
+                        $("#existe-PersonaDNICrear").removeClass("ocultar");
+                    }
+
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+
+                }
+
+            });
+
+
+        }
+
+        //autocompletar de localidades
+        $("#LocalidadesNombreCrearPersona").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Localidades/BuscarLocalidades',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (localidadesMostrar) {
+                        response($.map(localidadesMostrar, function (localidadMostrar) {
+                            return {
+                                id: localidadMostrar.LocalidadesID,
+                                value: localidadMostrar.LocalidadesNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#LocalidadesIDCrearPersona").val(ui.item.id);
+                $("#LocalidadesNombreCrearPersona").val(ui.item.value);
+            }
+        });
+
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/GuardarLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                },
+                success: function (localidadID) {
+                    $("#ModalPersona").modal("show");
+                    $("#ModalLocalidad").modal("hide");
+                    BuscarInfoLocalidad(localidadID);
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+       $("#BotonCancelarPersona,#BotonCancelarPersonaCruz").click(function () {
+            //FUNCION PARA ABRIR EL MODAL
+           setTimeout('$("#ModalDerivacionesInicial").modal("show");', 500);
+       });
+
+        function CerrarModalLocalidad() {
+            $("#LocalidadesNombreCrear").val('');
+            $("#LocalidadesDepartamento").val('');
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#ProvinciasID").val('');
+            cambiodeVistaLocalidadAPersona();
+        }
+
+        function cambiodeVistaLocalidadAPersona() {
+            $("#ModalLocalidad").modal("hide");
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+        }
+
+        function BuscarInfoLocalidad(localidadesID) {
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadesID },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrearPersona").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrearPersona").val(localidadMostrar.LocalidadesNombreCompleto);
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Localidad.");
+                }
+            });
+        }
+
+        //FUNCION PARA VACIAL EL FORMULARIO CON LA FLECHA DE VOLVER PARA ATRAS Y TAMBIEN VUELVE A MOSTRAR EL MODAL DE FORMULARIO
+        function VaciarFormularioPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombreCrear").val('');
+            $("#PersonaTelefonoCrear").val('');
+            $("#PersonaDNICrear").val('');
+            $("#PersonaFechaNacimientoCrear").val('');
+            $("#Edad").val('');
+            $("#PersonaDireccionCrear").val('');
+            $("#LocalidadesNombreCrearPersona").val('');
+            $("#LocalidadesIDCrearPersona").val('');
+            $("#PersonaCorreoCrear").val('');
+            $("#PersonaSexoCrear").val('');
+            $("#PersonaCovidCrear").val('');
+            $("#PersonaObraSocialCrear").val('');
+            $("#ObraSocialCualCrear").val('');
+            $("#Email_Sistema").val('');
+            $("#Contrasenia_Sistema").val('');
+            $("#Tipo_Sistema").val('1');
+            $("#Opcion_Crear_Usuario").val('false');
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#ModalPersona").modal("hide");
+            setTimeout('$("#ModalDerivacionesInicial").modal("show");', 500);
+            /*   $("#Modalformulario").modal("show");*/
+        }
+
+        //FUNCION PARA OCULTAR EL CREAR USUARIO EN EL MODAL DE CREAR PERSONA
+        window.onload = OcultarGuardadoUsuario();
+        function OcultarGuardadoUsuario() {
+            $("#PreguntaUsuario").prop("hidden", true);
+        }
+
+        $("#PersonaObraSocialCrear").change(function () {
+            if ($(this).val() === "false") {
+                $("#div-obrasocial-cual").prop("hidden", true);
+            } else {
+                $("#div-obrasocial-cual").prop("hidden", false);
+            }
+        });
+
+        function GenerarImpresion() {
+            //var doc = new jsPDF();//VERTICAL
+
+            var FechaBuscar = $("#buscarfecha").val();
+            var FiltroFecha = "";
+            if (FechaBuscar != "") {
+                FiltroFecha = "FECHA: " + FechaBuscar;
+            }
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+                
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+             
+                if (FiltroFecha != "") {
+                    doc.setFontSize(18);
+                    doc.text('LISTADO DE DERIVACIONES', 38, 24);
+                    doc.setFontSize(10);
+                    doc.text( FiltroFecha, 38, 29);
+                    doc.setFontSize(8);
+                }
+                //en el caso de que no halla filtro el titulo se centra.
+                else {
+                    doc.setFontSize(18);
+                    doc.text('LISTADO DE DERIVACIONES', 38, 25);
+                }
+                
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+               
+            };
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 40 },
+                    2: { columnWidth: 70 },
+                    3: { columnWidth: 70 },
+                    4: { columnWidth: 83 },
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 1 ) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '9';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 1) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+        }
+
+    </script>
+
+}

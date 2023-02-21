@@ -1,0 +1,613 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Tratamiento>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Tratamiento</h2>
+
+<div class="modal fade" id="ModalTratamiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">TRATAMIENTO</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Paciente <span class="rojo">*</span></label>
+                            <input type="hidden" id="PacienteID" name="PacienteID" value="0" />
+                            <input id="PacienteNombre" autocomplete="off" class="form-control form-control-rounded" onKeyUp="ControlarAutocompletadoPaciente()" onKeyDown="ControlarAutocompletadoPaciente()" style="text-transform:uppercase">
+                            <label id="campo-obligatorio-PacienteID" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                            <label id="PacienteExiste" class="control-label ocultar FondoValidaciones validaciones">Ya se encuentra este paciente en el tratamiento</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Profesional <span class="rojo">*</span></label>
+                            <input type="hidden" id="ProfesionalID" name="ProfesionalID" value="0" />
+                            <input id="ProfesionalNombre" autocomplete="off" class="form-control  form-control-rounded" style="text-transform:uppercase" />
+                            <label id="campo-obligatorio-ProfesionalID" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <label class="control-label TextoNegroFormulario">Tratamiento Anterior</label>
+                            <input type="hidden" id="TratamientoID" name="TratamientoID" value="0" />
+                            <p><textarea autocomplete="off" class="form-control" rows="8" style="text-transform:uppercase" id="TratamientoAnterior"></textarea></p>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Tratamiento Actuales <span class="rojo">*</span></label>
+                            <p><textarea autocomplete="off" class="form-control" rows="8" style="text-transform:uppercase" id="TratamientoActuales"></textarea></p>
+                            <label id="campo-obligatorio-TratamientoActuales" class="control-label ocultar validaciones">* Campo Obligatorio</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" id="botonguardar" onclick="GuardarTratamiento()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Barra de busqueda y crear nuevo tratamiento -->
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton ">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" onclick="MetodoParaDetalle()" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalTratamiento">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/registros-medicos.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+    <div class="col-auto  ">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion()">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoTratamiento">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoTratamiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. TRATAMIENTO</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para poder crear un Tratamiento se debe tener creado un Paciente y un Profesional</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">
+                Paciente
+            </th>
+            <th class="text-left ocultar500 text-white">
+                Profesional
+            </th>
+            <th class="text-left ocultar1120 TextoenDobleLineaTabla  text-white ">
+                Tratamiento Anterior
+            </th>
+            <th class="text-left ocultar860 TextoenDobleLineaTabla  text-white ">
+                Tratamiento Actual
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-tratamientos">
+    </tbody>
+
+</table>
+
+<table hidden id="tablaTratamientohidden">
+    <thead>
+        <tr>
+            <th>
+                N°
+            </th>
+            <th>
+                PACIENTE
+            </th>
+            <th>
+                PROFESIONAL
+            </th>
+            <th>
+                TRATAMIENTO ANTERIOR
+            </th>
+            <th>
+                TRATAMIENTO ACTUAL
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-tratamientoshidden">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        window.onload = BuscarListadoTratamientos();
+
+        function BuscarListadoTratamientos() {
+            $.ajax({
+                type: "POST",
+                url: '../../Tratamientoes/BuscarListadoTratamientos',
+                data: {},
+                success: function (tratamientosMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+
+                    $("#ModalTratamiento").modal("hide");
+
+                    $("#tbody-tratamientos").empty();
+                    $("#tbody-tratamientoshidden").empty();
+                    var numeroColumna = 0;
+
+                    $.each(tratamientosMostrar, function (index, tratamiento) {
+
+                        $("#tbody-tratamientos").append('<tr>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            tratamiento.PacienteNombre +
+                            '<td class="text-left TextoNegroTablas ocultar500 ContenidoTablaGris">' +
+                            tratamiento.ProfesionalNombre +
+                            '</td>' +
+                            '<td class="text-left TextoNegroTablas TextoenDobleLineaTabla  ocultar860 ContenidoTablaGris">' +
+                            tratamiento.TratamientoAnterior +
+                            '</td>' +
+                            '<td class="text-left TextoNegroTablas TextoenDobleLineaTabla  ocultar1120 ContenidoTablaGris">' +
+                            tratamiento.TratamientoActuales +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoTratamiento(' + tratamiento.TratamientoID + ',0);"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoTratamiento(' + tratamiento.TratamientoID + ',1);"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td  style="width:50px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarTratamiento(' + tratamiento.TratamientoID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+                        numeroColumna += 1;
+                        $("#tbody-tratamientoshidden").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td>' +
+                            tratamiento.PacienteNombre +
+                            '<td>' +
+                            tratamiento.ProfesionalNombre +
+                            '</td>' +
+                            '<td>' +
+                            tratamiento.TratamientoAnterior +
+                            '</td>' +
+                            '<td>' +
+                            tratamiento.TratamientoActuales +
+                            '</td>' +
+
+                            '</tr>');
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoPaciente() {
+            var nombre = $("#PacienteNombre").val();
+            var pacienteID = $("#pacienteID").val();
+            if (nombre == "" && pacienteID != 0) {
+                VaciarFormulario();
+            }
+        }
+
+        function VaciarFormulario() {
+            $("#TratamientoID").val(0);
+            $("#TratamientoAnterior").val('');
+            $("#TratamientoActuales").val('');
+            $("#ProfesionalID").val(0);
+            $("#PacienteID").val(0);
+            $("#PacienteNombre").val('');
+            $("#ProfesionalNombre").val('');
+            $("#PacienteExiste").addClass("ocultar");
+
+            $("#campo-obligatorio-ProfesionalID").addClass("ocultar");
+            $("#campo-obligatorio-PacienteID").addClass("ocultar");
+            $("#campo-obligatorio-TratamientoAnterior").addClass("ocultar");
+            $("#campo-obligatorio-TratamientoActuales").addClass("ocultar");
+        }
+
+        function GuardarTratamiento() {
+            var tratamientoAnterior = $("#TratamientoAnterior").val();
+            var tratamientoActuales = $("#TratamientoActuales").val();
+            var profesionalID = $("#ProfesionalID").val();
+            var pacienteID = $("#PacienteID").val();
+            var tratamientoID = $("#TratamientoID").val();
+
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS TRES INPUTS
+            $("#campo-obligatorio-ProfesionalID").addClass("ocultar");
+            $("#campo-obligatorio-PacienteID").addClass("ocultar");
+            $("#campo-obligatorio-TratamientoActuales").addClass("ocultar");
+
+            var registrar = true;
+            if (profesionalID == 0) {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE PROFESIONAL QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-ProfesionalID").removeClass("ocultar");
+            }
+            if (pacienteID == 0) {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE PACIENTE QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-PacienteID").removeClass("ocultar");
+            }
+
+            if (tratamientoActuales == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT DE TRATAMIENTO ACTUAL QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#campo-obligatorio-TratamientoActuales").removeClass("ocultar");
+            }
+            if (registrar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Tratamientoes/GuardarTratamiento',
+                    data: {
+                        TratamientoAnterior: tratamientoAnterior, TratamientoActuales: tratamientoActuales, ProfesionalID: profesionalID, PacienteID: pacienteID, TratamientoID: tratamientoID,
+
+                    },
+                    success: function (guardado) {
+                        if (guardado === true) {
+                            VaciarFormulario();
+                            BuscarListadoTratamientos();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'El Tratamiento Fue guardado Correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            $("#ModalTratamiento").modal("hide");
+
+                        }
+                        else {
+                            $("#PacienteExiste").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+                        alert("Problemas al tratar de enviar el formulario");
+                    }
+                });
+            }
+        }
+
+        function BuscarInfoTratamiento(tratamientoID, Detalle) {
+            $.ajax({
+                type: "POST",
+                url: '../../Tratamientoes/BuscarInfoTratamiento',
+                data: { TratamientoID: tratamientoID },
+                success: function (tratamientoMostrar) {
+                    $("#TratamientoID").val(tratamientoMostrar.TratamientoID);
+                    $("#TratamientoAnterior").val(tratamientoMostrar.TratamientoAnterior);
+                    $("#TratamientoActuales").val(tratamientoMostrar.TratamientoActuales);
+                    $("#PacienteID").val(tratamientoMostrar.PacienteID);
+                    $("#PacienteNombre").val(tratamientoMostrar.PacienteNombre);
+                    $("#ProfesionalID").val(tratamientoMostrar.ProfesionalID);
+                    $("#ProfesionalNombre").val(tratamientoMostrar.ProfesionalNombre);
+
+                    if (Detalle == 1) {
+                        $("#TratamientoID").prop("disabled", true);
+                        $("#TratamientoAnterior").prop("disabled", true);
+                        $("#TratamientoActuales").prop("disabled", true);
+                        $("#PacienteID").prop("disabled", true);
+                        $("#PacienteNombre").prop("disabled", true);
+                        $("#ProfesionalID").prop("disabled", true);
+                        $("#ProfesionalNombre").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+
+                        $("#ModalTratamiento").modal("show");
+                    }
+
+                    else {
+                        $("#TratamientoID").prop("disabled", false);
+                        $("#TratamientoAnterior").prop("disabled", false);
+                        $("#TratamientoActuales").prop("disabled", false);
+                        $("#PacienteID").prop("disabled", true);
+                        $("#PacienteNombre").prop("disabled", true);
+                        $("#ProfesionalID").prop("disabled", true);
+                        $("#ProfesionalNombre").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+
+                        $("#ModalTratamiento").modal("show");
+                    }
+
+
+
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+
+            });
+        }
+
+        function MetodoParaDetalle() {
+            $("#TratamientoID").prop("disabled", false);
+            $("#TratamientoAnterior").prop("disabled", false);
+            $("#TratamientoActuales").prop("disabled", false);
+            $("#PacienteID").prop("disabled", false);
+            $("#PacienteNombre").prop("disabled", false);
+            $("#ProfesionalID").prop("disabled", false);
+            $("#ProfesionalNombre").prop("disabled", false);
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+        }
+
+        function EliminarTratamiento(TratamientoID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: '¿Estas seguro de eliminar este Tratamiento?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Tratamientoes/EliminarTratamiento',
+                        data: { id: TratamientoID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                BuscarListadoTratamientos();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Tratamientor.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+        }
+        $("#PacienteNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Pacientes/BuscarPacientes',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (pacientesMostrar) {
+                        response($.map(pacientesMostrar, function (pacienteMostrar) {
+                            return {
+                                id: pacienteMostrar.PacienteID,
+                                value: pacienteMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PacienteID").val(ui.item.id);
+            }
+        });
+
+
+        $("#ProfesionalNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Profesionals/BuscarProfesional',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (profesionalesMostrar) {
+                        response($.map(profesionalesMostrar, function (profesionalMostrar) {
+
+                            return {
+                                id: profesionalMostrar.ProfesionalID,
+                                value: profesionalMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#ProfesionalID").val(ui.item.id);
+            }
+        });
+    </script>
+
+
+    <script>
+        function GenerarImpresion() {
+
+            //var doc = new jsPDF();//VERTICAL
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+
+                doc.setFontSize(18);
+                doc.text('LISTADO DE TRATAMIENTOS', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+            var elem = document.getElementById("tablaTratamientohidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 80 },
+                    2: { columnWidth: 60 },
+                    3: { columnWidth: 60 },
+                    4: { columnWidth: 63 },
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 0) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 0) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+    </script>
+}

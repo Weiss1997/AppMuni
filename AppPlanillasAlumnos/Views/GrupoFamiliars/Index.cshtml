@@ -1,0 +1,948 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.GrupoFamiliar>
+
+
+
+<h2 class="text-center text-uppercase text-dark letratitulo">GRUPO FAMILIAR</h2>
+
+
+<div class="row">
+
+    <div class="col-12 col-md-4 EspaciadoBoton ">
+        <input type="hidden" id="PersonaIDRelacionadaFiltro" value="0" />
+        <input type="text" id="PersonaNombreRelacionadafiltro" onkeyup="ControlarAutocompletadoFiltro()" onkeydown="ControlarAutocompletadoFiltro()" class="form-control text-uppercase BarraBusqueda form-controlCorto" placeholder="ESCRIBA PARA BUSCAR UNA PERSONA RELACIONADA" />
+    </div>
+
+    <div class="col-auto">
+        <button type="button" onclick="crear()" class="SombraBoton  TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalCrearGrupoFamiliar">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/familia.png" class="icono-menu" />
+            Crear
+        </button>
+    </div>
+
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion();">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            Imprimir Listado
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoGrupoFamiliar">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+@Html.Partial("../../Views/GrupoFamiliars/_CrearGrupoFamiliar")
+@Html.Partial("../../Views/Localidades/Create")
+@Html.Partial("../../Views/Personas/_CrearPersona")
+
+<div class="modal fade" id="ModalInfoGrupoFamiliar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. GRUPO FAMILIAR</h5>
+                <button type="button" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+
+                     <label class="control-label TextoNegroFormulario"> <strong> - </strong>Para la creación de un grupo familiar se debe crear previamente una persona </label>
+                       <label class="control-label TextoNegroFormulario"> <strong> - </strong> Para poder visualizar la tabla es necesario buscar la persona relacionada en la barra de busqueda  </label>
+              
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*TABLA*@
+<table class="table table-bordered table-active table-hover" id="tabla" style="text-transform:uppercase">
+    <thead class="letra">
+        <tr class="tablaAzul">
+
+            <th class="ttext-left  text-white">
+                Persona Relacionada
+            </th>
+            <th class="text-left ocultar400 text-white">
+                Nombre y Apellido del familiar
+            </th>
+            <th class="text-center ocultar860 text-white">
+                Sexo
+            </th>
+            <th class="text-center ocultar860 text-white">
+                DNI
+            </th>
+            <th class="text-left ocultar640 text-white">
+                Vinculo
+            </th>
+
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+
+        </tr>
+    </thead>
+    <tbody style="text-transform:uppercase" id="tbody-grupofamiliar">
+    </tbody>
+</table>
+
+@*Datos que se muestran*@
+<table style="text-transform:uppercase" hidden id="tablahidden">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left   text-white">
+                PERSONA RELACIONADA
+            </th>
+            <th class=" text-left ocultar400 text-white">
+                APELLIDO Y NOMBRE
+            </th>
+            <th class="text-center ocultar860  text-white">
+                SEXO
+            </th>
+            <th class="text-center ocultar860  text-white">
+                DNI
+            </th>
+            <th class="text-left ocultar640  text-white">
+                VINCULO
+            </th>
+
+
+        </tr>
+    </thead>
+
+    <tbody id="tbody-grupofamiliarhidden">
+    </tbody>
+
+</table>
+
+
+
+@section Scripts {
+    <script>
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+        window.onload = BuscarListadoGrupoFamiliar();
+
+        //MOSTRAR TABLA
+        function BuscarListadoGrupoFamiliar() {
+
+            var personaid = $("#PersonaIDRelacionadaFiltro").val();
+            $.ajax({
+                type: "POST",
+                url: '../../GrupoFamiliars/BuscarListadoGrupoFamiliar',
+                data: { PersonaID: personaid },
+                success: function (grupofamiliaresmostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#ModalCrearGrupoFamiliar").modal("hide");
+
+                    $("#tbody-grupofamiliar").empty();
+                    $("#tbody-grupofamiliarhidden").empty();
+
+                    $.each(grupofamiliaresmostrar, function (index, grupofamiliar) {
+                        //Tabla que se muestra en la vista
+                        $("#tbody-grupofamiliar").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas  ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.Personas.PersonaApellidoNombre + '</td>' +
+                            '<td class="text-left TextoNegroTablas ocultar400 ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.GrupoFamiliarApellidoNombre + '</td>' +
+                            '<td class="text-center TextoNegroTablas ocultar860 ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.GrupoFamiliarSexoString + '</td>' +
+                            '<td class="text-center TextoNegroTablas ocultar860 ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.GrupoFamiliarDNI + '</td>' +
+                            '<td class="text-left TextoNegroTablas ocultar640 ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.GrupoFamiliarVinculo + '</td>' +
+
+
+
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  " style="width:50px">' +
+                            '<a onclick="DatosEditarGrupoFamiliar(' + grupofamiliar.GrupoFamiliarID + ', 0)" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalCrearGrupoFamiliar"/>' +
+                            '</a>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris" style="width:50px">' +
+                            '<a class="btn-circle-index" onclick="DatosEditarGrupoFamiliar(' + grupofamiliar.GrupoFamiliarID + ', 1);"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png"  class="icono-tabla" data-toggle="modal" data-target="#ModalCrearGrupoFamiliar" class="icono-menu" /></a>' +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris" style="width:50px">' +
+                            '<a class="btn-circle-index" onclick="EliminarGrupoFamiliar(' + grupofamiliar.GrupoFamiliarID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        //Tabla que no se ve para el imprimir
+                        $("#tbody-grupofamiliarhidden").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris" style="width:400px">' +
+                            grupofamiliar.Personas.PersonaApellidoNombre + '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            grupofamiliar.GrupoFamiliarApellidoNombre + '</td>' +
+                            '<td class="text-leftTextoNegroTablas ContenidoTablaGris">' +
+                            grupofamiliar.GrupoFamiliarSexoString + '</td>' +
+                            '<td class="text-center TextoNegroTablas ContenidoTablaGris">' +
+                            grupofamiliar.GrupoFamiliarDNI + '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            grupofamiliar.GrupoFamiliarVinculo + '</td>' +
+
+
+                            '</tr>');
+
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        //SACAR LA PROPIEDAD DISABLE AL INPUT DE PERSONA
+        function HabilitarInputPersona() {
+            $("#NombrePersonaRelacionadaCrear").prop("disabled", false);
+        }
+
+        //Autocompletado de persona
+        $("#NombrePersonaRelacionadaCrear").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaIDRelacionada").val(ui.item.id);
+            }
+        });
+        //Autocompletado para filtro de persona
+        $("#PersonaNombreRelacionadafiltro").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+
+                $("#PersonaIDRelacionadaFiltro").val(ui.item.id);
+                BuscarListadoGrupoFamiliar();
+            }
+        });
+        window.onload = VaciarFormulario();
+
+        //LIMPIAR LA TABLA
+        function ControlarAutocompletadoFiltro() {
+            var nombre = $("#PersonaNombreRelacionadafiltro").val();
+            if (nombre == "") {
+                $("#PersonaIDRelacionadaFiltro").val(0);
+                BuscarListadoGrupoFamiliar();
+            }
+        }
+
+        //GUARDAR
+        function GuardarGrupoFamiliar() {
+            var grupoFamiliarID = $("#GrupoFamiliarID").val();//SI ES DISTINTO DE 0, QUIERE DECIR QUE EDITA
+
+            var grupoFamiliarApellidoNombre = $("#GrupoFamiliarApellidoNombreCrear").val();
+            var grupoFamiliarDNI = $("#GrupoFamiliarDNICrear").val();
+            var grupoFamiliarSexo = $("#GrupoFamiliarSexoCrear").val();
+            var grupoFamiliarSalud = $("#GrupoFamiliarSaludCrear").val();
+            var grupoFamiliarIngresos = $("#GrupoFamiliarIngresosCrear").val();
+            var grupoFamiliarNacimiento = $("#GrupoFamiliarNacimientoCrear").val();
+            var grupoFamiliarVinculo = $("#GrupoFamiliarVinculoCrear").val();
+            var grupoFamiliarEscolaridad = $("#GrupoFamiliarEscolaridadCrear").val();
+            var grupoFamiliarOcupacion = $("#GrupoFamiliarOcupacionCrear").val();
+            var personaID = $("#PersonaIDRelacionada").val();
+
+            $("#campo-obligatorio-GrupoFamiliarApellidoNombreCrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarDNICrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarIngresosCrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarVinculoCrear").addClass("ocultar");
+            $("#campo-obligatorio-NombrePersonaRelacionadaCrear").addClass("ocultar");
+
+            grupoFamiliarIngresos = parseFloat(grupoFamiliarIngresos);
+
+            $("#ingresoValidacionmenor").addClass("ocultar");
+            $("#ingresoValidacionmayor").addClass("ocultar");
+            $("#botonCrearPersonaGrupoFamiliar").removeClass("ocultar");
+
+           
+
+            //validacion de ingresos
+            if (grupoFamiliarIngresos > 2000000) {
+                registrar = false;
+                $("#ingresoValidacionmenor").removeClass("ocultar");
+            }
+            if (grupoFamiliarIngresos < -1) {
+                registrar = false;
+                $("#ingresoValidacionmayor").removeClass("ocultar");
+            }
+            if (grupoFamiliarIngresos == "" ) {
+                registrar = false;
+                $("#campo-obligatorio-GrupoFamiliarIngresosCrear").removeClass("ocultar");
+            }
+
+            
+            //Validacion de fecha
+
+           
+            var date = new Date;
+            var mesActual = date.getMonth() + 1;
+            if (mesActual < 10) {
+                var FechaHoy = date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate();
+            }
+            else {
+                var FechaHoy = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            }
+
+            var FechaPredeterminada = "1920-01-01";
+
+            if (grupoFamiliarNacimiento == FechaPredeterminada || grupoFamiliarNacimiento < FechaPredeterminada || grupoFamiliarNacimiento > FechaHoy) {
+                registrar = false;
+                $("#FechaValidacion").removeClass("ocultar");
+            }
+            //Validaciones de campos obligatorios
+            var guardar = true;
+
+            if (grupoFamiliarApellidoNombre == "") {
+                guardar = false;
+                $("#campo-obligatorio-GrupoFamiliarApellidoNombreCrear").removeClass("ocultar");
+            }
+
+            if (grupoFamiliarDNI == "") {
+                guardar = false;
+                $("#campo-obligatorio-GrupoFamiliarDNICrear").removeClass("ocultar");
+            }
+            if (grupoFamiliarVinculo == "") {
+                guardar = false;
+
+                $("#campo-obligatorio-GrupoFamiliarVinculoCrear").removeClass("ocultar");
+            }
+            if (personaID == 0) {
+                guardar = false;
+
+                $("#campo-obligatorio-NombrePersonaRelacionadaCrear").removeClass("ocultar");
+            }
+
+            if (guardar == true) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '../../GrupoFamiliars/GuardarGrupoFamiliar',
+                    data: {
+                        GrupoFamiliarApellidoNombre: grupoFamiliarApellidoNombre,
+                        GrupoFamiliarDNI: grupoFamiliarDNI,
+                        GrupoFamiliarSexo: grupoFamiliarSexo,
+                        GrupoFamiliarNacimiento: grupoFamiliarNacimiento,
+                        GrupoFamiliarSalud: grupoFamiliarSalud,
+                        GrupoFamiliarIngresos: grupoFamiliarIngresos,
+                        GrupoFamiliarVinculo: grupoFamiliarVinculo,
+                        GrupoFamiliarEscolaridad: grupoFamiliarEscolaridad,
+                        GrupoFamiliarOcupacion: grupoFamiliarOcupacion,
+                        PersonaID: personaID,
+                        GrupoFamiliarID: grupoFamiliarID
+                    },
+                    success: function (guardado) {
+                        if (guardado === true) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'El Pariente Fue guardado Correctamente En Grupo Familiar',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            VaciarFormulario();
+
+                            BuscarListadoGrupoFamiliar();
+                            $('body').removeAttr("style");
+                            $("#ModalCrearGrupoFamiliar").removeAttr("style");
+                            $(".modal-backdrop").remove();
+                            $("body").removeClass("modal-open");
+                        }
+                        else {
+                            $("#campo-obligatorio-GrupoFamiliarDNIEXISTENTE").removeClass("ocultar");
+                        }
+
+                    },
+                    error: function (data) {
+                        alert("Problemas al tratar de enviar el formulario");
+                    }
+                });
+            }
+        }
+
+        //funcion para limpiar los campos completados de la persona
+        function LimpiarPersona() {
+            $("#PersonaIDRelacionada").val(0);
+            $("#NombrePersonaRelacionadaCrear").val('');
+            $("#campo-obligatorio-NombrePersonaRelacionadaCrear").addClass("ocultar");
+            $("#PersonaExiste").addClass("ocultar");
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#NombrePersonaRelacionadaCrear").val();
+            var personaIDRelacionada = $("#PersonaIDRelacionada").val();
+            if (nombre == "" && personaIDRelacionada != 0) {
+                LimpiarPersona();
+            }
+        }
+
+        //DATOS PARA EDITAR
+        function DatosEditarGrupoFamiliar(grupoFamiliarID, origen) {
+
+            HabilitarInputPersona();
+
+            $.ajax({
+                type: "POST",
+                url: '../../GrupoFamiliars/DatosIntegranteDeFamilia',
+                data: { GrupoFamiliarID: grupoFamiliarID },
+                success: function (grupofamiliar) {
+                    $("#GrupoFamiliarID").val(grupofamiliar.GrupoFamiliarID);
+                    $("#GrupoFamiliarApellidoNombreCrear").val(grupofamiliar.GrupoFamiliarApellidoNombre).prop("disabled", true);
+                    $("#GrupoFamiliarDNICrear").val(grupofamiliar.GrupoFamiliarDNI);
+                    $("#GrupoFamiliarSexoCrear").val(grupofamiliar.GrupoFamiliarSexo);
+                    $("#GrupoFamiliarSaludCrear").val(grupofamiliar.GrupoFamiliarSalud);
+                    $("#GrupoFamiliarIngresosCrear").val(grupofamiliar.GrupoFamiliarIngresos);
+                    $("#GrupoFamiliarNacimientoCrear").val(grupofamiliar.GrupoFamiliarNacimientoString);
+                    $("#GrupoFamiliarVinculoCrear").val(grupofamiliar.GrupoFamiliarVinculo);
+                    $("#GrupoFamiliarEscolaridadCrear").val(grupofamiliar.GrupoFamiliarEscolaridad);
+                    $("#GrupoFamiliarOcupacionCrear").val(grupofamiliar.GrupoFamiliarOcupacion);
+                    $("#PersonaIDRelacionada").val(grupofamiliar.Personas.PersonaID);
+                    $("#botonCrearPersonaGrupoFamiliar").addClass("ocultar");
+                    $("#NombrePersonaRelacionadaCrear").val(grupofamiliar.Personas.PersonaApellidoNombre);
+
+                    if (origen == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                        $("#GrupoFamiliarApellidoNombreCrear").prop("disabled", true);
+                        $("#GrupoFamiliarDNICrear").prop("disabled", true);
+                        $("#GrupoFamiliarSexoCrear").prop("disabled", true);
+                        $("#GrupoFamiliarSaludCrear").prop("disabled", true);
+                        $("#GrupoFamiliarIngresosCrear").prop("disabled", true);
+                        $("#GrupoFamiliarNacimientoCrear").prop("disabled", true);
+                        $("#GrupoFamiliarVinculoCrear").prop("disabled", true);
+                        $("#GrupoFamiliarEscolaridadCrear").prop("disabled", true);
+                        $("#GrupoFamiliarOcupacionCrear").prop("disabled", true);
+                        $("#PersonaIDRelacionada").prop("disabled", true);
+                        $("#botonCrearPersonaGrupoFamiliar").addClass("ocultar");
+                        $("#NombrePersonaRelacionadaCrear").prop("disabled", true);
+
+                        $("#botonguardar").prop("hidden", true);
+                        $("#botoncancelar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+
+                        $("#ModalCrearGrupoFamiliar").modal("show");
+                    }
+                    else {
+                        $("#GrupoFamiliarApellidoNombreCrear").prop("disabled", false);
+                        $("#GrupoFamiliarDNICrear").prop("disabled", false);
+                        $("#GrupoFamiliarSexoCrear").prop("disabled", false);
+                        $("#GrupoFamiliarSaludCrear").prop("disabled", false);
+                        $("#GrupoFamiliarIngresosCrear").prop("disabled", false);
+                        $("#GrupoFamiliarNacimientoCrear").prop("disabled", false);
+                        $("#GrupoFamiliarVinculoCrear").prop("disabled", false);
+                        $("#GrupoFamiliarEscolaridadCrear").prop("disabled", false);
+                        $("#GrupoFamiliarOcupacionCrear").prop("disabled", false);
+                        $("#PersonaIDRelacionada").prop("disabled", false);
+                        $("#NombrePersonaRelacionadaCrear").prop("disabled", false);
+
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+
+
+                        $("#ModalCrearGrupoFamiliar").modal("show");
+                    }
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+
+            },
+
+            )
+        };
+        //Validacion para que tome la fecha actual como predeterminado
+        window.onload = FechaActual();
+        function FechaActual() {
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('GrupoFamiliarNacimientoCrear').value = ano + "-" + mes + "-" + dia;
+
+
+        }
+        //Crear
+        function crear() {
+            $("#GrupoFamiliarApellidoNombreCrear").prop("disabled", false);
+            $("#GrupoFamiliarDNICrear").prop("disabled", false);
+            $("#GrupoFamiliarSexoCrear").prop("disabled", false);
+            $("#GrupoFamiliarSaludCrear").prop("disabled", false);
+            $("#GrupoFamiliarIngresosCrear").prop("disabled", false);
+            $("#GrupoFamiliarNacimientoCrear").prop("disabled", false);
+            $("#GrupoFamiliarVinculoCrear").prop("disabled", false);
+            $("#GrupoFamiliarEscolaridadCrear").prop("disabled", false);
+            $("#GrupoFamiliarOcupacionCrear").prop("disabled", false);
+            $("#PersonaIDRelacionada").prop("disabled", false);
+            $("#NombrePersonaRelacionadaCrear").prop("disabled", false);
+
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+        }
+
+        //IMPRIMIR
+        function GenerarImpresion() {
+
+            //var doc = new jsPDF();//VERTICAL
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); ('LISTADO DEL GRUPO FAMILIAR', 38, 20);
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+
+                doc.setFontSize(18);
+
+                doc.text('LISTADO DE GRUPO FAMILIAR', 38, 25);
+                doc.setFontSize(18);
+
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 60 },
+                    1: { columnWidth: 60 },
+                    2: { columnWidth: 50 },
+                    3: { columnWidth: 50 },
+                    4: { columnWidth: 50 },
+
+                },
+
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 || opts.column.index == 3) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 || opts.column.index == 3) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+        }
+        //Eliminar
+        function EliminarGrupoFamiliar(GrupoFamiliarID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar este Pariente?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../GrupoFamiliars/EliminarGrupoFamiliar',
+                        data: { id: GrupoFamiliarID },
+                        success: function (guardado) {
+                            if (guardado === true) {
+                                BuscarListadoGrupoFamiliar();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Pariente.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Este Pariente esta relacionado con otros Registros',
+                                    'error'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+
+            })
+        }
+
+        //Vaciar el formulario
+        function VaciarFormulario() {
+
+            $("#GrupoFamiliarID").val(0);
+            $("#GrupoFamiliarApellidoNombreCrear").val('');
+            $("#GrupoFamiliarDNICrear").val('');
+            $("#GrupoFamiliarSexoCrear").val(2);
+            $("#GrupoFamiliarSaludCrear").val('');
+            $("#GrupoFamiliarIngresosCrear").val('');
+            $("#GrupoFamiliarNacimientoCrear").val("1920-01-01");
+            $("#GrupoFamiliarVinculoCrear").val('');
+            $("#GrupoFamiliarEscolaridadCrear").val('');
+            $("#GrupoFamiliarOcupacionCrear").val('');
+            $("#PersonaIDRelacionada").val(0);
+            $("#NombrePersonaRelacionadaCrear").val('');
+
+            $("#campo-obligatorio-GrupoFamiliarApellidoNombreCrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarDNICrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarIngresosCrear").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarVinculoCrear").addClass("ocultar");
+            $("#campo-obligatorio-NombrePersonaRelacionadaCrear").addClass("ocultar");
+            $("#ingresoValidacionmenor").addClass("ocultar");
+            $("#ingresoValidacionmayor").addClass("ocultar");
+            $("#campo-obligatorio-GrupoFamiliarDNIEXISTENTE").addClass("ocultar");
+
+
+
+        }
+        //FUNCION PARA CAMBIAR DE VISTA PARCIAL CUANDO EN EL FORMULARIO SE QUIERE CREAR UNA PERSONA NUEVA
+        function Cambiodevistaparcial() {
+            $("#ModalCrearGrupoFamiliar").modal("hide");
+            $("#ModalPersona").modal("show");
+
+        }
+        //FUNCION PARA VACIAL EL FORMULARIO CON LA FLECHA DE VOLVER PARA ATRAS Y TAMBIEN VUELVE A MOSTRAR EL MODAL DE FORMULARIO
+        function VaciarFormularioPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombreCrear").val('');
+            $("#PersonaTelefonoCrear").val('');
+            $("#PersonaDNICrear").val('');
+            $("#PersonaFechaNacimientoCrear").val('');
+            $("#Edad").val('');
+            $("#PersonaDireccionCrear").val('');
+            $("#LocalidadesNombreCrearPersona").val('');
+            $("#LocalidadesIDCrearPersona").val('');
+            $("#PersonaCorreoCrear").val('');
+            $("#PersonaSexoCrear").val('');
+            $("#PersonaCovidCrear").val('');
+            $("#PersonaObraSocialCrear").val('');
+            $("#ObraSocialCualCrear").val('');
+            $("#Email_Sistema").val('');
+            $("#Contrasenia_Sistema").val('');
+            $("#Tipo_Sistema").val('1');
+            $("#Opcion_Crear_Usuario").val('false');
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#ModalPersona").modal("hide");
+            setTimeout('$("#ModalCrearGrupoFamiliar").modal("show");', 500);
+            /*   $("#Modalformulario").modal("show");*/
+        }
+        //FUNCION PARA OCULTAR EL CREAR USUARIO EN EL MODAL DE CREAR PERSONA
+        window.onload = OcultarGuardadoUsuario();
+        function OcultarGuardadoUsuario() {
+            $("#PreguntaUsuario").prop("hidden", true);
+        }
+
+        function GuardarCrearPersona() {
+
+            var personaid = $("#PersonaID").val();
+            var personaApellidoNombre = $("#PersonaApellidoNombreCrear").val();
+            var personaTelefono = $("#PersonaTelefonoCrear").val();
+            var personaDni = $("#PersonaDNICrear").val();
+            var personaFechaNacimiento = $("#PersonaFechaNacimientoCrear").val();
+            var personaDireccion = $("#PersonaDireccionCrear").val();
+            var localidadesID = $("#LocalidadesIDCrearPersona").val();
+            var personaCorreo = $("#PersonaCorreoCrear").val();
+            var personaSexo = $("#PersonaSexoCrear").val();
+            var personaCovid = $("#PersonaCovidCrear").val();
+            var personaObraSocial = $("#PersonaObraSocialCrear").val();
+            var obraSocialCual = $("#ObraSocialCualCrear").val();
+
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#existe-PersonaDNICrear").addClass("ocultar");
+
+            var registrar = true;
+
+            if (personaApellidoNombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaApellidoNombreCrear").removeClass("ocultar");
+            }
+            if (personaTelefono == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaTelefonoCrear").removeClass("ocultar");
+            }
+            if (personaDni == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDNICrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDireccionCrear").removeClass("ocultar");
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/ValidacionDNIExiste',
+                data: {
+                    PersonaDNI: personaDni, PersonaID: personaid
+                },
+                success: function (Validaciondni) {
+                    if (Validaciondni == true) {
+                        if (registrar == true) {
+                            $.ajax({
+                                type: "POST",
+                                url: '../../Personas/GuardarPersona',
+                                data: {
+                                    PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                                    PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                                    PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                                    ObraSocialCual: obraSocialCual, PersonaID: personaid
+                                },
+                                success: function (PersonaID) {
+                                    BuscarInfoPersona(PersonaID);
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'La Persona Fue guardada Correctamente',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    $("#ModalPersona").modal("hide");
+                                    setTimeout('$("#ModalCrearGrupoFamiliar").modal("show");', 500);
+                                    BuscarInfoPersona(PersonaID);
+                                    VaciarFormularioPersona()
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'La Persona Fue guardada Correctamente',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                },
+
+                            });
+                        }
+                    }
+                    else {
+                        $("#existe-PersonaDNICrear").removeClass("ocultar");
+                    }
+
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+
+                }
+
+            });
+
+
+        }
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/GuardarLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                },
+                success: function (localidadID) {
+
+                    $("#ModalLocalidad").modal("hide");
+                    $("#ModalPersona").modal("show");
+                    BuscarInfoLocalidad(localidadID);
+
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+       
+        function Cambiodevistaparcial() {
+            $("#ModalCrearGrupoFamiliar").modal("hide");
+            $("#ModalPersona").modal("show");
+        }
+       
+
+        function BuscarInfoLocalidad(localidadesID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadesID },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrearPersona").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrearPersona").val(localidadMostrar.LocalidadesNombreCompleto);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        function CerrarModalLocalidad() {
+            $("#ModalLocalidad").modal("hide");
+            $("#ModalPersona").modal("show");
+        }
+
+        $("#PersonaObraSocialCrear").change(function () {
+            if ($(this).val() === "false") {
+                $("#div-obrasocial-cual").prop("hidden", true);
+            } else {
+                $("#div-obrasocial-cual").prop("hidden", false);
+            }
+        });
+
+
+    </script>
+}

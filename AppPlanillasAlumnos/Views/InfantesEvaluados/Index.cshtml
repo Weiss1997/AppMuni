@@ -1,0 +1,1043 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.InfantesEvaluados>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Infantes evaluados</h2>
+
+
+<div class="modal fade" id="ModalInfantesEvaluados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <nav id="navegador" class="ocultar">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="nav-home" data-toggle="tab" href="#nav-Formulario" role="tab" aria-controls="nav-home" aria-selected="true">Infantes evaluados</a>
+                        <a class="nav-item nav-link" id="nav-profile1" data-toggle="tab" href="#nav-SegundoControl" role="tab" aria-controls="nav-profile" aria-selected="false">2 Control</a>
+                        <a class="nav-item nav-link" id="nav-profile2" data-toggle="tab" href="#nav-TercerControl" role="tab" aria-controls="nav-profile" aria-selected="false">3 Control</a>
+                        <a class="nav-item nav-link" id="nav-profile3" data-toggle="tab" href="#nav-CuartoControl" role="tab" aria-controls="nav-profile" aria-selected="false">4 Control</a>
+                    </div>
+                </nav>
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFANTES EVALUADOS</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="tab-pane fade show active" id="nav-Formulario" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="text-center text-dark letratitulo TituloDerivacion">DATOS DEL INFANTE</h3>
+                                <input type="hidden" id="InfanteEvaluadoID" value="0" class="form-control" />
+                                <hr />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Fecha</label>
+                                <input type="date" disabled id="InfantesEvaluadosFecha" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Historial clinico</label>
+                                <input id="InfantesEvaluadosHistorialClinico" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group row col-12 col-lg-5">
+                                <div class="text-left col-12">
+                                    <label class="control-label TextoNegroFormulario text-center" style="text-transform:uppercase">persona relacionada<span class="rojo">*</span></label>
+                                </div>
+                                <div class="form-group col-10">
+                                    <input type="hidden" id="PersonaIDInfante" name="PersonaIDInfante" value="0" />
+                                    <input id="PersonaNombreInfante" name="PersonaNombreInfante" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" onKeyUp="ControlarAutocompletadoPersona()" onKeyDown="ControlarAutocompletadoPersona()">
+                                    <label id="PersonaNombreValidacion" class="control-label ocultar validaciones">DEBE ESCRIBIR EL NOMBRE DE LA PERSONA</label>
+                                    <label id="PersonaIDValidacion" class="control-label ocultar validaciones">EL NOMBRE DE LA PERSONA NO EXISTE</label>
+                                    <label id="PersonaExiste" class="control-label ocultar validaciones">La persona ya existe para este formulario</label>
+                                </div>
+                                <div class="form-group col-1">
+                                    <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" onclick="CambiodevistaparcialFormulario()">
+                                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class=" form-group col-12 col-lg-2">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Sexo</label>
+                                <input disabled id="PersonaSexo" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-2">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Edad</label>
+                                <input type="text" disabled id="PersonaEdad" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-3">
+                                <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="F.Nacimiento" data-desktoptext="Fecha de Nacimiento" style="text-transform:uppercase"></label>
+                                <input type="date" disabled id="PersonaFechaNacimiento" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="Edad P/Prematuro" data-desktoptext="Edad Corregida (prematuro)" style="text-transform:uppercase"></label>
+                                <input id="InfantesEvaluadosEdadCorregidaPrematuro" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Respuesta a la prueba</label>
+                                <input id="InfantesEvaluadosRespuestaPrueba" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-6">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Observación</label>
+                                <textarea class="form-control TextArea-Modal" rows="8" cols="69" id="InfantesEvaluadosObservacion"></textarea>
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Proximo control</label>
+                                <input id="InfantesEvaluadosProximoControl" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-SegundoControl" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">segundo control</label>
+                                <input type="date" id="InfantesEvaluadosSegundoControl" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Respuesta a la prueba</label>
+                                <input id="InfantesEvaluadosRespuestaPrueba2" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Observación</label>
+                                @*<input id="InfantesEvaluadosObservacion2" class="form-control form-control-rounded" style="text-transform:uppercase" />*@
+                                <textarea class="form-control TextArea-Modal" rows="8" cols="69" id="InfantesEvaluadosObservacion2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-TercerControl" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">3 control</label>
+                                <input type="date" id="InfantesEvaluadosTercerControl" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Respuesta a la prueba</label>
+                                <input id="InfantesEvaluadosRespuestaPrueba3" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Observación</label>
+                                @*<input id="InfantesEvaluadosObservacion3" class="form-control form-control-rounded" style="text-transform:uppercase" />*@
+                                <textarea class="form-control TextArea-Modal" rows="8" cols="69" id="InfantesEvaluadosObservacion3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-CuartoControl" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">4 control</label>
+                                <input type="date" id="InfantesEvaluadosCuartoControl" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Respuesta a la prueba</label>
+                                <input id="InfantesEvaluadosRespuestaPrueba4" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Observación</label>
+                                @*<input id="InfantesEvaluadosObservacion4" class="form-control form-control-rounded" style="text-transform:uppercase" />*@
+                                <textarea class="form-control TextArea-Modal" rows="8" cols="69" id="InfantesEvaluadosObservacion4"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2" id="OcultarDetalle">
+                    <button type="button" class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidarPersona()" id="botonguardar" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    @*//SOLO PARA EL DETALLE*@
+                    <button class="ocultar BotonVolver" id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu imagen-link" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" onclick="crear()" class="SombraBoton  TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalInfantesEvaluados">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/carpetae.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion();">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoInfantes">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalInfoInfantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. INFANTES EVALUADOS</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+                        
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/3NGm0G77KL0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("../../Views/Localidades/Create")
+@Html.Partial("../../Views/Personas/_CrearPersona")
+
+
+<table class="table table-bordered table-active table-hover tablaCasillas" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th style="width:130px" class="text-center ocultar400 text-white">Fecha</th>
+            <th style="width:300px" class="text-left text-white">Nombre y Apellido</th>
+            <th style="width:150px" class="text-left text-white ocultar640">Sexo</th>
+            <th style="width:200px" class="text-center text-white ocultar770">Fecha de nacimiento</th>
+            <th style="width:100px" class="text-center text-white ocultar860">Edad</th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-infantesEvaluados" class="tablaCasillas">
+    </tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                NOMBRE COMPLETO
+            </th>
+            <th>
+                SEXO
+            </th>
+            <th>
+                FECHA DE NACIMIENTO
+            </th>
+            <th>
+                EDAD
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-infantesEvaluadoshidden" class="tablaCasillas">
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+
+        function ValidarPersona() {
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+
+            var personaID = $("#PersonaIDInfante").val();
+            var personaNombre = $("#PersonaNombreInfante").val();
+
+            var ValidacionPersonaID = true;
+            var ValidacionPersonaNombre = true;
+
+            if (personaNombre == "" || personaNombre == null) {
+                $("#PersonaNombreValidacion").removeClass("ocultar");
+                ValidacionPersonaNombre = false;
+            }
+            else {
+                if (personaID == 0 || personaID == null) {
+                    $("#PersonaIDValidacion").removeClass("ocultar");
+                    ValidacionPersonaID = false;
+                }
+            }
+
+            if (ValidacionPersonaNombre == true && ValidacionPersonaID == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../InfantesEvaluados/ValidacionDePersonaExiste',
+                    data: { PersonaID: personaID },
+                    success: function (Validacion) {
+                        if (Validacion == true) {
+                            $("#PersonaIDValidacion").addClass("ocultar");
+                            GuardarInfanteEvaluado();
+                        } else {
+                            $("#PersonaIDValidacion").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        //funcion Crear
+        function GuardarInfanteEvaluado() {
+            var infantesEvaluadosFecha = $("#InfantesEvaluadosFecha").val();
+            var infantesEvaluadosHistorialClinico = $("#InfantesEvaluadosHistorialClinico").val();
+            var personaID = $("#PersonaIDInfante").val();
+            var infantesEvaluadosEdadCorregidaPrematuro = $("#InfantesEvaluadosEdadCorregidaPrematuro").val();
+            var infantesEvaluadosRespuestaPrueba = $("#InfantesEvaluadosRespuestaPrueba").val();
+            var infantesEvaluadosObservacion = $("#InfantesEvaluadosObservacion").val();
+            var infantesEvaluadosProximoControl = $("#InfantesEvaluadosProximoControl").val();
+            var infantesEvaluadosSegundoControl = $("#InfantesEvaluadosSegundoControl").val();
+            var infantesEvaluadosRespuestaPrueba2 = $("#InfantesEvaluadosRespuestaPrueba2").val();
+            var infantesEvaluadosObservacion2 = $("#InfantesEvaluadosObservacion2").val();
+            var infantesEvaluadosTercerControl = $("#InfantesEvaluadosTercerControl").val();
+            var infantesEvaluadosRespuestaPrueba3 = $("#InfantesEvaluadosRespuestaPrueba3").val();
+            var infantesEvaluadosObservacion3 = $("#InfantesEvaluadosObservacion3").val();
+            var infantesEvaluadosCuartoControl = $("#InfantesEvaluadosCuartoControl").val();
+            var infantesEvaluadosRespuestaPrueba4 = $("#InfantesEvaluadosRespuestaPrueba4").val();
+            var infantesEvaluadosObservacion4 = $("#InfantesEvaluadosObservacion4").val();
+            var infanteEvaluadoID = $("#InfanteEvaluadoID").val();
+
+            $("#PersonaExiste").addClass("ocultar");
+
+            $.ajax({
+                type: "POST",
+                url: '../../InfantesEvaluados/GuardarInfanteEvaluado',
+                data: {
+                    InfantesEvaluadosFecha: infantesEvaluadosFecha,
+                    InfantesEvaluadosHistorialClinico: infantesEvaluadosHistorialClinico,
+                    PersonaID: personaID,
+                    InfantesEvaluadosEdadCorregidaPrematuro: infantesEvaluadosEdadCorregidaPrematuro,
+                    InfantesEvaluadosRespuestaPrueba: infantesEvaluadosRespuestaPrueba,
+                    InfantesEvaluadosObservacion: infantesEvaluadosObservacion,
+                    InfantesEvaluadosProximoControl: infantesEvaluadosProximoControl,
+                    InfantesEvaluadosSegundoControl: infantesEvaluadosSegundoControl,
+                    InfantesEvaluadosRespuestaPrueba2: infantesEvaluadosRespuestaPrueba2,
+                    InfantesEvaluadosObservacion2: infantesEvaluadosObservacion2,
+                    InfantesEvaluadosTercerControl: infantesEvaluadosTercerControl,
+                    InfantesEvaluadosRespuestaPrueba3: infantesEvaluadosRespuestaPrueba3,
+                    InfantesEvaluadosObservacion3: infantesEvaluadosObservacion3,
+                    InfantesEvaluadosCuartoControl: infantesEvaluadosCuartoControl,
+                    InfantesEvaluadosRespuestaPrueba4: infantesEvaluadosRespuestaPrueba4,
+                    InfantesEvaluadosObservacion4: infantesEvaluadosObservacion4,
+                    InfanteEvaluadoID: infanteEvaluadoID,
+                },
+
+                success: function (guardado) {
+                    if (guardado == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'El registro del Infante fue guardado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#PersonaExiste").addClass("ocultar");
+                        VaciarFormulario();
+                        BuscarListadoInfantesEvaluados();
+                    }
+                    else {
+                        $("#PersonaExiste").removeClass("ocultar");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //Funcion Buscar/mostrar Infante evaluado
+        window.onload = BuscarListadoInfantesEvaluados();
+
+        function BuscarListadoInfantesEvaluados() {
+            $.ajax({
+                type: "POST",
+                url: '../../InfantesEvaluados/BuscarListadoInfantesEvaluados',
+                data: {},
+                success: function (infantesEvaluadosMostrar) {
+                    $("#ModalInfantesEvaluados").modal("hide");
+
+                    $("#tbody-infantesEvaluados").empty();
+                    $("#tbody-infantesEvaluadoshidden").empty();
+
+                    $.each(infantesEvaluadosMostrar, function (index, infanteEvaluado) {
+
+                        $("#tbody-infantesEvaluados").append('<tr>' +
+                            '<td class="text-center ocultar400  TextoNegroTablas ContenidoTablaGris">' +
+                            infanteEvaluado.InfantesEvaluadosFechaString +
+                            '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            infanteEvaluado.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td class="text-left text-uppercase TextoNegroTablas ContenidoTablaGris ocultar640">' +
+                            infanteEvaluado.PersonaSexoString +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas ContenidoTablaGris ocultar770">' +
+                            infanteEvaluado.PersonaFechaNacimientoString +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas ContenidoTablaGris ocultar860">' +
+                            infanteEvaluado.PersonaEdad +
+                            '</td>' +
+                            '<td  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoInfanteEvaluado(' + infanteEvaluado.InfantesEvaluadosID + ',0)" data-toggle="modal" data-target="#ModalInfantesEvaluados"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoInfanteEvaluado(' + infanteEvaluado.InfantesEvaluadosID + ',1)" data-toggle="modal" data-target="#ModalInfantesEvaluados"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarInfanteEvaluado(' + infanteEvaluado.InfantesEvaluadosID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+                        $("#tbody-infantesEvaluadoshidden").append('<tr>' +
+                            '<td>' +
+                            infanteEvaluado.InfantesEvaluadosFechaString +
+                            '</td>' +
+                            '<td>' +
+                            infanteEvaluado.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td>' +
+                            infanteEvaluado.PersonaSexoString +
+                            '</td>' +
+                            '<td>' +
+                            infanteEvaluado.PersonaFechaNacimientoString +
+                            '</td>' +
+                            '<td>' +
+                            infanteEvaluado.PersonaEdad +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function BuscarInfoInfanteEvaluado(InfanteEvaluadoID, detalle) {
+            $.ajax({
+                type: "POST",
+                url: '../../InfantesEvaluados/BuscarInfoInfanteEvaluado',
+                data: { InfanteEvaluadoID: InfanteEvaluadoID },
+                success: function (infanteEvaluadoMostrar) {
+                    $("#InfanteEvaluadoID").val(infanteEvaluadoMostrar.InfantesEvaluadosID);
+                    $("#InfantesEvaluadosFecha").val(infanteEvaluadoMostrar.InfantesEvaluadosFechaString);
+                    $("#InfantesEvaluadosHistorialClinico").val(infanteEvaluadoMostrar.InfantesEvaluadosHistorialClinico);
+                    $("#PersonaIDInfante").val(infanteEvaluadoMostrar.PersonaID);
+                    $("#PersonaNombreInfante").val(infanteEvaluadoMostrar.PersonaApellidoNombre);
+                    $("#PersonaSexo").val(infanteEvaluadoMostrar.PersonaSexoString);
+                    $("#PersonaFechaNacimiento").val(infanteEvaluadoMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaEdad").val(infanteEvaluadoMostrar.PersonaEdad);
+                    $("#InfantesEvaluadosEdadCorregidaPrematuro").val(infanteEvaluadoMostrar.InfantesEvaluadosEdadCorregidaPrematuro);
+                    $("#InfantesEvaluadosRespuestaPrueba").val(infanteEvaluadoMostrar.InfantesEvaluadosRespuestaPrueba);
+                    $("#InfantesEvaluadosObservacion").val(infanteEvaluadoMostrar.InfantesEvaluadosObservacion);
+                    $("#InfantesEvaluadosProximoControl").val(infanteEvaluadoMostrar.InfantesEvaluadosProximoControl);
+                    $("#InfantesEvaluadosSegundoControl").val(infanteEvaluadoMostrar.InfantesEvaluadosSegundoControlString);
+                    $("#InfantesEvaluadosRespuestaPrueba2").val(infanteEvaluadoMostrar.InfantesEvaluadosRespuestaPrueba2);
+                    $("#InfantesEvaluadosObservacion2").val(infanteEvaluadoMostrar.InfantesEvaluadosObservacion2);
+                    $("#InfantesEvaluadosTercerControl").val(infanteEvaluadoMostrar.InfantesEvaluadosTercerControlString);
+                    $("#InfantesEvaluadosRespuestaPrueba3").val(infanteEvaluadoMostrar.InfantesEvaluadosRespuestaPrueba3);
+                    $("#InfantesEvaluadosObservacion3").val(infanteEvaluadoMostrar.InfantesEvaluadosObservacion3);
+                    $("#InfantesEvaluadosCuartoControl").val(infanteEvaluadoMostrar.InfantesEvaluadosCuartoControlString);
+                    $("#InfantesEvaluadosRespuestaPrueba4").val(infanteEvaluadoMostrar.InfantesEvaluadosRespuestaPrueba4);
+                    $("#InfantesEvaluadosObservacion4").val(infanteEvaluadoMostrar.InfantesEvaluadosObservacion4);
+
+                    $("#navegador").removeClass("ocultar");
+                    $("#exampleModalLabel").addClass("ocultar");
+
+                    if (detalle == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                        $("#InfanteEvaluadoID").prop("disabled", true);
+                        $("#InfantesEvaluadosFecha").prop("disabled", true);
+                        $("#InfantesEvaluadosHistorialClinico").prop("disabled", true);
+                        $("#PersonaNombreInfante").prop("disabled", true);
+                        $("#InfantesEvaluadosEdadCorregidaPrematuro").prop("disabled", true);
+                        $("#InfantesEvaluadosRespuestaPrueba").prop("disabled", true);
+                        $("#InfantesEvaluadosObservacion").prop("disabled", true);
+                        $("#InfantesEvaluadosProximoControl").prop("disabled", true);
+                        $("#InfantesEvaluadosSegundoControl").prop("disabled", true);
+                        $("#InfantesEvaluadosRespuestaPrueba2").prop("disabled", true);
+                        $("#InfantesEvaluadosObservacion2").prop("disabled", true);
+                        $("#InfantesEvaluadosTercerControl").prop("disabled", true);
+                        $("#InfantesEvaluadosRespuestaPrueba3").prop("disabled", true);
+                        $("#InfantesEvaluadosObservacion3").prop("disabled", true);
+                        $("#InfantesEvaluadosCuartoControl").prop("disabled", true);
+                        $("#InfantesEvaluadosRespuestaPrueba4").prop("disabled", true);
+                        $("#InfantesEvaluadosObservacion4").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+
+                        $("#ModalInfantesEvaluados").modal("show");
+                    }
+                    else {
+                        $("#InfanteEvaluadoID").prop("disabled", false);
+                        $("#InfantesEvaluadosHistorialClinico").prop("disabled", false);
+                        $("#PersonaNombreInfante").prop("disabled", false);
+                        $("#InfantesEvaluadosEdadCorregidaPrematuro").prop("disabled", false);
+                        $("#InfantesEvaluadosRespuestaPrueba").prop("disabled", false);
+                        $("#InfantesEvaluadosObservacion").prop("disabled", false);
+                        $("#InfantesEvaluadosProximoControl").prop("disabled", false);
+                        $("#InfantesEvaluadosSegundoControl").prop("disabled", false);
+                        $("#InfantesEvaluadosRespuestaPrueba2").prop("disabled", false);
+                        $("#InfantesEvaluadosObservacion2").prop("disabled", false);
+                        $("#InfantesEvaluadosTercerControl").prop("disabled", false);
+                        $("#InfantesEvaluadosRespuestaPrueba3").prop("disabled", false);
+                        $("#InfantesEvaluadosObservacion3").prop("disabled", false);
+                        $("#InfantesEvaluadosCuartoControl").prop("disabled", false);
+                        $("#InfantesEvaluadosRespuestaPrueba4").prop("disabled", false);
+                        $("#InfantesEvaluadosObservacion4").prop("disabled", false);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+
+                        $("#ModalInfantesEvaluados").modal("show");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function crear() {
+            $("#InfanteEvaluadoID").prop("disabled", false);
+            $("#InfantesEvaluadosHistorialClinico").prop("disabled", false);
+            $("#PersonaNombreInfante").prop("disabled", false);
+            $("#InfantesEvaluadosEdadCorregidaPrematuro").prop("disabled", false);
+            $("#InfantesEvaluadosRespuestaPrueba").prop("disabled", false);
+            $("#InfantesEvaluadosObservacion").prop("disabled", false);
+            $("#InfantesEvaluadosProximoControl").prop("disabled", false);
+            $("#InfantesEvaluadosSegundoControl").prop("disabled", false);
+            $("#InfantesEvaluadosRespuestaPrueba2").prop("disabled", false);
+            $("#InfantesEvaluadosObservacion2").prop("disabled", false);
+            $("#InfantesEvaluadosTercerControl").prop("disabled", false);
+            $("#InfantesEvaluadosRespuestaPrueba3").prop("disabled", false);
+            $("#InfantesEvaluadosObservacion3").prop("disabled", false);
+            $("#InfantesEvaluadosCuartoControl").prop("disabled", false);
+            $("#InfantesEvaluadosRespuestaPrueba4").prop("disabled", false);
+            $("#InfantesEvaluadosObservacion4").prop("disabled", false);
+            $("#BotonVolver").addClass("ocultar");
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            
+        }
+
+        //autocompletado de persona
+        $("#PersonaNombreInfante").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaIDInfante").val(ui.item.id);
+                BuscarInfoPersona(ui.item.id);
+            }
+        });
+        function BuscarInfoPersona(personaID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/BuscarInfoPersona',
+                data: { PersonaID: personaID },
+                success: function (personaMostrar) {
+                    $("#PersonaFechaNacimiento").val(personaMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaEdad").val(personaMostrar.PersonaEdad);
+                    $("#PersonaSexo").val(personaMostrar.PersonaSexoString);
+                    $("#PersonaIDInfante").val(personaMostrar.PersonaID);
+                    $("#PersonaNombreInfante").val(personaMostrar.PersonaApellidoNombre);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function EliminarInfanteEvaluado(InfanteEvaluadoID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar éste registro?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../InfantesEvaluados/EliminarInfanteEvaluado',
+                        data: { id: InfanteEvaluadoID },
+                        success: function (guardado) {
+                            if (guardado === true) {
+
+                                BuscarListadoInfantesEvaluados();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Registro.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (data) {
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }
+            })
+        }
+
+        //INICIO FUNCION VACIAR FORMULARIO
+        function VaciarFormulario() {
+            $("#InfanteEvaluadoID").val(0);
+            $("#PersonaIDInfante").val(0);
+            $("#PersonaNombreInfante").val('');
+            $("#navegador").addClass("ocultar");
+            $("#exampleModalLabel").removeClass("ocultar");
+
+            $("#InfantesEvaluadosHistorialClinico").val('');
+            $("#PersonaFechaNacimiento").val('dd/mm/aaaa');
+            $("#PersonaSexo").val('');
+            $("#PersonaEdad").val('');
+            $("#InfantesEvaluadosEdadCorregidaPrematuro").val('');
+            $("#InfantesEvaluadosRespuestaPrueba").val('');
+            $("#InfantesEvaluadosObservacion").val('');
+            $("#InfantesEvaluadosProximoControl").val('');
+            $("#InfantesEvaluadosSegundoControl").val('1920-01-01');
+            $("#InfantesEvaluadosRespuestaPrueba2").val('');
+            $("#InfantesEvaluadosObservacion2").val('');
+            $("#InfantesEvaluadosTercerControl").val('1920-01-01');
+            $("#InfantesEvaluadosRespuestaPrueba3").val('');
+            $("#InfantesEvaluadosObservacion3").val('');
+            $("#InfantesEvaluadosCuartoControl").val('1920-01-01');
+            $("#InfantesEvaluadosRespuestaPrueba4").val('');
+            $("#InfantesEvaluadosObservacion4").val('');
+
+            $("#campo-obligatorio-PersonaID").addClass("ocultar");
+            $("#campo-obligatorio-Fecha").addClass("ocultar");
+            $("#campo-obligatorio-Observacion").addClass("ocultar");
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+            $("#PersonaExiste").addClass("ocultar");
+        }
+
+        //Fecha actual por defecto
+        window.onload = FechaActual();
+        function FechaActual() {
+            var FechaPredeterminada = "1920-01-01";
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('InfantesEvaluadosFecha').value = ano + "-" + mes + "-" + dia;
+            document.getElementById('InfantesEvaluadosSegundoControl').value = FechaPredeterminada;
+            document.getElementById('InfantesEvaluadosTercerControl').value = FechaPredeterminada;
+            document.getElementById('InfantesEvaluadosCuartoControl').value = FechaPredeterminada;
+        }
+
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#PersonaNombreInfante").val();
+            var personaID = $("#PersonaIDInfante").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarPersona();
+            }
+        }
+        //funcion para limpiar los campos completados de localidad
+        function LimpiarPersona() {
+            $("#PersonaIDInfante").val(0);
+            $("#PersonaNombreInfante").val('');
+            $("#PersonaFechaNacimiento").val('');
+            $("#PersonaEdad").val('');
+            $("#PersonaSexo").val('');
+            $("#campo-obligatorio-personaID").addClass("ocultar");
+            /* $("#PersonaExiste").addClass("ocultar");*/
+        }
+
+        //FUNCION PARA CAMBIAR DE VISTA PARCIAL CUANDO EN EL FORMULARIO SE QUIERE CREAR UNA PERSONA NUEVA
+        function CambiodevistaparcialFormulario() {
+            $("#Modalformulario").modal("hide");
+            $("#ModalPersona").modal("show");
+        }
+
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+        //FUNCION PARA VACIAL EL FORMULARIO CON LA FLECHA DE VOLVER PARA ATRAS Y TAMBIEN VUELVE A MOSTRAR EL MODAL DE FORMULARIO
+        function VaciarFormularioPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombreCrear").val('');
+            $("#PersonaTelefonoCrear").val('');
+            $("#PersonaDNICrear").val('');
+            $("#PersonaFechaNacimientoCrear").val('');
+            $("#Edad").val('');
+            $("#PersonaDireccionCrear").val('');
+            $("#LocalidadesNombreCrearPersona").val('');
+            $("#LocalidadesIDCrearPersona").val('');
+            $("#PersonaCorreoCrear").val('');
+            $("#PersonaSexoCrear").val('');
+            $("#PersonaCovidCrear").val('');
+            $("#PersonaObraSocialCrear").val('');
+            $("#ObraSocialCualCrear").val('');
+            $("#Email_Sistema").val('');
+            $("#Contrasenia_Sistema").val('');
+            $("#Tipo_Sistema").val('1');
+            $("#Opcion_Crear_Usuario").val('false');
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#ModalPersona").modal("hide");
+            $("#Modalformulario").modal("show");
+        }
+        //FUNCION PARA OCULTAR EL CREAR USUARIO EN EL MODAL DE CREAR PERSONA
+        window.onload = OcultarGuardadoUsuario();
+        function OcultarGuardadoUsuario() {
+            $("#PreguntaUsuario").prop("hidden", true);
+        }
+
+        function GuardarCrearPersona() {
+
+            var personaid = $("#PersonaID").val();
+            var personaApellidoNombre = $("#PersonaApellidoNombreCrear").val();
+            var personaTelefono = $("#PersonaTelefonoCrear").val();
+            var personaDni = $("#PersonaDNICrear").val();
+            var personaFechaNacimiento = $("#PersonaFechaNacimientoCrear").val();
+            var personaDireccion = $("#PersonaDireccionCrear").val();
+            var localidadesID = $("#LocalidadesIDCrearPersona").val();
+            var personaCorreo = $("#PersonaCorreoCrear").val();
+            var personaSexo = $("#PersonaSexoCrear").val();
+            var personaCovid = $("#PersonaCovidCrear").val();
+            var personaObraSocial = $("#PersonaObraSocialCrear").val();
+            var obraSocialCual = $("#ObraSocialCualCrear").val();
+            //VER!!!
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+
+            var registrar = true;
+
+            if (personaApellidoNombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaApellidoNombreCrear").removeClass("ocultar");
+            }
+            if (personaTelefono == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaTelefonoCrear").removeClass("ocultar");
+            }
+            if (personaDni == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDNICrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDireccionCrear").removeClass("ocultar");
+            }
+
+            if (registrar) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Personas/GuardarPersona',
+                    data: {
+                        PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                        PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                        PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                        ObraSocialCual: obraSocialCual, PersonaID: personaid
+                    },
+                    success: function (PersonaID) {
+                        $("#ModalPersona").modal("hide");
+                        $("#Modalformulario").modal("show");
+                        BuscarInfoPersona(PersonaID);
+                        VaciarFormularioPersona()
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'La Persona Fue guardada Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        /*Seccion para Autocompletado.*/
+        $("#LocalidadesNombreCrearPersona").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Localidades/BuscarLocalidades',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (localidadesMostrar) {
+                        response($.map(localidadesMostrar, function (localidadMostrar) {
+                            return {
+                                id: localidadMostrar.LocalidadesID,
+                                value: localidadMostrar.LocalidadesNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#LocalidadesIDCrearPersona").val(ui.item.id);
+                $("#LocalidadesNombreCrearPersona").val(ui.item.value);
+            }
+        });
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/GuardarLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                },
+                success: function (localidadID) {
+                    $("#ModalPersona").modal("show");
+                    $("#ModalLocalidad").modal("hide");
+                    BuscarInfoLocalidad(localidadID);
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function Cambiodevistaparcial() {
+            $("#ModalPersona").modal("hide");
+            $("#ModalLocalidad").modal("show");
+        }
+
+        function BuscarInfoLocalidad(localidadesID) {
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadesID },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrearPersona").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrearPersona").val(localidadMostrar.LocalidadesNombreCompleto);
+                },
+                error: function (data) {
+                }
+            });
+        }
+        function CerrarModalLocalidad() {
+            $("#ModalLocalidad").modal("hide");
+            $("#ModalPersona").modal("show");
+        }
+
+
+        //COMIENZO DE IMPRIMIR LISTADO//
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /* var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+                doc.setFontSize(14);
+
+                doc.text(' INFANTES EVALUADOS', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 20 },
+                    1: { columnWidth: 60 },
+                    2: { columnWidth: 25 },
+                    3: { columnWidth: 60 },
+                    4: { columnWidth: 20 },
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1/* || opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+        function CerrarModalVideo() {
+            $('iframe').removeAttr('src');
+            $("#ModalEspecializacion").modal("hide");
+
+        }
+
+        function AbrirModalVideo() {
+            $("#ModalEspecializacion").modal("show");
+            $('iframe').attr('src', 'https://www.youtube.com/embed/3NGm0G77KL0');
+        }
+    </script>
+}
+

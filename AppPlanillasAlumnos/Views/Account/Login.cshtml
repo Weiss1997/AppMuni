@@ -1,0 +1,58 @@
+﻿@using AppPlanillasAlumnos.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Iniciar sesión";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Login/Login.css" rel="stylesheet" />
+
+
+<div class="capa-exterior">
+    <div class="capa-interior">
+
+        <div class="register-info-box">
+            <img src="~/img/LogoSinFondo.png"  width="130" height="150" />
+            @*<img src="~/Content/dashtreme-master/assets/images/ICONO.ico" width="146" height="120" />*@
+            <h2>¿No tienes una cuenta?</h2>
+            <p>Solicítala al administrador de la pagina</p>
+
+        </div>
+
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+           
+    <div class="white-panel">
+        <div class="login-show">
+            <h2>LOGIN</h2>
+            @Html.TextBoxFor(m => m.Email, new { @class = "txtCarga", placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+            @Html.PasswordFor(m => m.Password, new { @class = "txtCarga", placeholder = "Contraseña" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <input type="submit" class="btnLogin" value="Iniciar Sesión">
+        </div>
+        <img class="ocultarimg" src="~/img/LogoSinFondo.png" width="120" height="120"/>
+        @*<img class="ocultarimg" src="~/Content/dashtreme-master/assets/images/ICONO.ico" width="146" height="120" />*@
+    </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Login/Login.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        (function borrarCookie() {
+        var expiracion = new Date();
+        expiracion.setTime(expiracion.getTime() - 3600);
+        document.cookie = 'userInfo=; expires=' + expiracion.toGMTString() + '; path=/';
+        })();
+</script>
+}

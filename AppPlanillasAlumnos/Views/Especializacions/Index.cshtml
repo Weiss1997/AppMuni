@@ -1,0 +1,262 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Especializacion>
+
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">ESPECIALIZACIONES</h2>
+
+<div class="row">
+        <div class="col-12 col-md-4 EspaciadoBoton">
+            <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BÚSQUEDA" />
+        </div>
+        <div class="col-auto">
+            <!-- Button trigger modal -->
+            <button class="SombraBoton TextoNegroTablas ColorCelesteBoton" data-toggle="modal" data-target="#ModalEspecializacion">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/trabajo.png" class="icono-menu" />
+                Crear
+            </button>
+        </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalEspecializacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">ESPECIALIZACION</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" onclick="LimpiarModalEspecializaciones()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="control-label TextoNegroFormulario text-left">Nombre</label>
+                            <input type="hidden" id="EspecializacionID" name="EspecializacionID" value="0" />
+                            <input type="text" id="EspecializacionNombre" autocomplete="off" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <label id="EspecializacionNombreValidacion" class="control-label ocultar validaciones">Debe Escribir una Especialidad <span class="rojo">*</span></label>
+                            <label id="EspecializacionExistente" class="control-label ocultar validaciones">La Especialidad ya existe</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" onclick="LimpiarModalEspecializaciones()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidacionEspecialidadCrear()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white ">
+                Nombre de la Especializacion
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-especializaciones">
+        @*se completa con Json*@
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        window.onload = BuscarListadoEspecializaciones();
+
+        function BuscarListadoEspecializaciones() {
+            //tbody-especializaciones
+            $.ajax({
+                type: "POST",
+                url: '../../Especializacions/BuscarListadoEspecializaciones',
+                data: {},
+                success: function (especializacionesmostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+
+                    $("#tbody-especializaciones").empty();
+
+                    $.each(especializacionesmostrar, function (index, especializacion) {
+
+                        $("#tbody-especializaciones").append('<tr>' +
+
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            especializacion.EspecializacionNombre +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="EditarEspecializacion(' + especializacion.EspecializacionID + ')" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalEspecializacion"/>' +
+                            '</a>' + '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a class="btn-circle-index" onclick="EliminarEspecializacion(' + especializacion.EspecializacionID + ')"  ><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function LimpiarModalEspecializaciones() {
+            $("#EspecializacionNombre").val('');
+            $("#EspecializacionID").val(0);
+            $("#EspecializacionNombreValidacion").addClass("ocultar");
+            $("#EspecializacionExistente").addClass("ocultar");
+        }
+
+        function ValidacionEspecialidadCrear() {
+            var especializacionNombre = $("#EspecializacionNombre").val();
+            $("#EspecializacionNombreValidacion").addClass("ocultar");
+            $("#EspecializacionExistente").addClass("ocultar");
+            if (especializacionNombre != "" && especializacionNombre != null) {
+                GuardarCambios();
+            } else {
+                $("#EspecializacionNombreValidacion").removeClass("ocultar");
+            }
+        }
+
+        function GuardarCambios() {
+            var especializacionNombre = $("#EspecializacionNombre").val();
+            var especializacionID = $("#EspecializacionID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Especializacions/GuardarEspecializacion',
+                data: { EspecializacionNombre: especializacionNombre, EspecializacionID: especializacionID },
+                success: function (validacion) {
+                    if (validacion === false) {
+                        $("#EspecializacionExistente").removeClass("ocultar");
+                    } else {
+                        BuscarListadoEspecializaciones();
+                        LimpiarModalEspecializaciones();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'La Especialidad Fue Guardada Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#ModalEspecializacion").modal("hide");
+
+                    }
+
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function EditarEspecializacion(especializacionID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Especializacions/EditarEspecializacion',
+                data: { EspecializacionID: especializacionID },
+                success: function (especializacionmostrar) {
+                    $("#EspecializacionID").val(especializacionmostrar.EspecializacionID);
+                    $("#EspecializacionNombre").val(especializacionmostrar.EspecializacionNombre);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+
+        function EliminarEspecializacion(especializacionID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta Especialidad?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Especializacions/EliminarEspecializacion',
+                        data: { EspecializacionID: especializacionID },
+                        success: function (validacion) {
+                            if (validacion === true) {
+                                BuscarListadoEspecializaciones();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta Especializacion.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Esta Especialidad esta realcionada con un Profesional',
+                                    'error'
+                                )
+                            }
+
+                        },
+                        error: function (Validacion) {
+
+                        }
+                    });
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+
+                }
+            })
+        }
+    </script>
+}

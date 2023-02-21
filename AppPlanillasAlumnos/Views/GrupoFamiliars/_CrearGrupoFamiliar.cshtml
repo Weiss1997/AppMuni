@@ -1,0 +1,106 @@
+﻿
+<div class="modal fade" id="ModalCrearGrupoFamiliar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">GRUPO FAMILIAR</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario(0);" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="tab-content cardfondoclaro ">
+                    <div class="row">
+                        <div class="row col-12 col-lg-6 text-left">
+                          
+                            <div class="form-group col-10">
+                                <label class="control-label TextoNegroFormulario">Persona Relacionada<span class="rojo">*</span></label>
+                                <input type="hidden" id="PersonaIDRelacionada" value="0" />
+                                <input type="text" autocomplete="off" style="text-transform:uppercase" id="NombrePersonaRelacionadaCrear" onKeyUp="ControlarAutocompletadoPersona()" onKeyDown="ControlarAutocompletadoPersona()" class="form-control form-control-rounded" />
+                                <p class="ocultar validaciones" id="campo-obligatorio-NombrePersonaRelacionadaCrear"> SELECCIONA O CREA UNA PERSONA</p>
+                            </div>
+                            <div id="botonCrearPersonaGrupoFamiliar" class=" form-group col-1 botonpersona">
+                                <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" onclick="Cambiodevistaparcial()">
+                                    <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6 ">
+                            <label class="control-label TextoNegroFormulario">Apellido y nombre del pariente<span class="rojo">*</span></label>
+                            <input type="hidden" id="GrupoFamiliarID" value="0" />
+                            <input type="text"  autocomplete="off" id="GrupoFamiliarApellidoNombreCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarApellidoNombreCrear">* CAMPO OBLIGATORIO</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">DNI<span class="rojo">*</span></label>
+                            <input type="text" maxlength="8" id="GrupoFamiliarDNICrear" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarDNICrear">* CAMPO OBLIGATORIO</p>
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarDNIEXISTENTE">DNI EXISTENTE EN EL GRUPO FAMILIAR</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Sexo</label>
+                            <select style="text-transform:uppercase" id="GrupoFamiliarSexoCrear" class="form-control form-control-rounded">
+                                <option value="1" selected>Femenino</option>
+                                <option value="2">Masculino</option>
+                                <option value="3">No Binario</option>
+                            </select>
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarSexo">* CAMPO OBLIGATORIO</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Salud</label>
+                            <input type="text" id="GrupoFamiliarSaludCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Ingresos<span class="rojo">*</span></label>
+                            <input type="number" id="GrupoFamiliarIngresosCrear" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarIngresosCrear">* CAMPO OBLIGATORIO</p>
+                            <p class="ocultar validaciones" id="ingresoValidacionmenor">* DEBE INGRESAR UN MONTO MENOR </p>
+                            <p class="ocultar validaciones" id="ingresoValidacionmayor">* DEBE INGRESAR UN MONTO MAYOR </p>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="F.Nacimiento" data-desktoptext="Fecha de Nacimiento" style="text-transform:uppercase"></label>
+                            <input type="date" id="GrupoFamiliarNacimientoCrear" class="form-control  form-control-rounded" />
+                            <p class="ocultar validaciones" id="FechaValidacion">* DEBE INGRESAR UNA FECHA CORRECTA</p>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Vinculo<span class="rojo">*</span></label>
+                            <input type="text" id="GrupoFamiliarVinculoCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            <p class="ocultar validaciones" id="campo-obligatorio-GrupoFamiliarVinculoCrear">* CAMPO OBLIGATORIO</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Escolaridad</label>
+                            <input type="text" id="GrupoFamiliarEscolaridadCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Ocupación</label>
+                            <input type="text" id="GrupoFamiliarOcupacionCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class=" BotonCancelar-Modal" id="botoncancelar" hidden onclick="VaciarFormulario(0);" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+
+                    </button>
+                    <button type="button" onclick=" GuardarGrupoFamiliar()" id="botonguardar" hidden class=" BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+
+                    </button>
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarFormulario();" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

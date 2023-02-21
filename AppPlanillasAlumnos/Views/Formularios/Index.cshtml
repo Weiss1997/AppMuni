@@ -1,0 +1,1312 @@
+﻿
+@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.Formularios>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">FORMULARIOS</h2>
+
+
+<div class="modal fade" id="Modalformulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home" data-toggle="tab" href="#nav-Formulario" role="tab" aria-controls="nav-home" aria-selected="true">Formulario</a>
+                        <a class="nav-item nav-link" id="nav-profile" data-toggle="tab" href="#nav-Pregunta" role="tab" aria-controls="nav-profile" aria-selected="false">Preguntas</a>
+                    </div>
+                </nav>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="tab-pane fade show active" id="nav-Formulario" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <input value="0" type="hidden" id="FormularioID" class="form-control form-control-rounded">
+                            <div class="col-md-12">
+                                <h3 class="text-center text-dark letratitulo TituloDerivacion text-uppercase">DATOS DEL FORMULARIO</h3>
+                                <hr />
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario">Tipo de Formulario<span class="rojo">*</span></label>
+                                <select class="form-control form-control-rounded" id="TipoFormularioID">
+                                    <option selected value="0">Seleccionar</option>
+                                    <option value="1">Formulario 1</option>
+                                    <option value="2">Formulario 2</option>
+                                    <option value="3">Formulario 3</option>
+                                    <option value="4">Formulario 4</option>
+                                </select>
+                                <label id="TipoFormularioIDValidacion" class="control-label ocultar validaciones">Debe seleccionar un tipo de formulario</label>
+                            </div>
+
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Fecha hoy</label>
+                                <input type="date" id="Fecha" disabled class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Escuela Relacionada<span class="rojo">*</span></label>
+                                <input type="hidden" id="EscuelaID" name="EscuelaID" value="0" />
+                                <input id="EscuelaNombre" name="EscuelaNombre" autocomplete="off" class="form-control form-control-rounded" onKeyUp="ControlarAutocompletadoEscuela()" onKeyDown="ControlarAutocompletadoEscuela()" style="text-transform:uppercase">
+                                <label id="EscuelaNombreValidacion" class="control-label ocultar validaciones">Debe escribir el Nombre De la escuela</label>
+                                <label id="EscuelaIDValidacion" class="control-label ocultar validaciones">El nombre de la escuela no existe</label>
+                            </div>
+
+                            <div disabled id="EdadFormulario">
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr />
+                                <h5 class="text-center text-dark letratitulo TituloDerivacion text-uppercase">Detección Oportuna de dificultades inaparentes en el desarrollo de Niños menores de 4 años</h5>
+                                <hr />
+                            </div>
+
+                            <div class="col-md-12">
+                                <h3 class="text-center text-dark letratitulo TituloDerivacion text-uppercase">Datos del niño o niña</h3>
+                                <hr />
+                            </div>
+                            <div class=" form-group row col-12 col-md-5">
+                                <div class="text-left col-12">
+                                    <label class="control-label TextoNegroFormulario text-center" style="text-transform:uppercase">Persona Relacionada<span class="rojo">*</span></label>
+                                </div>
+                                <div id="div-persona" class="form-group col-10">
+                                    <input type="hidden" id="PersonaIDFormulario" name="PersonaIDFormulario" value="0" />
+                                    <input id="PersonaNombreFormulario" name="PersonaNombreFormulario" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" onKeyUp="ControlarAutocompletadoPersona()" onKeyDown="ControlarAutocompletadoPersona()">
+                                    <label id="PersonaNombreValidacion" class="control-label ocultar validaciones">Debe escribir el Nombre De la persona</label>
+                                    <label id="PersonaIDValidacion" class="control-label ocultar validaciones">El nombre de la persona no existe</label>
+                                    <label id="PersonaExiste" class="control-label ocultar validaciones">La persona ya existe para este formulario</label>
+                                </div>
+
+                                <div id="Div-Boton-CrearPersona" class="form-group col-1">
+                                    <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" onclick="CambiodevistaparcialFormulario()">
+                                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/agregar-usuario.png " class="IconoBotonAgregar" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class=" form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario">Nro Documento</label>
+                                <input disabled id="PersonaDNI" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-3">
+                                <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="F.Nacimiento" data-desktoptext="Fecha de Nacimiento" style="text-transform:uppercase"></label>
+                                <input type="date" disabled id="PersonaFechaNacimiento" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-3">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Edad</label>
+                                <input type="text" disabled id="PersonaEdad" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class=" form-group col-12 col-lg-3">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Peso al Nacer(Kg)</label>
+                                <input type="text" id="Peso" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <h3 class="text-center text-dark letratitulo TituloDerivacion text-uppercase">Datos de la Madre o Persona a Cargo</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-12 col-lg-5 ">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Nombre y Apellido</label>
+                                <input type="text" id="PersonaACargoNombreApellido" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Parentezco</label>
+                                <input type="text" id="PersonaACargoParentezco" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-3">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Edad</label>
+                                <input type="text" id="PersonaACargoEdad" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Dirección</label>
+                                <input type="text" id="PersonaACargoDireccion" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Barrio</label>
+                                <input type="text" id="PersonaACargoBarrio" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Localidad</label>
+                                <input type="text" id="PersonaACargoLocalidad" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Teléfono</label>
+                                <input type="number" id="PersonaACargoTelefono" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            </div>
+                            <div class="form-group col-12 col-lg-4">
+                                <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="N.Educativo" data-desktoptext="Nivel Educativo Alcazado" style="text-transform:uppercase"></label>
+                                @Html.DropDownList("NivelEducativoID", null, htmlAttributes: new { @class = "form-control form-control-rounded" })
+                            </div>
+                            <label id="PreguntaValidacion" class="control-label ocultar validaciones col-lg-12">debe cargar preguntas relacionadas</label>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-Pregunta" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div>
+                            <div>
+                                <h3 class="text-center text-dark letratitulo">PREGUNTAS DEL FORMULARIO</h3>
+                                <hr />
+                            </div>
+                            <div class="row" id="Div-preguntas">
+                            </div>
+                            <label id="DatosValidacion" class="control-label ocultar validaciones col-lg-12">debe completar los datos correctamente</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2" id="OcultarDetalle">
+                    <button type="button" class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidarPersona()" id="botonguardar" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    @*//SOLO PARA EL DETALLE*@
+                    <button class="ocultar BotonVolver" id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu imagen-link" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("../../Views/Localidades/Create")
+@Html.Partial("../../Views/Personas/_CrearPersona")
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button type="button" onclick="VaciarFormulario(1)" class="SombraBoton TextoNegroTablas ColorCelesteBoton" data-toggle="modal" data-target="#Modalformulario">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/formu.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroTablas ColorCelesteBoton" onclick="GenerarImpresion();">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoFormulario">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalInfoFormulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. FORMULARIO</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/1_0HUU7Vbrw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th style="width:130px" class="text-center text-white ocultar640">Fecha</th>
+            <th style="width:300px" class="text-left text-white">Nombre y Apellido</th>
+            <th style="width:180px" class="text-left text-white ocultar400">Tipo de Formulario</th>
+            <th style="width:200px" class="text-left text-white ocultar860">Escuela</th>
+            <th style="width:300px" class="text-left text-white ocultar860">Persona A Cargo</th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-formularios"></tbody>
+</table>
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th style="width:20px">FECHA</th>
+            <th>NOMBRE COMPLETO</th>
+            <th>FORMULARIO</th>
+            <th>ESCUELA</th>
+            <th>PERSONA A CARGO</th>
+        </tr>
+    </thead>
+    <tbody id="tbody-formulariosHIDDEN"></tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function ValidarPersona() {
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+            $("#EscuelaNombreValidacion").addClass("ocultar");
+            $("#EscuelaIDValidacion").addClass("ocultar");
+            $("#PreguntaValidacion").addClass("ocultar");
+            $("#DatosValidacion").addClass("ocultar");
+            $("#TipoFormularioIDValidacion").addClass("ocultar");
+
+
+            var personaID = $("#PersonaIDFormulario").val();
+            var personaNombre = $("#PersonaNombreFormulario").val();
+            var escuelaID = $("#EscuelaID").val();
+            var escuelaNombre = $("#EscuelaNombre").val();
+            var preguntasID = $("#PreguntasID").val();
+            var formularioID = $("#TipoFormularioID").val();
+
+            var ValidacionPersonaID = true;
+            var ValidacionPersonaNombre = true;
+            var ValidacionEscuelaID = true;
+            var ValidacionEscuelaNombre = true;
+            var ValidacionPregunta = true;
+            var ValidacionTipoFormulario = true;
+
+
+            if (personaNombre == "" || personaNombre == null) {
+                $("#PersonaNombreValidacion").removeClass("ocultar");
+                ValidacionPersonaNombre = false;
+            }
+            else {
+                if (personaID == 0 || personaID == null) {
+                    $("#PersonaIDValidacion").removeClass("ocultar");
+                    ValidacionPersonaID = false;
+                }
+            }
+            if (escuelaNombre == "" || escuelaNombre == null) {
+                $("#EscuelaNombreValidacion").removeClass("ocultar");
+                ValidacionEscuelaNombre = false;
+            } else {
+                if (escuelaID == 0 || escuelaID == null) {
+                    $("#EscuelaIDValidacion").removeClass("ocultar");
+                    ValidacionEscuelaID = false;
+                }
+            }
+            if (formularioID == 0 || formularioID == null) {
+                $("#TipoFormularioIDValidacion").removeClass("ocultar");
+                ValidacionTipoFormulario = false;
+            }
+            if (preguntasID == 0 || preguntasID == null) {
+                $("#PreguntaValidacion").removeClass("ocultar");
+                ValidacionPregunta = false;
+            }
+
+            if (ValidacionPersonaNombre == true && ValidacionPersonaID == true && ValidacionEscuelaID == true && ValidacionEscuelaNombre == true && ValidacionPregunta == true && ValidacionTipoFormulario == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Formularios/ValidacionDePersonaExistente',
+                    data: { PersonaID: personaID, EscuelaID: escuelaID },
+                    success: function (Validacion) {
+                        if (Validacion == true) {
+                            $("#PersonaIDValidacion").addClass("ocultar");
+                            $("#EscuelaIDValidacion").addClass("ocultar");
+                            $("#DatosValidacion").addClass("ocultar");
+                            GuardarFormulario();
+                        } else {
+                            $("#PersonaIDValidacion").removeClass("ocultar");
+                            $("#EscuelaIDValidacion").removeClass("ocultar");
+                            $("#DatosValidacion").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        //COMIENZO FUNCION GUARDAR FOMULARIO
+        function GuardarFormulario() {
+            $("#PersonaExiste").addClass("ocultar");
+
+            //CREAMOS LOS VECTORES PRINCIPALES
+            var tipoFormularioID = $("#TipoFormularioID").val();
+            var fecha = $("#Fecha").val();
+            var peso = $("#Peso").val();
+            var personaACargoNombreApellido = $("#PersonaACargoNombreApellido").val();
+            var personaACargoParentezco = $("#PersonaACargoParentezco").val();
+            var personaACargoEdad = $("#PersonaACargoEdad").val();
+            var personaACargoDireccion = $("#PersonaACargoDireccion").val();
+            var personaACargoBarrio = $("#PersonaACargoBarrio").val();
+            var personaACargoTelefono = $("#PersonaACargoTelefono").val();
+            var personaACargoLocalidad = $("#PersonaACargoLocalidad").val();
+            var nivelEducativoID = $("#NivelEducativoID").val();
+            var personaID = $("#PersonaIDFormulario").val();
+            var escuelaID = $("#EscuelaID").val();
+            var vectorPreguntasID = [];
+            var vectorRespuestasPregunta = [];
+            var formularioID = $("#FormularioID").val();
+
+            //POR CADA PREGUNTA QUE EXISTA BUSCAR LA RESPUESTA ELEGIDA Y AGREGARLA EN EL SEGUNDO VECTOR
+            //PRIMERO BUSCAMOS TODOS LOS ID DE PREGUNTAS DE LOS INPUT HIDDEN
+            var hiddenPreguntasID = document.getElementsByName('PreguntasID');
+
+            for (i = 0; i < hiddenPreguntasID.length; i++) //recoremos todos los hidden
+            {
+                if (hiddenPreguntasID[i].type == "hidden") //solo si es un hidden entramos
+                {
+                    var preguntaID = hiddenPreguntasID[i].value;
+
+                    ////LUEGO EN BASE A ESE ID DE PREGUNTA BUSCAR LAS RESPUESTAS POSIBLES
+                    var radiosPreguntaID = document.getElementsByName('Respuesta_' + preguntaID);
+                    var respuestaValor = 0;
+                    //RECORREMOS ESOS RADIOS Y DEBEMOS BUSCAR EL QUE ESTA TILDADO
+                    for (f = 0; f < radiosPreguntaID.length; f++) //recoremos todos los radios
+                    {
+                        if (radiosPreguntaID[f].type == "radio" && radiosPreguntaID[f].checked == true) //solo si es un checkbox entramos
+                        {
+                            respuestaValor = radiosPreguntaID[f].value;
+
+                            vectorPreguntasID.push(preguntaID);
+                            vectorRespuestasPregunta.push(respuestaValor);
+                        }
+                    }
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: '../../Formularios/GuardarFormulario',
+                data: {
+                    Fecha: fecha, Peso: peso, TipoFormularioID: tipoFormularioID, PersonaID: personaID,
+                    EscuelaID: escuelaID,
+                    PersonaACargoNombreApellido: personaACargoNombreApellido,
+                    PersonaACargoParentezco: personaACargoParentezco, PersonaACargoEdad: personaACargoEdad,
+                    PersonaACargoDireccion: personaACargoDireccion, PersonaACargoBarrio: personaACargoBarrio,
+                    PersonaACargoLocalidad: personaACargoLocalidad,
+                    PersonaACargoTelefono: personaACargoTelefono,
+                    NivelEducativoID: nivelEducativoID,
+                    PreguntasID: vectorPreguntasID, Respuestas: vectorRespuestasPregunta,
+                    FormularioID: formularioID
+                },
+                success: function (guardado) {
+                    if (guardado == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'El Formulario fue guardado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#PersonaExiste").addClass("ocultar");
+                        $("#DatosValidacion").addClass("ocultar");
+                        VaciarFormulario();
+                        BuscarListadoFormularios();
+                    }
+                    else {
+                        $("#PersonaExiste").removeClass("ocultar");
+                        $("#DatosValidacion").removeClass("ocultar");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //CIERRE FUNCION GUARDAR FORMULARIO
+
+        //COMIENZO FUNCION BUSCAR LISTADO FORMULARIO
+
+        window.onload = BuscarListadoFormularios();
+
+        function BuscarListadoFormularios() {
+            $.ajax({
+                type: "POST",
+                url: '../../Formularios/BuscarListadoFormularios',
+                data: {},
+                success: function (formulariosMostrar) {
+                    $("#Modalformulario").modal("hide");
+
+                    $("#tbody-formularios").empty();
+                    $("#tbody-formulariosHIDDEN").empty();
+
+                    $.each(formulariosMostrar, function (index, formulario) {
+
+                        $("#tbody-formularios").append('<tr>' +
+
+                            '<td  style="width:130px" class="text-center TextoNegroTablas ContenidoTablaGris ocultar640">' +
+                            formulario.FechaString +
+                            '</td>' +
+                            '<td style="width:300px" class="text-left TextoNegroTablas ContenidoTablaGris">' +
+                            formulario.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td style="width:200px" class="text-left TextoNegroTablas ContenidoTablaGris ocultar400"> FORMULARIO: ' +
+                            formulario.TipoFormularioID +
+                            '</td>' +
+                            '<td style="width:200px" class="text-left TextoNegroTablas ContenidoTablaGris ocultar860">' +
+                            formulario.EscuelaNombre +
+                            '</td>' +
+                            '<td style="width:300px" class="text-left TextoNegroTablas ContenidoTablaGris ocultar860">' +
+                            formulario.PersonaACargoNombreApellido +
+                            '</td>' +
+                            '<td  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoFormulario(' + formulario.FormulariosID + ',0)" data-toggle="modal" data-target="#Modalformulario"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoFormulario(' + formulario.FormulariosID + ',1)"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarFormulario(' + formulario.FormulariosID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        $("#tbody-formulariosHIDDEN").append('<tr>' +
+
+
+                            '<td >' +
+                            formulario.FechaString +
+                            '</td>' +
+                            '<td>' +
+                            formulario.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td> FORMULARIO: ' +
+                            formulario.TipoFormularioID +
+                            '</td>' +
+                            '<td>' +
+                            formulario.EscuelaNombre +
+                            '</td>' +
+                            '<td>' +
+                            formulario.PersonaACargoNombreApellido +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //CIERRE FUNCION BUSCAR LISTADO FORMULARIO
+
+        //APERTURA FUNCION ELIMINAR FORMULARIO
+        function EliminarFormulario(FormularioID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar este Formulario?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Formularios/EliminarFormulario',
+                        data: { id: FormularioID },
+                        success: function (validaciones) {
+                            if (validaciones === true) {
+                                BuscarListadoFormularios();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Formulario.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (validaciones) {
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }
+            })
+        }
+        //CIERRE FUNCION ELIMINAR FORMULARIO
+
+        //APERTURA FUNCION BUSCAR PREGUNTA FORMULARIO
+        window.onload = BuscarPreguntasFormulario();
+
+        function BuscarPreguntasFormulario() {
+            $("#Div-preguntas").empty();
+            var tipoFormularioID = $("#TipoFormularioID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Formularios/BuscarPreguntasFormulario',
+                data: { TipoFormularioID: tipoFormularioID },
+                success: function (preguntasMostrar) {
+                    $("#Div-preguntas").empty();
+
+                    $.each(preguntasMostrar, function (index, preguntaMostrar) {
+                        $("#Div-preguntas").append('<div class="col-md-6">' +
+                            '<label class="control-label TextoNegroFormulario altoPreguntas">' + preguntaMostrar.PreguntasNombre + '</label>' +
+                            '<input type="hidden" name="PreguntasID" id="PreguntasID" value="' + preguntaMostrar.PreguntasID + '"> ' +
+
+                            '<div class="row">' +
+                            '<div class="col-md-4">' +
+                            '<input type="Radio" class="RadioNuevo" checked id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">No</label>' +
+                            '</div>' +
+                            '<div class="col-md-4">' +
+                            '<input type="Radio" class="RadioNuevo" id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario ">Si</label>' +
+                            '</div>' +
+                            '<div class="col-md-4">' +
+                            '<input type="Radio" class="RadioNuevo" id="' + preguntaMostrar.PreguntasID + '-Respuesta-2" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="2"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-2" class="TextoNegroFormulario ">No sé</label>' +
+                            '</div>' +
+                            '</div>' +
+                            '<hr />' +
+                            '</div>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        $("#TipoFormularioID").change(function () {
+            BuscarEdadFormulario();
+        });
+        //CIERRE FUNCION BUSCAR PREGUNTA FORMULARIO
+
+        //APERTURA FUNCION AUTOCOMPLETADO PERSONA NOMBRE
+        $("#PersonaNombreFormulario").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        if (personasMostrar.length == 0) {
+                            LimpiarInfoPersona();
+                        }
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaIDFormulario").val(ui.item.id);
+                BuscarInfoPersona(ui.item.id);
+            }
+        });
+
+        //APERTURA FUNCION AUTOCOMPLETADO ESCUELA NOMBRE
+
+        $("#EscuelaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Escuelas/BuscarEscuelas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (escuelaMostrar) {
+                        response($.map(escuelaMostrar, function (escuela) {
+                            return {
+                                id: escuela.EscuelaID,
+                                value: escuela.EscuelaNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#EscuelaID").val(ui.item.id);
+            }
+        });
+        //CIERRE FUNCION AUTOCOMPLETADO ESCUELA NOMBRE
+
+        //FUNCION PARA CAMBIAR EL FILTRADO DEL FORMULARIO
+
+        /*SECCIÓN DONDE BUSCA LAS PREGUNTAS SEGUN EL FORMULARIO*/
+        $("#TipoFormularioID").change(function () {
+            BuscarPreguntasFormulario();
+            ValidarSeleccionar();
+        });
+
+        function ValidarSeleccionar() {
+            var seleccionar = $("#TipoFormularioID").val();
+            if (seleccionar == 0) {
+                $("#TipoFormularioIDValidacion").removeClass("ocultar");
+            }
+            else {
+                $("#TipoFormularioIDValidacion").addClass("ocultar");
+            }
+        }
+
+        //COMIENZO FUNCION BUSCAR INFO FORMULARIO
+        function BuscarInfoFormulario(FormularioID, origen) {
+            $.ajax({
+                type: "POST",
+                url: '../../Formularios/BuscarInfoFormulario',
+                data: { FormularioID: FormularioID },
+                success: function (formularioMostrar) {
+                    $("#FormularioID").val(formularioMostrar.FormulariosID);
+                    $("#Fecha").val(formularioMostrar.FechaString);
+                    $("#TipoFormularioID").val(formularioMostrar.TipoFormularioID);
+                    $("#Peso").val(formularioMostrar.Peso);
+                    $("#PersonaACargoNombreApellido").val(formularioMostrar.PersonaACargoNombreApellido);
+                    $("#PersonaACargoParentezco").val(formularioMostrar.PersonaACargoParentezco);
+                    $("#PersonaACargoEdad").val(formularioMostrar.PersonaACargoEdad);
+                    $("#PersonaACargoDireccion").val(formularioMostrar.PersonaACargoDireccion);
+                    $("#PersonaACargoBarrio").val(formularioMostrar.PersonaACargoBarrio);
+                    $("#PersonaACargoLocalidad").val(formularioMostrar.PersonaACargoLocalidad);
+                    $("#PersonaACargoTelefono").val(formularioMostrar.PersonaACargoTelefono);
+                    $("#NivelEducativoID").val(formularioMostrar.NivelEducativoID);
+                    $("#PersonaIDFormulario").val(formularioMostrar.PersonaID);
+                    $("#EscuelaID").val(formularioMostrar.EscuelaID);
+                    $("#EscuelaNombre").val(formularioMostrar.EscuelaNombre);
+                    $("#PersonaNombreFormulario").val(formularioMostrar.PersonaApellidoNombre);
+                    $("#PersonaDNI").val(formularioMostrar.PersonaDNI);
+                    $("#PersonaFechaNacimiento").val(formularioMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaEdad").val(formularioMostrar.PersonaEdad);
+
+                    if (origen == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                        $("#FormularioID").prop("disabled", true);
+                        $("#Fecha").prop("disabled", true);
+                        $("#TipoFormularioID").prop("disabled", true);
+                        $("#Peso").prop("disabled", true);
+                        $("#PersonaACargoNombreApellido").prop("disabled", true);
+                        $("#PersonaACargoParentezco").prop("disabled", true);
+                        $("#PersonaACargoEdad").prop("disabled", true);
+                        $("#PersonaACargoDireccion").prop("disabled", true);
+                        $("#PersonaACargoBarrio").prop("disabled", true);
+                        $("#PersonaACargoLocalidad").prop("disabled", true);
+                        $("#PersonaACargoTelefono").prop("disabled", true);
+                        $("#NivelEducativoID").prop("disabled", true);
+                        $("#PersonaIDFormulario").prop("disabled", true);
+                        $("#EscuelaID").prop("disabled", true);
+                        $("#EscuelaNombre").prop("disabled", true);
+                        $("#PersonaNombreFormulario").prop("disabled", true);
+                        $("#PersonaDNI").prop("disabled", true);
+                        $("#PersonaFechaNacimiento").prop("disabled", true);
+                        $("#PersonaEdad").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+                        $("#div-persona").removeClass("col-10");
+                        $("#div-persona").addClass("col-12");
+                        $("#Div-Boton-CrearPersona").addClass("ocultar");
+                        $("#Div-Boton-CrearPersona").removeClass("col-1");
+                        $("#Div-preguntas").empty();
+
+                        $.each(formularioMostrar.ListadoPreguntasFormulario, function (index, preguntaMostrar) {
+
+                            $("#Div-preguntas").append('<div class="col-md-6">' +
+                                '<label class="control-label TextoNegroFormulario altoPreguntas">' + preguntaMostrar.PreguntasNombre + '</label>' +
+                                '<input type="hidden" name="PreguntasID" id="PreguntasID" value="' + preguntaMostrar.PreguntasID + '"> ' +
+
+                                '<div class="row">' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">No</label>' +
+                                '</div>' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario ">Si</label>' +
+                                '</div>' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" disabled id="' + preguntaMostrar.PreguntasID + '-Respuesta-2" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="2"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-2" class="TextoNegroFormulario ">No sé</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '<hr />' +
+                                '</div>');
+
+                            document.getElementById(preguntaMostrar.PreguntasID + "-Respuesta-" + preguntaMostrar.OpcionRespuesta).checked = true;
+                            document.getElementById(preguntaMostrar.PreguntasID + "-Respuesta-" + preguntaMostrar.OpcionRespuesta).disabled = false;
+                        });
+
+                        $("#Modalformulario").modal("show");
+                    }
+                    else {
+                        $("#FormularioID").prop("disabled", false);
+                        $("#TipoFormularioID").prop("disabled", false);
+                        $("#Peso").prop("disabled", false);
+                        $("#PersonaACargoNombreApellido").prop("disabled", false);
+                        $("#PersonaACargoParentezco").prop("disabled", false);
+                        $("#PersonaACargoEdad").prop("disabled", false);
+                        $("#PersonaACargoDireccion").prop("disabled", false);
+                        $("#PersonaACargoBarrio").prop("disabled", false);
+                        $("#PersonaACargoLocalidad").prop("disabled", false);
+                        $("#PersonaACargoTelefono").prop("disabled", false);
+                        $("#NivelEducativoID").prop("disabled", false);
+                        $("#PersonaIDFormulario").prop("disabled", false);
+                        $("#EscuelaID").prop("disabled", false);
+                        $("#EscuelaNombre").prop("disabled", false);
+                        $("#PersonaNombreFormulario").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+
+                        $("#Div-preguntas").empty();
+
+                        $.each(formularioMostrar.ListadoPreguntasFormulario, function (index, preguntaMostrar) {
+
+                            $("#Div-preguntas").append('<div class="col-md-6">' +
+                                '<label class="control-label TextoNegroFormulario altoPreguntas">' + preguntaMostrar.PreguntasNombre + '</label>' +
+                                '<input type="hidden" name="PreguntasID" id="PreguntasID" value="' + preguntaMostrar.PreguntasID + '"> ' +
+
+                                '<div class="row">' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" id="' + preguntaMostrar.PreguntasID + '-Respuesta-0" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="0"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-0" class="TextoNegroFormulario ">No</label>' +
+                                '</div>' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" id="' + preguntaMostrar.PreguntasID + '-Respuesta-1" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="1"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-1" class="TextoNegroFormulario ">Si</label>' +
+                                '</div>' +
+                                '<div class="col-md-4">' +
+                                '<input type="Radio" class="RadioNuevo" id="' + preguntaMostrar.PreguntasID + '-Respuesta-2" name="Respuesta_' + preguntaMostrar.PreguntasID + '" value="2"> ' + '<label for="' + preguntaMostrar.PreguntasID + '-Respuesta-2" class="TextoNegroFormulario ">No sé</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '<hr />' +
+                                '</div>');
+
+                            document.getElementById(preguntaMostrar.PreguntasID + "-Respuesta-" + preguntaMostrar.OpcionRespuesta).checked = true;
+                        });
+
+                        $("#Modalformulario").modal("show");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //CIERRE FUNCION BUSCAR INFO FORMULARIO
+
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+        //COMIENZO FUNCION BUSCAR EDAD FORMULARIO
+        window.onload = BuscarEdadFormulario();
+
+        function BuscarEdadFormulario() {
+            $("#EdadFormulario").empty();
+            var tipoFormularioID = $("#TipoFormularioID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Formularios/BuscarEdadFormulario',
+                data: { TipoFormularioID: tipoFormularioID },
+                success: function (edadesMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#EdadFormulario").empty();
+                    $.each(edadesMostrar, function (index, edadMostrar) {
+                        $("#EdadFormulario").append('<div disabled class="col-md-12">' +
+                            '<label class="control-label TextoNegroFormulario ">' + edadMostrar.EdadFormularioDescripcion + '</label>' +
+                            '<input type="hidden" name="PreguntasID" value="' + edadMostrar.EdadFormularioID + '"> ' +
+                            '</div>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //CIERRE FUNCION BUSCAR EDAD FORMULARIO
+
+        //Fecha actual por defecto
+        window.onload = FechaActual();
+        function FechaActual() {
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('Fecha').value = ano + "-" + mes + "-" + dia;
+            //document.getElementById('AnioingresonivelInical').value = ano + "-" + mes + "-" + dia;
+            //document.getElementById('Anioingresonivelactual').value = ano + "-" + mes + "-" + dia;
+            //document.getElementById('Anioingresoinstitucionactual').value = ano + "-" + mes + "-" + dia;
+        }
+
+        //INICIO FUNCION VACIAR FORMULARIO
+        function VaciarFormulario() {
+            BuscarPreguntasFormulario();
+            $("#FormularioID").val(0);
+            $("#TipoFormularioID").val(0);
+            $("#EdadFormulario").empty();
+            $("#PersonaIDFormulario").val(0);
+            $("#PersonaNombreFormulario").val('');
+            $("#PersonaDNI").val('');
+            $("#PersonaEdad").val('');
+            $("#PersonaFechaNacimiento").val('dd/mm/aaaa');
+            $("#EscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+            $("#Edad").val('');
+            $("#Peso").val('');
+            $("#PersonaACargoNombreApellido").val('');
+            $("#PersonaACargoParentezco").val('');
+            $("#PersonaACargoEdad").val('');
+            $("#PersonaACargoDireccion").val('');
+            $("#PersonaACargoBarrio").val('');
+            $("#PersonaACargoLocalidad").val('');
+            $("#PersonaACargoTelefono").val('');
+            $("#NivelEducativoID").val(1);
+            $("#nav-home").click();
+
+            $("#FormularioID").prop("disabled", false);
+            $("#TipoFormularioID").prop("disabled", false);
+            $("#Peso").prop("disabled", false);
+            $("#PersonaACargoNombreApellido").prop("disabled", false);
+            $("#PersonaACargoParentezco").prop("disabled", false);
+            $("#PersonaACargoEdad").prop("disabled", false);
+            $("#PersonaACargoDireccion").prop("disabled", false);
+            $("#PersonaACargoBarrio").prop("disabled", false);
+            $("#PersonaACargoLocalidad").prop("disabled", false);
+            $("#PersonaACargoTelefono").prop("disabled", false);
+            $("#NivelEducativoID").prop("disabled", false);
+            $("#PersonaIDFormulario").prop("disabled", false);
+            $("#EscuelaID").prop("disabled", false);
+            $("#EscuelaNombre").prop("disabled", false);
+            $("#PersonaNombreFormulario").prop("disabled", false);
+            $("#BotonVolver").addClass("ocultar");
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#div-persona").removeClass("col-12");
+            $("#div-persona").addClass("col-10");
+            $("#Div-Boton-CrearPersona").removeClass("ocultar");
+            $("#Div-Boton-CrearPersona").addClass("col-1");
+            $("#EscuelaNombreValidacion").addClass("ocultar");
+            $("#EscuelaIDValidacion").addClass("ocultar");
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+            $("#DatosValidacion").addClass("ocultar");
+            $("#TipoFormularioIDValidacion").addClass("ocultar");
+            $("#PreguntaValidacion").addClass("ocultar");
+        }
+        function BuscarInfoPersona(personaID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/BuscarInfoPersona',
+                data: { PersonaID: personaID },
+                success: function (personaMostrar) {
+                    $("#PersonaDNI").val(personaMostrar.PersonaDNI);
+                    $("#PersonaFechaNacimiento").val(personaMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaEdad").val(personaMostrar.PersonaEdad);
+                    $("#PersonaIDFormulario").val(personaMostrar.PersonaID);
+                    $("#PersonaNombreFormulario").val(personaMostrar.PersonaApellidoNombre);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#PersonaNombreFormulario").val();
+            var personaID = $("#PersonaIDFormulario").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarPersona();
+            }
+        }
+
+        //funcion para limpiar todo los campos referidos a persona
+        function LimpiarPersona() {
+            $("#PersonaFormularioID").val(0);
+            $("#PersonaNombreFormulario").val('');
+            $("#PersonaFechaNacimiento").val('');
+            $("#PersonaEdad").val('');
+            $("#PersonaDNI").val('');
+
+            $("#PersonaNombreValidacion").addClass('ocultar');
+            $("#PersonaIDValidacion").addClass('ocultar');
+            $("#PersonaExiste").addClass("ocultar");
+        }
+
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoEscuela() {
+            var nombre = $("#EscuelaNombre").val();
+            var escuelaID = $("#EscuelaID").val();
+            if (nombre == "" && escuelaID != 0) {
+                LimpiarEscuela();
+            }
+        }
+        //funcion para limpiar los campos completados de la escuela
+        function LimpiarEscuela() {
+            $("#EscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+
+            $("#EscuelaNombreValidacion").addClass("ocultar");
+            $("#EscuelaIDValidacion").addClass("ocultar");
+        }
+
+
+        //FUNCION PARA CAMBIAR DE VISTA PARCIAL CUANDO EN EL FORMULARIO SE QUIERE CREAR UNA PERSONA NUEVA
+        function CambiodevistaparcialFormulario() {
+            $("#Modalformulario").modal("hide");
+
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+
+        }
+        //FUNCION PARA VACIAL EL FORMULARIO CON LA FLECHA DE VOLVER PARA ATRAS Y TAMBIEN VUELVE A MOSTRAR EL MODAL DE FORMULARIO
+        function VaciarFormularioPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaApellidoNombreCrear").val('');
+            $("#PersonaTelefonoCrear").val('');
+            $("#PersonaDNICrear").val('');
+            $("#PersonaFechaNacimientoCrear").val('');
+            $("#Edad").val('');
+            $("#PersonaDireccionCrear").val('');
+            $("#LocalidadesNombreCrearPersona").val('');
+            $("#LocalidadesIDCrearPersona").val('');
+            $("#PersonaCorreoCrear").val('');
+            $("#PersonaSexoCrear").val('');
+            $("#PersonaCovidCrear").val('');
+            $("#PersonaObraSocialCrear").val('');
+            $("#ObraSocialCualCrear").val('');
+            $("#Email_Sistema").val('');
+            $("#Contrasenia_Sistema").val('');
+            $("#Tipo_Sistema").val('1');
+            $("#Opcion_Crear_Usuario").val('false');
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+            $("#ModalPersona").modal("hide");
+            setTimeout('$("#Modalformulario").modal("show");', 500);
+        }
+        //FUNCION PARA OCULTAR EL CREAR USUARIO EN EL MODAL DE CREAR PERSONA
+        window.onload = OcultarGuardadoUsuario();
+        function OcultarGuardadoUsuario() {
+            $("#PreguntaUsuario").prop("hidden", true);
+        }
+
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#PersonaNombreFormulario").val();
+            var personaID = $("#PersonaIDFormulario").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarPersona();
+            }
+        }
+
+        function GuardarCrearPersona() {
+
+            var personaid = $("#PersonaID").val();
+            var personaApellidoNombre = $("#PersonaApellidoNombreCrear").val();
+            var personaTelefono = $("#PersonaTelefonoCrear").val();
+            var personaDni = $("#PersonaDNICrear").val();
+            var personaFechaNacimiento = $("#PersonaFechaNacimientoCrear").val();
+            var personaDireccion = $("#PersonaDireccionCrear").val();
+            var localidadesID = $("#LocalidadesIDCrearPersona").val();
+            var personaCorreo = $("#PersonaCorreoCrear").val();
+            var personaSexo = $("#PersonaSexoCrear").val();
+            var personaCovid = $("#PersonaCovidCrear").val();
+            var personaObraSocial = $("#PersonaObraSocialCrear").val();
+            var obraSocialCual = $("#ObraSocialCualCrear").val();
+            //VER!!!
+            //DE ENTRADA AGREGAN LA CLASE OCULTAR A LOS INPUTS
+            $("#obligatorio-PersonaApellidoNombreCrear").addClass("ocultar");
+            $("#obligatorio-PersonaTelefonoCrear").addClass("ocultar");
+            $("#obligatorio-PersonaDNICrear").addClass("ocultar");
+            $("#obligatorio-PersonaDireccionCrear").addClass("ocultar");
+
+            var registrar = true;
+
+            if (personaApellidoNombre == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaApellidoNombreCrear").removeClass("ocultar");
+            }
+            if (personaTelefono == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaTelefonoCrear").removeClass("ocultar");
+            }
+            if (personaDni == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDNICrear").removeClass("ocultar");
+            }
+            if (personaDireccion == "") {
+                registrar = false;
+                //ESCRIBIMOS UN MENSAJE DEBAJO DEL INPUT QUE DIGA QUE ESE CAMPO ES OBLIGATORIO
+                $("#obligatorio-PersonaDireccionCrear").removeClass("ocultar");
+            }
+
+            if (registrar) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Personas/GuardarPersona',
+                    data: {
+                        PersonaApellidoNombre: personaApellidoNombre, PersonaTelefono: personaTelefono, PersonaDNI: personaDni,
+                        PersonaFechaNacimiento: personaFechaNacimiento, PersonaDireccion: personaDireccion, LocalidadesID: localidadesID,
+                        PersonaCorreo: personaCorreo, PersonaSexo: personaSexo, PersonaCovid: personaCovid, PersonaObraSocial: personaObraSocial,
+                        ObraSocialCual: obraSocialCual, PersonaID: personaid
+                    },
+                    success: function (PersonaID) {
+                        $("#ModalPersona").modal("hide");
+                        $("#Modalformulario").modal("show");
+                        BuscarInfoPersona(PersonaID);
+                        VaciarFormularioPersona()
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'La Persona Fue guardada Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        /*Seccion para Autocompletado.*/
+        $("#LocalidadesNombreCrearPersona").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Localidades/BuscarLocalidades',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (localidadesMostrar) {
+                        response($.map(localidadesMostrar, function (localidadMostrar) {
+                            return {
+                                id: localidadMostrar.LocalidadesID,
+                                value: localidadMostrar.LocalidadesNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#LocalidadesIDCrearPersona").val(ui.item.id);
+                $("#LocalidadesNombreCrearPersona").val(ui.item.value);
+            }
+        });
+
+        function GuardarLocalidad() {
+            var localidadesnombre = $("#LocalidadesNombreCrear").val();
+            var localidadesdepartamento = $("#LocalidadesDepartamento").val();
+            var provinciasID = $("#ProvinciasID").val();
+            var localidadesID = $("#LocalidadesIDCrear").val();
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/GuardarLocalidad',
+                data: {
+                    LocalidadesNombre: localidadesnombre, LocalidadesDepartamento: localidadesdepartamento, ProvinciasID: provinciasID, LocalidadesID: localidadesID
+                },
+                success: function (localidadID) {
+                    $("#ModalPersona").modal("show");
+                    $("#ModalLocalidad").modal("hide");
+                    BuscarInfoLocalidad(localidadID);
+                },
+                error: function (data) {
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function Cambiodevistaparcial() {
+            $("#ModalPersona").modal("hide");
+            $("#ModalLocalidad").modal("show");
+        }
+
+        function BuscarInfoLocalidad(localidadesID) {
+
+            $.ajax({
+                type: "POST",
+                url: '../../Localidades/BuscarInfoLocalidad',
+                data: { LocalidadesID: localidadesID },
+                success: function (localidadMostrar) {
+                    $("#LocalidadesIDCrearPersona").val(localidadMostrar.LocalidadesID);
+                    $("#LocalidadesNombreCrearPersona").val(localidadMostrar.LocalidadesNombreCompleto);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        function CerrarModalLocalidad() {
+            $("#ModalLocalidad").modal("hide");
+            $("#ModalPersona").modal("show");
+        }
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /* var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DE FORMULARIOS', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 20 },
+                    1: { columnWidth: 50 },
+                    2: { columnWidth: 30 },
+                    3: { columnWidth: 40 },
+                    4: { columnWidth: 45 },
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1/* || opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+        }
+        function CerrarModalLocalidad() {
+            $("#LocalidadesNombreCrear").val('');
+            $("#LocalidadesDepartamento").val('');
+            $("#obligatorio-LocalidadesNombreCrear").addClass("ocultar");
+            $("#ProvinciasID").val('');
+            cambiodeVistaLocalidadAPersona();
+        }
+        function cambiodeVistaLocalidadAPersona() {
+            $("#ModalLocalidad").modal("hide");
+            setTimeout('$("#ModalPersona").modal("show");', 500);
+        }
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+        function CerrarModalVideo() {
+            $('iframe').removeAttr('src');
+            $("#ModalEspecializacion").modal("hide");
+
+        }
+
+        function AbrirModalVideo() {
+            $("#ModalEspecializacion").modal("show");
+            $('iframe').attr('src', 'https://www.youtube.com/embed/1_0HUU7Vbrw');
+        }
+    </script>
+}

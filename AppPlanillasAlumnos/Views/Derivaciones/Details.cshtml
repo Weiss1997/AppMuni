@@ -1,0 +1,477 @@
+﻿@model AppPlanillasAlumnos.Models.Derivaciones
+
+@*@{
+    ViewBag.Title = "Details";
+}*@
+
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Detalle De: <span class="TituloDerivacion">@Model.Persona.PersonaApellidoNombre</span> </h2>
+
+
+<div>
+    <div class="cardfondo text-center tab-content">
+
+
+        <div class="row">
+
+            <div class="col-md-12 text-left TextonegroCelu">
+                <label class="control-label Letrainput TextoNegroFormulario">Nivel Educativo</label>
+                <select disabled class="form-control form-control-rounded col-md-5" style="text-transform:uppercase" id="nivel" name="nivel">
+                    <option selected value="0">Seleccionar</option>
+                    <option id="Inicial" value="1">Nivel Inicial</option>
+                    <option id="Primario" value="2">Nivel Primario</option>
+                    <option id="Secundario" value="3">Nivel Secundario</option>
+                </select>
+            </div>
+
+            <input value="0" type="hidden" id="DerivacionesID" class="form-control  form-control-rounded" />
+
+            <div class="col-12 col-lg-3  col-md-6  text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">Fecha Derivacion</label>
+                <input type="date" id="DerivacionFecha" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">Escuela Relacionada</label>
+                <input type="hidden" id="EscuelaID" value="0" />
+                <input id="EscuelaNombre" disabled class="form-control  form-control-rounded" style="text-transform:uppercase">
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">Teléfono</label>
+                <input type="text" id="EscuelaTelefono" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu Letrainput">
+                <label class="control-label TextoNegroFormulario">Email</label>
+                <input type="text" id="EscuelaEmail" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+        </div>
+
+
+
+        <hr />
+        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS FILIATORIOS DEL NIÑO</h4>
+        <hr />
+        <div class="row">
+            <div class="col-12 col-lg-5 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">APELLIDO Y NOMBRE (PERSONA) </label>
+                <input type="hidden" id="PersonaID" name="PersonaID" value="0" />
+                <input id="PersonaNombre" disabled class="form-control  form-control-rounded" style="text-transform:uppercase">
+
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">Fecha de Nacimiento</label>
+                <input type="text" id="PersonaFechaNacimiento" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-2 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">Edad</label>
+                <input type="text" id="PersonaEdad" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-2 col-md-6 text-left TextonegroCelu">
+                <label class="control-label TextoNegroFormulario Letrainput">DNI</label>
+                <input type="text" id="PersonaDNI" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu ">
+                <label class="control-label TextoNegroFormulario Letrainput">Domicilio</label>
+                <input type="text" id="PersonaDomicilio" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu ">
+                <label class="control-label TextoNegroFormulario Letrainput">Teléfono de Contacto</label>
+                <input type="text" id="PersonaTelefono" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu Letrainput ">
+                <label class="control-label TextoNegroFormulario Letrainput">Obra Social</label>
+                <input type="text" id="Obrasocialsino" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 text-left TextonegroCelu Letrainput">
+                <label class="control-label TextoNegroFormulario Letrainput">¿Cuál?</label>
+                <input type="text" id="Obrasocialcual" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">TRAYECTORIA ESCOLAR</h4>
+        <hr />
+        <div class="row">
+            <div id="AnioingresonivelInicaldiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Inicial Y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Fecha Ingreso al Nivel Inicial</label>
+                <input type="date" id="AnioingresonivelInical" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div id="Anioingresonivelactualdiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Primario y Secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Fecha Ingreso al Nivel Actual</label>
+                <input type="date" id="Anioingresonivelactual" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div id="Anioingresoinstitucionactualdiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Fecha Ingreso Institución Actual</label>
+                <input type="date" id="Anioingresoinstitucionactual" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div id="InstitucionAsistiodiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Institución a la que Asistió </label>
+                <input id="InstitucionAsistio" type="text" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="DiferentesInstitucionesdiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Dif. Instituciones Asistidas</label>
+                <input id="DiferentesInstituciones" style="text-transform:uppercase" disabled type="text" class="form-control  form-control-rounded" />
+            </div>
+            <div id="Rehizodiv" class="col-12 col-lg-4 col-md-6 TextonegroCeluocultar text-left">
+                @*Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">¿Rehizo?</label>
+                <select id="Rehizo" class="form-control form-control-rounded" disabled style="text-transform:uppercase" name="Rehizo">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="Saladiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*inicial*@
+                <label class="control-label TextoNegroFormulario Letrainput">Sala</label>
+                <input id="Sala" type="text" disabled class="form-control form-control-rounded" style=" text-transform:uppercase" />
+            </div>
+            <div id="ObservacionesRehizoSaladiv" class="col-12 col-lg-6 col-md-6 TextonegroCelu ocultar text-left">
+                @*Inicial y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Observaciones</label>
+                <input id="ObservacionesRehizoSala" disabled type="text" style="text-transform:uppercase" class="form-control form-control-rounded" />
+            </div>
+            <div id="Repitenciadiv" class="col-12 col-lg-4 col-md-6 TextonegroCelu text-left ocultar">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput text-left">¿Repitencia?</label>
+                <select id="Repitencia" class="form-control  form-control-rounded" disabled style="text-transform:uppercase" name="Repitencia">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="GradoRepitenciadiv" class="col-12 col-md-6 col-lg-3 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">GRADO/S / Años</label>
+                <input type="text" id="GradoRepitencia" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="MotivoRepitenciadiv" class="col-12 col-md-6 col-lg-5 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Misma</label>
+                <input type="text" id="MotivoRepitencia" style="text-transform:uppercase" disabled class="form-control form-control-rounded" />
+            </div>
+            <div id="PeriodosdeInasistenciadiv" class="col-12 col-md-6 col-lg-4 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Periodos de Inasistencia</label>
+                <select class="form-control form-control-rounded" disabled style="text-transform:uppercase" id="PeriodosdeInasistencia">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="Motivoinasistenciadiv" class="col-12 col-lg-8 col-md-6 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Misma</label>
+                <input type="text" id="Motivoinasistencia" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div id="PeriodosDeserciondiv" class="col-12 col-lg-4 col-md-6 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label text-left TextoNegroFormulario Letrainput">Periodos de Desercion</label>
+                <select class="form-control form-control-rounded" disabled style="text-transform:uppercase" id="PeriodosDesercion">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="MotivoDeserciondiv" class="col-12 col-lg-8 col-md-6 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput text-left">Motivo de la Misma</label>
+                <input type="text" id="MotivoDesercion" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+            <div id="Acompaniamientopedagogicoyterapeuticodiv" class="col-12 col-lg-7 col-md-6 TextonegroCelu ocultar text-left">
+                @*inicial y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput text-left">¿Recibió Acompañamiento pedagogico y terapeutico?</label>
+                <select class="form-control form-control-rounded" disabled style="text-transform:uppercase" id="Acompaniamientopedagogicoyterapeutico">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv" class="col-12  col-lg-5 col-md-6 TextonegroCelu text-left ocultar">
+                @*inicial y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Consignar tiempo y modalidad</label>
+                <input type="text" id="Acompaniamientopedagogicoyterapeuticotiempoymodalidad" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+        </div>
+        <hr />
+        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACIÓN ACTUAL</h4>
+        <hr />
+        <div class="row">
+            <div id="SalaCusoAsistediv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Sala/Curso Asiste</label>
+                <input type="text" id="SalaCusoAsiste" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="TurnoJornadadiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Turno</label>
+                <input type="text" id="TurnoJornada" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="MotivoDerivaciondiv" class="col-12 col-lg-3 col-md-6 TextonegroCelu ocultar text-left">
+                @*Secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Motivo de la Derivación</label>
+                <input type="text" id="MotivoDerivacion" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="Fortalezasdiv" class="col-12 col-lg-6 col-md-6 TextonegroCelu ocultar text-left">
+                @*inicial y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Fortalezas de niño</label>
+                <input type="text" id="Fortalezas" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="Dificultadesdiv" class="col-12 col-lg-6  col-md-6 TextonegroCelu ocultar text-left">
+                @*inicial  y Primario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Dificultades y/o problemáticas del alumno</label>
+                <input type="text" id="Dificultades" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="Estrategiasdiv" class="col-12 col-lg-6 col-md-6 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Estrategias/Acciones implementadas y resultados</label>
+                <input type="text" id="Estrategias" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="AcompaniamientopedagogicoyterapeuticoActualdiv" class="col-12 col-lg-7 col-md-6 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">¿Recibe acompañamiento pedagogico y terapeutico hoy?</label>
+                <select class="form-control form-control-rounded" disabled style="text-transform:uppercase" id="AcompaniamientopedagogicoyterapeuticoActual">
+                    <option value="false" selected>NO</option>
+                    <option value="true">SI</option>
+                </select>
+            </div>
+            <div id="AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv" class="col-12 col-lg-5 col-md-6 TextonegroCelu text-left ocultar">
+                <label class="control-label TextoNegroFormulario Letrainput">Consignar tiempo y modalidad</label>
+                <input type="text" id="AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad" disabled style="text-transform:uppercase" class="form-control  form-control-rounded" />
+            </div>
+        </div>
+        <hr />
+        <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS INSTITUCIONALES</h4>
+        <hr />
+        <div class="row">
+            <div id="NombreApellidoDocenteDerivadiv" class="col-12 col-lg-4 col-md-4 TextonegroCelu ocultar text-left">
+                <label class="control-label TextoNegroFormulario Letrainput">Docente/s que efectua la Deriv.</label>
+                <input type="text" id="NombreApellidoDocenteDeriva" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="Areacurriculardiv" class="col-12 col-lg-4 col-md-4 TextonegroCelu ocultar text-left">
+                @*primario y secundarioo*@
+                <label class="control-label TextoNegroFormulario Letrainput">Area Curricular a Cargo</label>
+                <input type="text" id="Areacurricular" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+            <div id="otrosDocentesdiv" class="col-12 col-lg-4 col-md-4 TextonegroCelu ocultar text-left">
+                @*Primario y secundario*@
+                <label class="control-label TextoNegroFormulario Letrainput">Otros docentes del Alumno</label>
+                <input type="text" id="otrosDocentes" style="text-transform:uppercase" disabled class="form-control  form-control-rounded" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+
+    <div class="text-right">
+        <a class="btn-flotante" title="Volver al listado de Derivaciones" href="~/Derivaciones/Index"><img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" /></a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        window.onload = ValidarNivel();
+        function ValidarNivel() {
+
+            var nivel = $("#nivel").val();
+            if (nivel == 0) {
+                $("#nav-profile").addClass("disabled");
+            }
+            else {
+                $("#nav-profile").removeClass("disabled");
+            }
+
+            $("#AnioingresonivelInicaldiv").addClass("ocultar");
+            $("#Anioingresonivelactualdiv").addClass("ocultar");
+            $("#Anioingresoinstitucionactualdiv").addClass("ocultar");
+            $("#InstitucionAsistiodiv").addClass("ocultar");
+            $("#DiferentesInstitucionesdiv").addClass("ocultar");
+            $("#Rehizodiv").addClass("ocultar");
+            $("#Saladiv").addClass("ocultar");
+            $("#ObservacionesRehizoSaladiv").addClass("ocultar");
+            $("#Repitenciadiv").addClass("ocultar");
+            $("#GradoRepitenciadiv").addClass("ocultar");
+            $("#MotivoRepitenciadiv").addClass("ocultar");
+            $("#PeriodosdeInasistenciadiv").addClass("ocultar");
+            $("#Motivoinasistenciadiv").addClass("ocultar");
+            $("#PeriodosDeserciondiv").addClass("ocultar");
+            $("#MotivoDeserciondiv").addClass("ocultar");
+            $("#Acompaniamientopedagogicoyterapeuticodiv").addClass("ocultar");
+            $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").addClass("ocultar");
+            $("#SalaCusoAsistediv").addClass("ocultar");
+            $("#TurnoJornadadiv").addClass("ocultar");
+            $("#MotivoDerivaciondiv").addClass("ocultar");
+            $("#Fortalezasdiv").addClass("ocultar");
+            $("#Dificultadesdiv").addClass("ocultar");
+            $("#Estrategiasdiv").addClass("ocultar");
+            $("#AcompaniamientopedagogicoyterapeuticoActualdiv").addClass("ocultar");
+            $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").addClass("ocultar");
+            $("#NombreApellidoDocenteDerivadiv").addClass("ocultar");
+            $("#Areacurriculardiv").addClass("ocultar");
+            $("#otrosDocentesdiv").addClass("ocultar");
+
+            if (nivel === "1") {
+
+                $("#AnioingresonivelInicaldiv").removeClass("ocultar");
+                $("#Saladiv").removeClass("ocultar");
+                $("#ObservacionesRehizoSaladiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#Acompaniamientopedagogicoyterapeuticodiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#Fortalezasdiv").removeClass("ocultar");
+                $("#Dificultadesdiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+            }
+            if (nivel === "2") {
+
+                $("#AnioingresonivelInicaldiv").removeClass("ocultar");
+                $("#Anioingresonivelactualdiv").removeClass("ocultar");
+                $("#InstitucionAsistiodiv").removeClass("ocultar");
+                $("#DiferentesInstitucionesdiv").removeClass("ocultar");
+                $("#Rehizodiv").removeClass("ocultar");
+                $("#Repitenciadiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#PeriodosDeserciondiv").removeClass("ocultar");
+                $("#Acompaniamientopedagogicoyterapeuticodiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#Fortalezasdiv").removeClass("ocultar");
+                $("#Dificultadesdiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#Areacurriculardiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+                $("#otrosDocentesdiv").removeClass("ocultar");
+            }
+            if (nivel === "3") {
+
+                $("#Anioingresonivelactualdiv").removeClass("ocultar");
+                $("#Anioingresoinstitucionactualdiv").removeClass("ocultar");
+                $("#DiferentesInstitucionesdiv").removeClass("ocultar");
+                $("#Repitenciadiv").removeClass("ocultar");
+                $("#PeriodosdeInasistenciadiv").removeClass("ocultar");
+                $("#PeriodosDeserciondiv").removeClass("ocultar");
+                $("#TurnoJornadadiv").removeClass("ocultar");
+                $("#SalaCusoAsistediv").removeClass("ocultar");
+                $("#MotivoDerivaciondiv").removeClass("ocultar");
+                $("#Estrategiasdiv").removeClass("ocultar");
+                $("#AcompaniamientopedagogicoyterapeuticoActualdiv").removeClass("ocultar");
+                $("#Areacurriculardiv").removeClass("ocultar");
+                $("#NombreApellidoDocenteDerivadiv").removeClass("ocultar");
+                $("#otrosDocentesdiv").removeClass("ocultar");
+            }
+        }
+
+
+        window.onload = DetalleDerivaciones();
+        function DetalleDerivaciones() {
+
+            var id = @Model.DerivacionesID;
+            $.ajax({
+                type: "POST",
+                url: '../../Derivaciones/DatosDerivaciones',
+                data: { DerivacionesID: id },
+                success: function (derivacionmostrar) {
+
+
+                    $("#DerivacionesID").val(derivacionmostrar.DerivacionesID);
+                    $("#DerivacionFecha").val(derivacionmostrar.DerivacionesFechaString);
+                    $("#nivel").val(derivacionmostrar.DerivacionesNiveles);
+                    ValidarNivel();
+                    $("#AnioingresonivelInical").val(derivacionmostrar.DerivacionesAnioIngresoNivelString);
+                    $("#Anioingresonivelactual").val(derivacionmostrar.DerivacionesAnioIngresoInstitucionActualString);
+                    $("#Anioingresoinstitucionactual").val(derivacionmostrar.DerivacionesAnioIngresoNivelActualString);
+                    $("#InstitucionAsistio").val(derivacionmostrar.DerivacionesInstitucionAsistio);
+                    $("#DiferentesInstituciones").val(derivacionmostrar.DerivacionesDiferentesInstituaciones);
+                    if (derivacionmostrar.DerivacionesRehizo === true) {
+                        $("#Rehizo").val("true")
+                        $("#ObservacionesRehizoSaladiv").removeClass("ocultar");
+                        $("#ObservacionesRehizoSala").val(derivacionmostrar.DerivacionesObservaciones);
+                    }
+                    else {
+                        $("#Rehizo").val("false");
+                    }
+                    $("#Sala").val(derivacionmostrar.DerivacionesSalaCurso);
+                    $("#ObservacionesRehizoSala").val(derivacionmostrar.DerivacionesObservaciones);
+                    if (derivacionmostrar.DerivacionesRepitencia === true) {
+                        $("#Repitencia").val("true");
+                        $("#GradoRepitenciadiv").removeClass("ocultar");
+                        $("#MotivoRepitenciadiv").removeClass("ocultar");
+                        $("#GradoRepitencia").val(derivacionmostrar.DerivacionesGradoAnioRepitencia);
+                        $("#MotivoRepitencia").val(derivacionmostrar.DerivacionesMotivosRepitencia);
+                    }
+                    else {
+                        $("#Repitencia").val("false");
+                    }
+
+                    if (derivacionmostrar.DerivacionesInasistencias === true) {
+
+                        $("#PeriodosdeInasistencia").val("true");
+                        $("#Motivoinasistenciadiv").removeClass("ocultar");
+                        $("#Motivoinasistencia").val(derivacionmostrar.DerivacionesMotivosInasistencias);
+
+                    }
+                    else {
+                        $("#PeriodosdeInasistencia").val("false");
+                    }
+
+                    if (derivacionmostrar.DerivacionesDesercion === true) {
+                        $("#PeriodosDesercion").val("true");
+                        $("#MotivoDeserciondiv").removeClass("ocultar");
+                        $("#MotivoDesercion").val(derivacionmostrar.DerivacionesMotivosDesercion);
+                    }
+                    else {
+                        $("#PeriodosDesercion").val("false");
+                    }
+                    if (derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeutico === true) {
+                        $("#Acompaniamientopedagogicoyterapeutico").val("true");
+                        $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidaddiv").removeClass("ocultar");
+                        $("#Acompaniamientopedagogicoyterapeuticotiempoymodalidad").val(derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidad);
+                    }
+                    else {
+                        $("#Acompaniamientopedagogicoyterapeutico").val("false");
+                    }
+                    $("#SalaCusoAsiste").val(derivacionmostrar.DerivacionesSalaAsiste);
+                    $("#TurnoJornada").val(derivacionmostrar.DerivacionesTurnoJornada);
+                    $("#MotivoDerivacion").val(derivacionmostrar.DerivacionesMotivosSecundario);
+                    $("#Fortalezas").val(derivacionmostrar.DerivacionesFortalezasNinio);
+                    $("#Dificultades").val(derivacionmostrar.DerivacionesDificultades);
+                    $("#Estrategias").val(derivacionmostrar.DerivacionesEstrategiasResultados);
+                    if (derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoActualmente === true) {
+                        $("#AcompaniamientopedagogicoyterapeuticoActual").val("true");
+                        $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidaddiv").removeClass("ocultar");
+                        $("#AcompaniamientopedagogicoyterapeuticoActualtiempoymodalidad").val(derivacionmostrar.DerivacionesAcompañamientoPedagogicoTerapeuticoTiempoModalidadActual);
+                    }
+                    else {
+                        $("#AcompaniamientopedagogicoyterapeuticoActual").val("false");
+                    }
+                    $("#NombreApellidoDocenteDeriva").val(derivacionmostrar.DerivacionesNombreDocente);
+                    $("#Areacurricular").val(derivacionmostrar.DerivacionesAreaCurricular);
+                    $("#otrosDocentes").val(derivacionmostrar.DerivacionesOtrosDocentesInformacion);
+                    $("#PersonaID").val(derivacionmostrar.Persona.PersonaID);
+                    $("#PersonaNombre").val(derivacionmostrar.Persona.PersonaApellidoNombre);
+                    $("#PersonaDomicilio").val(derivacionmostrar.Persona.PersonaDireccion);
+                    $("#PersonaFechaNacimiento").val(derivacionmostrar.Persona.PersonaFechaNacimientoString);
+                    $("#PersonaDNI").val(derivacionmostrar.Persona.PersonaDNI);
+                    $("#PersonaTelefono").val(derivacionmostrar.Persona.PersonaTelefono);
+                    $("#PersonaEdad").val(derivacionmostrar.Persona.PersonaEdad);
+                    if (derivacionmostrar.Persona.PersonaObraSocial === true) {
+                        $("#Obrasocialsino").val("Sí");
+                    }
+                    else {
+                        $("#Obrasocialsino").val("No");
+                    }
+                    $("#Obrasocialcual").val(derivacionmostrar.Persona.ObraSocialCual);
+                    $("#EscuelaID").val(derivacionmostrar.Escuela.EscuelaID);
+                    $("#EscuelaEmail").val(derivacionmostrar.Escuela.Email);
+                    $("#EscuelaTelefono").val(derivacionmostrar.Escuela.EscuelaTelefono);
+                    $("#EscuelaNombre").val(derivacionmostrar.Escuela.EscuelaNombre);
+
+
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Derivación.");
+                }
+            });
+        }
+    </script>
+    }
+

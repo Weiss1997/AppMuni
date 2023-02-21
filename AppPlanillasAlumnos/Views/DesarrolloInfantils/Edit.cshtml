@@ -1,0 +1,479 @@
+﻿@model AppPlanillasAlumnos.Models.SeguimientoInfantil.DesarrolloInfantil
+
+<h2 class="text-center text-uppercase text-dark letratitulo">PLANILLA DESARROLLO INFANTIL</h2>
+
+<input type="hidden" value="@Model.DesarrolloInfantilID" id="DesarrolloInfantilID" />
+
+<div class="modal fade" id="ModalDetalleDesarrolloInfantil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title" id="exampleModalLabel">DESARROLLO INFANTIL</h5>
+                <button type="button" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-center tab-content">
+                    <div class="row">
+                        <input type="hidden" id="DetalleDesarrolloInfantilID" value="0" />
+                        <div class="form-group col-md-12">
+                            <label class="control-label TextoNegroFormulario">Pregunta</label>
+                            <input type="text" disabled id="PreguntasIodiDescripcion" class="form-control" />
+                        </div>
+
+
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">1°T</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">0</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorUno">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">1</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorDos">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">2</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorTres">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">2°T</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">3</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorCuatro">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">4</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorCinco">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">5</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorSeis">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">3°T</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">6</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorSiete">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">7</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorOcho">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">8</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorNueve">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">4°T</h3>
+                                <hr />
+                            </div>
+
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">9</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorDiez">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">10</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorOnce">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="control-label TextoNegroFormulario">11</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorDoce">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">1 a.</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="control-label TextoNegroFormulario">12/17</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorTrece">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="control-label TextoNegroFormulario">19/23</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorCatorce">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row col-12 col-md-6 col-lg-3">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">2 a.</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="control-label TextoNegroFormulario">24/35</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorQuince">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row col-12 col-md-6 col-lg-3">
+                            <div class="col-12">
+                                <h3 class="text-center text-dark letratitulo text-uppercase">3 a.</h3>
+                                <hr />
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="control-label TextoNegroFormulario">36/47</label>
+                                <select class="form-control form-control-rounded" id="CuadroColorDieciseis">
+                                    <option value="0">Seleccionar</option>
+                                    <option value="1">Logrado</option>
+                                    <option value="2">Riesgo</option>
+                                    <option value="3">Alarma</option>
+                                </select>
+                            </div>
+                        </div> 
+                        </div>
+                    </div>
+                <div class="modal-footer-2">
+                    <button type="button" class="BotonCancelar-Modal" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="GuardarDetalle()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cardfondo">
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Persona relacionada</label>
+            <input type="text" disabled id="PersonaApellidoNombre" class="form-control form-control-rounded" style="text-transform:uppercase" />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Fecha de nacimiento</label>
+            <input type="text" disabled id="PersonaFechaNacimiento" class="form-control form-control-rounded" style="text-transform:uppercase" />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label TextoNegroFormulario">Edad gestional al nacer</label>
+            <input type="text" id="DesarrolloInfantilEdadGestionalAlNacer" class="form-control-rounded form-control" style="text-transform:uppercase" />
+        </div>
+    </div>
+</div>
+<div class="table-colores">
+    <table class="table table-bordered table-active table-hover" id="tabla">
+        <thead class="letra">
+            <tr class="tablaAzul">
+                <th class="text-white text-uppercase">Pregunta</th>
+                <th class="text-white text-center">0</th>
+                <th class="text-white text-center">1</th>
+                <th class="text-white text-center">2</th>
+                <th class="text-white text-center">3</th>
+                <th class="text-white text-center">4</th>
+                <th class="text-white text-center">5</th>
+                <th class="text-white text-center">6</th>
+                <th class="text-white text-center">7</th>
+                <th class="text-white text-center">8</th>
+                <th class="text-white text-center">9</th>
+                <th class="text-white text-center">10</th>
+                <th class="text-white text-center">11</th>
+                <th class="text-white text-center">12/17</th>
+                <th class="text-white text-center">18/23</th>
+                <th class="text-white text-center">24/35</th>
+                <th class="text-white text-center">36/47</th>
+                <th class="text-white text-center">Edit.</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-detalle-desarrollo-infantil">
+        </tbody>
+    </table>
+</div>
+
+<div class="cardfondo">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="control-label TextoNegroFormulario">Observación</label>
+           
+        </div>
+        <div class="col-12">
+            <textarea class="TextArea-Modal-di-edit text-uppercase" id="DesarrolloInfantilObservacion"></textarea>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div>
+        <a type="button" class="BotonCancelar-Modal linea_boton_flotante_cancelar" href="~/DesarrolloInfantils/Index">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu imagen-link"/>
+        </a>
+    </div>
+    <div>
+        <button type="button" onclick="GuardarDatosDePlanilla()" class="BotonGuardar-Modal btn-flotante-guardar">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu imagen-link"/>
+        </button>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        window.onload = BuscarInfoDesarrolloInfantil(0);
+
+        function BuscarInfoDesarrolloInfantil(origen) {
+            var desarrolloInfantilID = $("#DesarrolloInfantilID").val();
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/BuscarInfoDesarrolloInfantil',
+                data: { DesarrolloInfantilID: desarrolloInfantilID },
+                success: function (desarrolloInfantilMostrar) {
+
+                    $("#ModalDetalleDesarrolloInfantil").modal("hide");
+                    if (origen != 1) {
+                        $("#PersonaID").val(desarrolloInfantilMostrar.PersonaID);
+                        $("#PersonaApellidoNombre").val(desarrolloInfantilMostrar.PersonaApellidoNombre);
+                        $("#PersonaFechaNacimiento").val(desarrolloInfantilMostrar.PersonaFechaNacimientoString);
+                        $("#DesarrolloInfantilEdadGestionalAlNacer").val(desarrolloInfantilMostrar.DesarrolloInfantilEdadGestionalAlNacer);
+                        $("#DesarrolloInfantilObservacion").val(desarrolloInfantilMostrar.DesarrolloInfantilObservacion);
+                    }
+
+                    $("#tbody-detalle-desarrollo-infantil").empty();
+
+                    $.each(desarrolloInfantilMostrar.ListadoDetalleDesarrolloInfantil, function (index, detalleDesarrolloInfantilMostrar) {
+
+                        var cuadroColorUno = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorUno;
+                        var cuadroColorDos = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDos;
+                        var cuadroColorTres = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorTres;
+                        var cuadroColorCuatro = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCuatro;
+                        var cuadroColorCinco = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCinco;
+                        var cuadroColorSeis = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorSeis;
+                        var cuadroColorSiete = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorSiete;
+                        var cuadroColorOcho = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorOcho;
+                        var cuadroColorNueve = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorNueve;
+                        var cuadroColorDiez = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDiez;
+                        var cuadroColorOnce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorOnce;
+                        var cuadroColorDoce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDoce;
+                        var cuadroColorTrece = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorTrece;
+                        var cuadroColorCatorce = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorCatorce;
+                        var cuadroColorQuince = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorQuince;
+                        var cuadroColorDieciseis = "casilla-desarrollo-infantil" + detalleDesarrolloInfantilMostrar.CuadroColorDieciseis;
+
+                        $("#tbody-detalle-desarrollo-infantil").append('<tr>' +
+
+                            '<td style="width:40%" class="text-left text-uppercase TextoNegroTablas contentcasilla ContenidoTablaGris">' + detalleDesarrolloInfantilMostrar.PreguntasIodiDescripcion + '</td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorUno + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDos + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorTres + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCuatro + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCinco + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorSeis + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorSiete + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorOcho + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorNueve + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDiez + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorOnce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDoce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorTrece + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorCatorce + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorQuince + '"></td>' +
+                            '<td style="width:30px" class="ContenidoTablaGris ' + cuadroColorDieciseis + '"></td>' +
+                            '<td style="width:20px" class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoDetalle(' + detalleDesarrolloInfantilMostrar.DetalleDesarrolloInfantilID + ')" data-toggle="modal" data-target="#ModalDetalleDesarrolloInfantil"><img src="../../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla"/></a>' +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //BUSCAR INFO DETALLE
+        function BuscarInfoDetalle(DetalleDesarrolloInfantilID) {
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/BuscarInfoDetalle',
+                data: { DetalleDesarrolloInfantilID: DetalleDesarrolloInfantilID },
+                success: function (detalleDesarrolloInfantilMostrar) {
+                    $("#DetalleDesarrolloInfantilID").val(detalleDesarrolloInfantilMostrar.DetalleDesarrolloInfantilID);
+                    $("#PreguntasIodiDescripcion").val(detalleDesarrolloInfantilMostrar.PreguntasIodiDescripcion);
+                    $("#CuadroColorUno").val(detalleDesarrolloInfantilMostrar.CuadroColorUno);
+                    $("#CuadroColorDos").val(detalleDesarrolloInfantilMostrar.CuadroColorDos);
+                    $("#CuadroColorTres").val(detalleDesarrolloInfantilMostrar.CuadroColorTres);
+                    $("#CuadroColorCuatro").val(detalleDesarrolloInfantilMostrar.CuadroColorCuatro);
+                    $("#CuadroColorCinco").val(detalleDesarrolloInfantilMostrar.CuadroColorCinco);
+                    $("#CuadroColorSeis").val(detalleDesarrolloInfantilMostrar.CuadroColorSeis);
+                    $("#CuadroColorSiete").val(detalleDesarrolloInfantilMostrar.CuadroColorSiete);
+                    $("#CuadroColorOcho").val(detalleDesarrolloInfantilMostrar.CuadroColorOcho);
+                    $("#CuadroColorNueve").val(detalleDesarrolloInfantilMostrar.CuadroColorNueve);
+                    $("#CuadroColorDiez").val(detalleDesarrolloInfantilMostrar.CuadroColorDiez);
+                    $("#CuadroColorOnce").val(detalleDesarrolloInfantilMostrar.CuadroColorOnce);
+                    $("#CuadroColorDoce").val(detalleDesarrolloInfantilMostrar.CuadroColorDoce);
+                    $("#CuadroColorTrece").val(detalleDesarrolloInfantilMostrar.CuadroColorTrece);
+                    $("#CuadroColorCatorce").val(detalleDesarrolloInfantilMostrar.CuadroColorCatorce);
+                    $("#CuadroColorQuince").val(detalleDesarrolloInfantilMostrar.CuadroColorQuince);
+                    $("#CuadroColorDieciseis").val(detalleDesarrolloInfantilMostrar.CuadroColorDieciseis);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //CUANDO HACE CLICK EN EL BOTON GUARDAR DETALLE
+        function GuardarDetalle() {
+            let detalleDesarrolloInfantilID = $("#DetalleDesarrolloInfantilID").val();
+            let cuadroColorUno = $("#CuadroColorUno").val();
+            let cuadroColorDos = $("#CuadroColorDos").val();
+            let cuadroColorTres = $("#CuadroColorTres").val();
+            let cuadroColorCuatro = $("#CuadroColorCuatro").val();
+            let cuadroColorCinco = $("#CuadroColorCinco").val();
+            let cuadroColorSeis = $("#CuadroColorSeis").val();
+            let cuadroColorSiete = $("#CuadroColorSiete").val();
+            let cuadroColorOcho = $("#CuadroColorOcho").val();
+            let cuadroColorNueve = $("#CuadroColorNueve").val();
+            let cuadroColorDiez = $("#CuadroColorDiez").val();
+            let cuadroColorOnce = $("#CuadroColorOnce").val();
+            let cuadroColorDoce = $("#CuadroColorDoce").val();
+            let cuadroColorTrece = $("#CuadroColorTrece").val();
+            let cuadroColorCatorce = $("#CuadroColorCatorce").val();
+            let cuadroColorQuince = $("#CuadroColorQuince").val();
+            let cuadroColorDieciseis = $("#CuadroColorDieciseis").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/GuardarDetalle',
+                data: {
+                    DetalleDesarrolloInfantilID: detalleDesarrolloInfantilID,
+                    CuadroColorUno: cuadroColorUno, CuadroColorDos: cuadroColorDos,
+                    CuadroColorTres: cuadroColorTres, CuadroColorCuatro: cuadroColorCuatro,
+                    CuadroColorCinco: cuadroColorCinco, CuadroColorSeis: cuadroColorSeis,
+                    CuadroColorSiete: cuadroColorSiete, CuadroColorOcho: cuadroColorOcho,
+                    CuadroColorNueve: cuadroColorNueve, CuadroColorDiez: cuadroColorDiez,
+                    CuadroColorOnce: cuadroColorOnce, CuadroColorDoce: cuadroColorDoce,
+                    CuadroColorTrece: cuadroColorTrece, CuadroColorCatorce: cuadroColorCatorce,
+                    CuadroColorQuince: cuadroColorQuince, CuadroColorDieciseis: cuadroColorDieciseis,
+                },
+                success: function (resultado) {
+                    BuscarInfoDesarrolloInfantil(1);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function GuardarDatosDePlanilla() {
+            let desarrolloInfantilID = $("#DesarrolloInfantilID").val();
+            let desarrolloInfantilEdadGestionalAlNacer = $("#DesarrolloInfantilEdadGestionalAlNacer").val();
+            let desarrolloInfantilObservacion = $("#DesarrolloInfantilObservacion").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/GuardarDatosDePlanilla',
+                data: {
+                    DesarrolloInfantilID: desarrolloInfantilID,
+                    DesarrolloInfantilEdadGestionalAlNacer: desarrolloInfantilEdadGestionalAlNacer,
+                    DesarrolloInfantilObservacion: desarrolloInfantilObservacion
+                },
+                success: function (resultado) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'El registro del Infante fue guardado correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    location.href = '../../DesarrolloInfantils/Index';                   
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+       
+    </script>
+}
+
+

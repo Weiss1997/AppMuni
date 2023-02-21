@@ -1,0 +1,584 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Profesional>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">PROFESIONALES</h2>
+
+
+<div class="row">
+        <div class="col-12 col-md-4 EspaciadoBoton ">
+            <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+        </div>
+
+        <div class="col-auto">
+            <!-- Button trigger modal -->
+            <button class="SombraBoton TextoNegroTablas ColorCelesteBoton" data-toggle="modal" data-target="#ModalProfesional">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/empresario.png " class="icono-menu" />
+                Crear
+            </button>
+        </div>
+        <div class="col-auto">
+            <button onclick="GenerarImpresion()" class="SombraBoton TextoNegroBoton ColorCelesteBoton">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />IMPRIMIR LISTADO
+            </button>
+        </div>
+        <div class="col-auto">
+            <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoProfesional">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+            </button>
+        </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalProfesional" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">PROFESIONAL</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" onclick="LimpiarModalProfesional()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="control-label TextoNegroFormulario">Persona Relacionada <span class="rojo">*</span></label>
+                            <input type="hidden" id="ProfesionalID" name="ProfesionalID" value="0" />
+                            <input type="hidden" id="PersonaID" name="PersonaID" value="0" />
+                            <input type="text" name="PersonaNombre" id="PersonaNombre" autocomplete="off" class="form-control form-control-rounded" style="text-transform:uppercase" onKeyUp="ControlarAutocompletado()" onKeyDown="ControlarAutocompletado()" />
+                            <label id="PersonaNombreVAlidacion" class="control-label ocultar validaciones">Debe escribir el Nombre Del Profesional</label>
+                            <label id="PersonaIDVAlidacion" class="control-label ocultar validaciones">El nombre del Profesional no existe</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Especializacion <span class="rojo">*</span></label>
+                            @Html.DropDownList("EspecializacionID", null, htmlAttributes: new { @class = "form-control form-control-rounded" })
+                            <label id="EspecializacionValidacion" class="control-label ocultar validaciones">Debe seleccionar una especializacion</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="control-label TextoNegroFormulario">N° de Matricula <span class="rojo">*</span></label>
+                            <input type="text" maxlength="13" autocomplete="off" id="ProfesionalMatricula" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                            <label id="MatriculaFaltanteValidacion" class="control-label ocultar validaciones">Debe escribir la matricula del profesional</label>
+                            <label id="MatriculaExistenteValidacion" class="control-label ocultar validaciones">Esta Matricula ya esta asociada a otro profesional</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" onclick="LimpiarModalProfesional()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidarProfesional()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoProfesional" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. PROFESIONAL</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para poder crear un profesional se debe tener creada una persona y una especialidad</label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white">
+                Apellido y nombre
+            </th>
+            <th class="ocultar400  text-white">
+                Especializacion
+            </th>
+            <th class="ocultar860 text-white">
+                Matricula
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-profesional">
+    </tbody>
+
+
+</table>
+
+<table hidden id="tablaImpresion">
+    <thead>
+        <tr>
+            <th>
+                N°
+            </th>
+            <th>
+                NOMBRE COMPLETO
+            </th>
+            <th>
+                ESPECIALIZACION
+            </th>
+            <th>
+                MATRICULA
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-profesional-impresion">
+    </tbody>
+
+
+</table>
+
+
+@section Scripts {
+    <script>
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        function LimpiarModalProfesional() {
+            $("#ProfesionalID").val(0);
+            $("#PersonaID").val(0);
+            $("#PersonaNombre").val('');
+            $("#EspecializacionID").val(1);
+            $("#ProfesionalMatricula").val('');
+            $("#MatriculaExistenteValidacion").addClass('ocultar');
+            $("#PersonaNombreVAlidacion").addClass('ocultar');
+            $("#MatriculaFaltanteValidacion").addClass('ocultar');
+            $("#PersonaIDVAlidacion").addClass('ocultar');
+            $("#EspecializacionValidacion").addClass("ocultar");
+        }
+
+
+        window.onload = BuscarListadoProfesional();
+
+        function BuscarListadoProfesional() {
+
+            $.ajax({
+                type: "POST",
+                url: '../../Profesionals/BuscarListadoProfesional',
+                data: {},
+                success: function (profesionalMostrar) {
+
+
+                    $("#tbody-profesional").empty();
+                    $("#tbody-profesional-impresion").empty();
+                    var numeroColumna = 0;
+
+                    $.each(profesionalMostrar, function (index, profesional) {
+
+                        $("#tbody-profesional").append('<tr>' +
+                            '<td class=" TextoNegroTablas ContenidoTablaGris">' +
+                            profesional.Persona.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td class=" ocultar400 TextoNegroTablas ContenidoTablaGris">' +
+                            profesional.Especializaciones.EspecializacionNombre +
+                            '</td>' +
+                            '<td class=" TextoNegroTablas ocultar860 ContenidoTablaGris">' +
+                            profesional.ProfesionalMatricula +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a onclick="EditarProfesional(' + profesional.ProfesionalID + ')" class="btn-circle-index">' +
+                            '<img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" data-toggle="modal" data-target="#ModalProfesional"/>' +
+                            '</a>' +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris  ">' +
+                            '<a class="btn-circle-index" onclick="EliminarProfesional(' + profesional.ProfesionalID + ')" ><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+
+                        numeroColumna += 1;
+                        $("#tbody-profesional-impresion").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td >' +
+                            profesional.Persona.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td >' +
+                            profesional.Especializaciones.EspecializacionNombre +
+                            '</td>' +
+                            '<td >' +
+                            profesional.ProfesionalMatricula +
+                            '</td>' +
+                            '</tr>'
+                        );
+
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function EditarProfesional(profesionalID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Profesionals/EditarProfesional',
+                data: { ProfesionalID: profesionalID },
+                success: function (profesionalesMostrar) {
+                    $("#PersonaID").val(profesionalesMostrar.Persona.PersonaID);
+                    $("#PersonaNombre").val(profesionalesMostrar.Persona.PersonaApellidoNombre);
+                    $("#EspecializacionID").val(profesionalesMostrar.Especializaciones.EspecializacionID);
+                    $("#ProfesionalMatricula").val(profesionalesMostrar.ProfesionalMatricula);
+                    $("#ProfesionalID").val(profesionalesMostrar.ProfesionalID);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        function ValidarProfesional() {
+            $("#PersonaNombreVAlidacion").addClass("ocultar");
+            $("#PersonaIDVAlidacion").addClass("ocultar");
+            $("#MatriculaFaltanteValidacion").addClass("ocultar");
+            $("#EspecializacionValidacion").addClass("ocultar");
+            var personaNombre = $("#PersonaNombre").val();
+            var profesionalMatricula = $("#ProfesionalMatricula").val();
+            var personaID = $("#PersonaID").val();
+            var especializacion = $("#EspecializacionID").val();
+            var guardar = true;
+
+            if (personaNombre == "" || personaNombre == null) {
+                $("#PersonaNombreVAlidacion").removeClass("ocultar");
+                guardar = false;
+            } else {
+                if (personaID == 0 || personaID == null) {
+                    $("#PersonaIDVAlidacion").removeClass("ocultar");
+                    guardar = false;
+                }
+            }
+
+            if (profesionalMatricula == "" || profesionalMatricula == null || profesionalMatricula == 0) {
+                $("#MatriculaFaltanteValidacion").removeClass("ocultar");
+                guardar = false;
+            }
+            if (especializacion == "" || especializacion == null || especializacion == 0) {
+                $("#EspecializacionValidacion").removeClass("ocultar");
+                guardar = false;
+            }
+            if (guardar == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Profesionals/ValidacionDeProfesionaExistente',
+                    data: { PersonaNombre: personaNombre },
+                    success: function (Validacion) {
+                        if (Validacion == true) {
+                            $("#PersonaIDVAlidacion").addClass("ocultar");
+                            GuardarProfesional();
+                        } else {
+                            $("#PersonaIDVAlidacion").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            }
+        }
+
+        function GuardarProfesional() {
+            var personaid = $("#PersonaID").val();
+            var especializacionid = $("#EspecializacionID").val();
+            var profesionalmatricula = $("#ProfesionalMatricula").val();
+            var profesionalID = $('#ProfesionalID').val();
+            $.ajax({
+                type: "POST",
+                url: '../../Profesionals/GuardarProfesional',
+                data: {
+                    PersonaID: personaid, EspecializacionID: especializacionid, ProfesionalMatricula: profesionalmatricula, ProfesionalID: profesionalID
+                },
+                success: function (validacion) {
+                    if (validacion == true) {
+                        BuscarListadoProfesional();
+                        LimpiarModalProfesional();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Profesional Guardado Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#ModalProfesional").modal("hide");
+                    } else {
+                        $("#MatriculaExistenteValidacion").removeClass("ocultar");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+        function EliminarProfesional(profesionalID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar este Profesional?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Profesionals/EliminarProfesional',
+                        data: { id: profesionalID },
+                        success: function (validacion) {
+                            if (validacion === true) {
+                                BuscarListadoProfesional();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Profesional.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Este Profesional esta realcionado en otro registro',
+                                    'error'
+                                )
+                            }
+
+                        },
+                        error: function (Validacion) {
+
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) { }
+            })
+        }
+
+        /*Seccion para Autocompletado.*/
+
+        $("#PersonaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaID").val(ui.item.id);
+                BuscarInfoPersona(ui.item.id);
+            }
+        });
+
+        //funcion para controlar que cuando se borre todo lo escrito en el auto completa limpie todo los datos de persona
+        function ControlarAutocompletado() {
+            var nombre = $("#PersonaNombre").val();
+            var personaID = $("#PersonaID").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarNombrePersona();
+            }
+        }
+        //funcion para limpiar todo los campos referidos a persona
+        function LimpiarNombrePersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaNombreVAlidacion").addClass('ocultar');
+            $("#PersonaIDVAlidacion").addClass('ocultar');
+            $("#PersonaNombre").val('');
+        }
+
+
+        function BuscarInfoPersona(personaID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Personas/BuscarInfoPersona',
+                data: { PersonaID: personaID },
+                success: function (personaMostrar) {
+                    $("#PersonaDomicilio").val(personaMostrar.PersonaDireccion);
+                    $("#PersonaFechaNacimiento").val(personaMostrar.PersonaFechaNacimientoString);
+                    $("#PersonaDNI").val(personaMostrar.PersonaDNI);
+                    $("#PersonaTelefono").val(personaMostrar.PersonaTelefono);
+                    $("#Obrasocialcual").val(personaMostrar.ObraSocialCual);
+                    if (personaMostrar.PersonaObraSocial === true) {
+                        $("#Obrasocialsino").val("Sí");
+                    }
+                    else {
+                        $("#Obrasocialsino").val("No");
+                    }
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+            //preguntas segun fitrado, para cargar datos y texto para mostrar
+
+            /*var doc = new jsPDF('l', 'mm', [297, 210]);*///HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(25, 24, 195, 24); // horizontal line
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 27, 17, 13, 13);
+
+                doc.setFontSize(18);
+                doc.text('LISTADO DE PROFESIONALES', 47, 27);
+
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablaImpresion");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25, left: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 67 },
+                    2: { columnWidth: 55 },
+                    3: { columnWidth: 40 }
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+    </script>
+}

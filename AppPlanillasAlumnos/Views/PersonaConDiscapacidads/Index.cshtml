@@ -1,0 +1,729 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.Discapacitados.PersonaConDiscapacidad>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Personas Con Discapacidad</h2>
+
+<div class="row">
+    <div class="col-12 row">
+        <div class="col-12 col-md-4 EspaciadoBoton ">
+            <input id="buscar" type="text" class="form-control BarraBusqueda form-controlCorto text-uppercase" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BÚSQUEDA" />
+        </div>
+        <div class="col-auto">
+            <button class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="vistaCrearDiscapacitado();" title="Ir al formulario para crear persona">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/discapacitado.png" class="icono-menu" />
+                CREAR
+            </button>
+        </div>
+        <div class="col-auto">
+            <button onclick="GenerarImpresion()" class="SombraBoton TextoNegroBoton ColorCelesteBoton">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />IMPRIMIR LISTADO
+            </button>
+        </div>
+        <div class="col-auto">
+            <button type="button" onclick="ArmadoGraficoBarras()" class="SombraBoton TextoNegroBoton ColorCelesteBoton" data-toggle="modal" data-target="#ModalGraficoBarras">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/grafico-de-barras.png" class="icono-menu" />
+                GRAFICO DE BARRAS
+            </button>
+        </div>
+        <div class="col-auto">
+            <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoPerDisc">
+                <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+            </button>
+        </div>
+    </div>
+    <div class="col-12 row">
+        <div class="col-lg-3 EspaciadoBoton">
+            <select autocomplete="off" autofocus name="FiltroEdad" id="FiltroEdad" class="form-control BarraBusqueda form-control-rounded">
+                <option value="0" selected> SLECCIONA UN FILTRO DE EDAD</option>
+                <option value="1">45 DIAS A 17 AÑOS</option>
+                <option value="2">18 AÑOS A 59 AÑOS</option>
+                <option value="3">MAYORES A 60 AÑOS</option>
+            </select>
+        </div>
+        <div class="col-lg-3 EspaciadoBoton">
+            <input type="hidden" id="LocalidadesID" value="0" />
+            <input type="text" id="LocalidadesNombre" class="form-control BarraBusqueda form-controlCorto text-uppercase" onKeyUp="ControlarAutocompletadoLocalidad()" onKeyDown="ControlarAutocompletadoLocalidad()" autocomplete="off" placeholder="ESCRIBA PARA FILTRAR LOCALIDAD " />
+        </div>
+        <div class="col-lg-3 EspaciadoBoton">
+            <input type="hidden" id="EscuelaID" value="0" />
+            <input type="hidden" id="EscuelaPresidente" />
+            <input type="hidden" id="EscuelaEmail" />
+            <input type="hidden" id="EscuelaTelefono" />
+            <input type="hidden" id="EscuelaDireccion" />
+            <input type="text" id="EscuelaNombre" class="form-control BarraBusqueda form-controlCorto text-uppercase" onKeyUp="ControlarAutocompletadoEscuela()" onKeyDown="ControlarAutocompletadoEscuela()" autocomplete="off" placeholder="ESCRIBA PARA FILTRAR INSTITUCIÓN" />
+        </div>
+        <div class="col-lg-3 EspaciadoBoton">
+            <select autocomplete="off" autofocus name="FiltroCovid" id="FiltroCovid" class="form-control BarraBusqueda form-control-rounded">
+                <option value="0" selected> SELECCIONA FILTRO DE COVID</option>
+                <option value="1">NO TUVO COVID</option>
+                <option value="2">TUVO COVID</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalGraficoBarras" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">GRAFICO POR EDADES</h5>
+                <button type="button" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    
+                    <canvas id="myChart" style="position: relative; height:65vh; width:70vw"></canvas>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalInfoPerDisc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. PERSONA CON DISCAPACIDAD</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/muRWP3_NFDM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                    <!-- Botones -->
+                    <div class="modal-footer-2">
+                        <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                            <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-active table-hover" id="tabla" style="text-transform:uppercase">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-white">
+                Nombre completo
+            </th>
+            <th class="text-center text-white ocultar860" id="Edad">
+                Edad
+            </th>
+            <th class="text-white ocultar640 ">
+                Diagnostico
+            </th>
+            <th class="text-white ocultar860">
+                Localidad
+            </th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+            <th class="text-center tdBotones"></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-Discapacitado" style="text-transform:uppercase">
+    </tbody>
+</table>
+
+<table hidden id="tablaImpresion">
+    <thead>
+        <tr>
+            <th>
+                N°
+            </th>
+            <th>
+                NOMBRE COMPLETO
+            </th>
+            <th>
+                EDAD
+            </th>
+            <th>
+                DNI
+            </th>
+            <th>
+                CUD
+            </th>
+            <th>
+                SEXO
+            </th>
+            <th>
+                DIAGNOSTICO
+            </th>
+            <th>
+                LOCALIDAD
+            </th>
+            <th>
+                SIT. POST.
+            </th>
+            <th>
+                TELEFONO
+            </th>
+            @*<th >
+                    COVID
+                </th>
+                <th>
+                    O.SOCIAL
+                </th>*@
+        </tr>
+    </thead>
+    <tbody id="tbody-DiscapacitadoImpresion">
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        function CerrarModalVideo() {
+            $('iframe').removeAttr('src');
+            $("#ModalEspecializacion").modal("hide");
+            
+        }
+
+        function AbrirModalVideo() {
+            $("#ModalEspecializacion").modal("show");
+            $('iframe').attr('src','https://www.youtube.com/embed/muRWP3_NFDM');
+        }
+
+        function ArmadoGraficoBarras() {
+
+            var densityCanvas = document.getElementById("myChart");
+
+            $.ajax({
+                type: "POST",
+                url: '../../PersonaConDiscapacidads/ArmadoGraficoBarras',
+                data: {},
+                success: function (discapacitadomostrar) {
+
+                    var Edad45diasa17anios = discapacitadomostrar.CantidadDePersonasDe45diasA17Anios;
+                    var Edad18aniosa59anios = discapacitadomostrar.CantidadDePersonasDe18aniosA59Anios;
+                    var Mayoresde60anios = discapacitadomostrar.CantidadDePersonasMayoresA60anios;
+                    Chart.defaults.color = 'black';
+                    var barChart = new Chart(densityCanvas, {
+                        type: 'bar',
+                        data: {
+                            labels: ['HASTA 17 AÑOS', 'DE 18 A 59 AÑOS', 'MAYORES DE 60 AÑOS'],
+                            datasets: [{
+                                data: [Edad45diasa17anios, Edad18aniosa59anios, Mayoresde60anios],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.5)',
+                                    'rgba(54, 162, 235, 0.5)',
+                                    'rgba(255, 206, 86, 0.5)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)'
+                                ],
+                                
+                                borderWidth: 1
+                            }],
+                            
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            
+                        },
+                      
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+
+
+        function vistaCrearDiscapacitado() {
+            window.location.href = "/PersonaConDiscapacidads/CargaDiscapacitado";
+        }
+
+
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+            $TableFilter("#tablaImpresion", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+               
+            }
+            
+        }
+
+        window.onload = BuscarListadoDiscapacitados();
+        //funcion para buscar el listado de todas las personas con discapacidad
+        function BuscarListadoDiscapacitados() {
+
+            var edadFiltro = $("#FiltroEdad").val();
+            var escuelaID = $("#EscuelaID").val();
+            var localidadID = $("#LocalidadesID").val();
+            var covidFiltro = $("#FiltroCovid").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../PersonaConDiscapacidads/BuscarListadoDiscapacitados',
+                data: { EdadFiltro: edadFiltro, EscuelaID: escuelaID, LocalidadID: localidadID, FiltroCovid: covidFiltro },
+                success: function (discapacitadosmostrar) {
+
+                    $("#tbody-Discapacitado").empty();
+                    $("#tbody-DiscapacitadoImpresion").empty();
+                    var numeroColumna = 0;
+                    $.each(discapacitadosmostrar, function (index, discapacitado) {
+
+                        $("#tbody-Discapacitado").append('<tr>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris TextoenDobleLineaTabla">' + discapacitado.Persona.PersonaApellidoNombre + '</td>' +
+                            '<td class="text-center TextoNegroTablas ContenidoTablaGris ocultar860">' + discapacitado.Persona.PersonaEdad + '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris ocultar640 TextoenDobleLineaTabla">' + discapacitado.Diagnostico + '</td>' +
+                            '<td class="text-left TextoNegroTablas ContenidoTablaGris ocultar860">' + discapacitado.Persona.PersonaLocalidadNombre + '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" href="../PersonaConDiscapacidads/Edit/' + discapacitado.PersonaConDiscapacidadID + '"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" href="../PersonaConDiscapacidads/Details/' + discapacitado.PersonaConDiscapacidadID + '"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td class="text-center TextoNegroTablas tdBotones ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarPersonaConDiscapacidad(' + discapacitado.PersonaConDiscapacidadID + ');"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' + '</tr>'
+                        );
+
+                        if (discapacitado.Postrado === false) {
+                            var postrado = "NO";
+                        } else {
+                            var postrado = "SI";
+                        }
+                        if (discapacitado.Persona.PersonaCovid === false) {
+                            var covid = "NO";
+                        } else {
+                            var covid = "SI";
+                        }
+
+                        if (discapacitado.CudExistente == 1) {
+                            var CudExistente = "SI";
+                        }
+                        if (discapacitado.CudExistente == 2) {
+                            var CudExistente = "NO";
+                        }
+                        if (discapacitado.CudExistente == 3) {
+                            var CudExistente = "EN TRAMITE";
+                        }
+
+                        if (discapacitado.Persona.PersonaSexo == 1) {
+                            var Sexo = "FEMENINO";
+                        }
+                        if (discapacitado.Persona.PersonaSexo == 2) {
+                            var Sexo = "MASCULINO";
+                            
+                        }
+                        if (discapacitado.Persona.PersonaSexo == 3) {
+                            var Sexo = "NO BINARIO";
+                        }
+                        numeroColumna += 1;
+                        $("#tbody-DiscapacitadoImpresion").append('<tr>' +
+                            '<td >' + numeroColumna + '</td>' +
+                            '<td >' + discapacitado.Persona.PersonaApellidoNombre + '</td>' +
+                            '<td >' + discapacitado.Persona.PersonaEdad + '</td>' +
+                            '<td >' + discapacitado.Persona.PersonaDNI + '</td>' +
+                            '<td >' + CudExistente + '</td>' +
+                            '<td >' + Sexo + '</td>' +
+                            '<td >' + discapacitado.Diagnostico + '</td>' +
+                            '<td >' + discapacitado.Persona.PersonaLocalidadNombre + '</td>' +
+                            '<td >' + postrado + '</td>' +
+                            '<td >' + discapacitado.Persona.PersonaTelefono + '</td>' +
+                            '</tr>');
+                    });
+                    numeroColumna = 0;
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //funcion que activa el buscar listado si se escribio algo dentre el filtro por edad
+        $("#FiltroEdad").change(function () {
+            BuscarListadoDiscapacitados();
+        });
+
+        //funcion que activa el buscar listado si se cabia la opcion de filtro por covid
+        $("#FiltroCovid").change(function () {
+            BuscarListadoDiscapacitados();
+        });
+        //autocompletado de escuela utilizado para el filtro de escuela
+        $("#EscuelaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Escuelas/BuscarEscuelas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (escuelaMostrar) {
+                        response($.map(escuelaMostrar, function (escuela) {
+                            return {
+                                id: escuela.EscuelaID,
+                                value: escuela.EscuelaNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#EscuelaID").val(ui.item.id);
+                $("#EscuelaNombre").val(ui.item.value);
+                DatosEscolares(ui.item.id);
+                BuscarListadoDiscapacitados();
+            }
+        });
+        //autocompletado de Localidades utilizado para el filtro de Localidades
+        $("#LocalidadesNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Localidades/BuscarLocalidades',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (localidadesMostrar) {
+                        response($.map(localidadesMostrar, function (localidadMostrar) {
+                            return {
+                                id: localidadMostrar.LocalidadesID,
+                                value: localidadMostrar.LocalidadesNombre
+                            }
+                        }))
+
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#LocalidadesID").val(ui.item.id);
+                $("#LocalidadesNombre").val(ui.item.value);
+                BuscarListadoDiscapacitados();
+            }
+        });
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoLocalidad() {
+            var nombre = $("#LocalidadesNombre").val();
+            var localidadID = $("#LocalidadesID").val();
+            if (nombre == "" && localidadID != 0) {
+                LimpiarLocalidad();
+            }
+        }
+        //funcion para limpiar los campos completados de localidad
+        function LimpiarLocalidad() {
+            $("#LocalidadesID").val(0);
+            $("#LocalidadesNombre").val('');
+            BuscarListadoDiscapacitados();
+        }
+        //funcion para controlar que cuando este vacio el input utilizado para el filtro limpie el filtro
+        function ControlarAutocompletadoEscuela() {
+            var nombre = $("#EscuelaNombre").val();
+            var escuelaID = $("#EscuelaID").val();
+            if (nombre == "" && escuelaID != 0) {
+                LimpiarEscuela();
+            }
+        }
+        //funcion para limpiar los campos completados de escuela
+        function LimpiarEscuela() {
+            $("#EscuelaID").val(0);
+            $("#EscuelaNombre").val('');
+            $("#EscuelaPresidente").val('');
+            $("#EscuelaEmail").val('');
+            $("#EscuelaTelefono").val('');
+            $("#EscuelaDireccion").val('');
+            BuscarListadoDiscapacitados();
+        }
+        //funcion para eliminar una persona con discapacidad
+        function EliminarPersonaConDiscapacidad(PersonaConDiscapacidadID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta persona con discapacidad?',
+                text: "Si la eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../PersonaConDiscapacidads/EliminarPersonaConDiscapacidad',
+                        data: { id: PersonaConDiscapacidadID },
+                        success: function (Validacion) {
+                            if (Validacion == true) {
+                                BuscarListadoDiscapacitados()
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado a esta persona.',
+                                    'success'
+                                )
+                            }
+                            else {
+                                swalWithBootstrapButtons.fire(
+                                    'No se pudo realizar esta acción',
+                                    'Esta Persona esta realcionada con instituciones',
+                                    'error'
+                                )
+                            }
+
+                        },
+                        error: function (Validacion) {
+                            alert("Problemas al tratar de enviar el formulario");
+                        }
+                    });
+
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                }
+            })
+        }
+
+
+
+
+    </script>
+    <script>
+        //funcion para recuperar datos de las escuelas para mostrar en reporte
+        function DatosEscolares(escuelaID) {
+            $.ajax({
+                type: "POST",
+                url: '../../Escuelas/DatosEscolares',
+                data: { EscuelaID: escuelaID },
+                success: function (escuelasmostrar) {
+                    $("#EscuelaPresidente").val(escuelasmostrar.EscuelaPresidente);
+                    $("#EscuelaEmail").val(escuelasmostrar.Email);
+                    $("#EscuelaTelefono").val(escuelasmostrar.EscuelaTelefono);
+                    $("#EscuelaDireccion").val(escuelasmostrar.EscuelaDireccion);
+                },
+                error: function (data) {
+                    alert("Problemas al buscar datos de la Escuela.");
+                }
+            });
+        }
+
+        //////////////////////////////////jsPDF
+
+
+        function GenerarImpresion() {
+            var filtroEdad = "";
+            var filtroCovid = "";
+            var FiltroLocalidad = ""
+            var FiltroInstituto = ""
+            var Edad = $("#FiltroEdad").val();
+            var Covid = $("#FiltroCovid").val();
+            let NombrePresidente = "";
+            let DomicilioInstituto = "";
+            let TelefonoInstituto = "";
+            let EmailInstituto = "";
+
+            //var doc = new jsPDF();//VERTICAL
+            //preguntas segun fitrado, para cargar datos y texto para mostrar
+            if (Covid == 1) {
+                filtroCovid = "COVID: NO TUVO COVID / "
+            } else if (Covid == 2) {
+                filtroCovid = "COVID: TUVO COVID / "
+            }
+
+
+            if (Edad == 1) {
+                filtroEdad = "EDAD: 45 DIAS A 17 AÑOS"
+            } else if (Edad == 2) {
+                filtroEdad = "EDAD: 18 AÑOS A 59 AÑOS"
+            } else if (Edad == 3) {
+                filtroEdad = "EDAD: MAYORES A 60 AÑOS"
+            }
+
+            if ($("#EscuelaNombre").val() != "" && $("#EscuelaID").val() != 0) {
+                FiltroInstituto = "INSTITUTO: " + $("#EscuelaNombre").val() + " / ";
+                //lo siguientes datos son generados con la funcion DatosEscolares(); todos esto input son de tipo hiden asique solo es para contener datos para mostrar en el filtro
+                NombrePresidente = $("#EscuelaPresidente").val();
+                DomicilioInstituto = $("#EscuelaDireccion").val();
+                TelefonoInstituto = $("#EscuelaTelefono").val();
+                EmailInstituto = $("#EscuelaEmail").val();
+            }
+            if ($("#LocalidadesNombre").val() != "" && $("#LocalidadesID").val() != 0) {
+                FiltroLocalidad = "LOCALIDAD: " + $("#LocalidadesNombre").val() + " / ";
+            }
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 284, 24); // horizontal line
+
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 13, 13);
+                //Si hay filtros el titulo se sube para que se escriba todo los filtros
+                if (filtroCovid != "" || FiltroLocalidad != "" || FiltroInstituto != "" || filtroEdad != "") {
+                    doc.setFontSize(18);
+                    doc.text('LISTADO DE PERSONAS CON DISCAPACIDAD', 38, 20);
+                    doc.setFontSize(9);
+                    doc.text('FILTROS UTILIZADOS: ' + FiltroInstituto + filtroCovid + FiltroLocalidad + filtroEdad, 38, 26);
+                    doc.setFontSize(7);
+                    //si hay filtro por escuela se carga todo los datos de la escuela
+                    if ($("#EscuelaNombre").val() != "" && $("#EscuelaID").val() != 0) {
+                        doc.text('INFO INSTITUTO:  PRESIDENTE DE INSTITUCION: ' + NombrePresidente + '  /  DOMICILIO: ' + DomicilioInstituto + '  /  TELEFONO: ' + TelefonoInstituto + '  /  EMAIL: ' + EmailInstituto, 38, 30);
+                    }
+                }
+                //en el caso de que no halla filtro el titulo se centra.
+                else {
+                    doc.setFontSize(18);
+                    doc.text('LISTADO DE PERSONAS CON DISCAPACIDAD', 38, 25);
+                }
+
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablaImpresion");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                styles: {
+                    overflow: 'linebreak',
+                },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#8e8e8e'
+                },
+                columnStyles: {
+                    0: { columnWidth: 8 },
+                    1: { columnWidth: 45 },
+                    2: { columnWidth: 12 },
+                    3: { columnWidth: 16 },
+                    4: { columnWidth: 20 },
+                    5: { columnWidth: 19 },
+                    6: { columnWidth: 78 },
+                    7: { columnWidth: 30  },
+                    8: { columnWidth: 23 },
+                    9: { columnWidth: 20 }
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 || opts.column.index == 3 || opts.column.index == 4 || opts.column.index == 5 || opts.column.index == 9) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '8';
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 0 || opts.column.index == 2 || opts.column.index == 3 || opts.column.index == 4 || opts.column.index == 5 || opts.column.index == 9) {
+                        cell.styles.halign = 'center';
+                    }
+                    cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+    </script>
+}

@@ -1,0 +1,163 @@
+﻿
+<div class="modal fade" id="ModalPersona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel" style="text-transform:uppercase">Personas</h5>
+                <button type="button" onclick="VaciarFormularioPersona()" id="BotonCancelarPersonaCruz" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro">
+                    <div class="row tab-content">
+                        <div class="col-lg-4 ">
+                            <label class="control-label TextoNegroFormulario">Nombre Completo <span class="rojo"> * </span></label>
+                            <input type="hidden" id="PersonaID" value="0" />
+                            <input type="text" id="PersonaApellidoNombreCrear" style="text-transform:uppercase" class="form-control form-control-rounded" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-PersonaApellidoNombreCrear">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label class="control-label TextoNegroFormulario">Teléfono <span class="rojo"> * </span></label>
+                            <input type="text" maxlength="13" id="PersonaTelefonoCrear" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-PersonaTelefonoCrear">* Campo Obligatorio</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <label class="control-label TextoNegroFormulario">DNI<span class="rojo"> * </span></label>
+                            <input type="text" maxlength="8" id="PersonaDNICrear" class="form-control form-control-rounded" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" min="1" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-PersonaDNICrear">* Campo Obligatorio</label>
+                            <label class="control-label ocultar validaciones text-uppercase" id="existe-PersonaDNICrear">* Ya existe una persona con este DNI cargado</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Fecha de Nacimiento <span class="rojo"> * </span></label>
+                            <input type="date" id="PersonaFechaNacimientoCrear" class="form-control form-control-rounded" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-PersonaFechaNacimientoCrear">* Ingresar fecha de nacimineto</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Direccion <span class="rojo"> * </span></label>
+                            <input type="text" id="PersonaDireccionCrear" style="text-transform:uppercase" class="form-control  form-control-rounded" />
+                            <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-PersonaDireccionCrear">* Campo Obligatorio</label>
+                        </div>
+                        <div class="row col-12 col-lg-6">
+                            <div class="col-10">
+                                <label class="control-label TextoNegroFormulario">Localidad <span class="rojo"> * </span></label>
+                                <input type="hidden" id="LocalidadesIDCrearPersona" style="text-transform:uppercase" value="0" />
+                                <input type="text" id="LocalidadesNombreCrearPersona" autocomplete="off" class="form-control  form-control-rounded" />
+                                <label class="control-label ocultar validaciones text-uppercase" id="obligatorio-LocalidadesNombreCrearPersona">* Campo Obligatorio</label>
+                            </div>
+                            <div class=" col-1 botonlocalidad-persona" id="botonlocalidadocultar">
+                                <button type="button" class="BotonAgregarRedondo text-dark ColorCelesteBoton" data-toggle="modal" data-target="#ModalLocalidad" data-dismiss="modal">
+                                    <img src="~/Content/dashtreme-master/assets/images/iconos menu/localidad.png" class="IconoBotonAgregar" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Correo Electronico</label>
+                            <input type="text" id="PersonaCorreoCrear" class="form-control  form-control-rounded" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Sexo</label>
+                            <select id="PersonaSexoCrear" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                <option value="1" selected>Femenino</option>
+                                <option value="2">Masculino</option>
+                                <option value="3">No Binario</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label TextoNegroFormulario">Covid-19</label>
+                            <select id="PersonaCovidCrear" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                <option value="false" selected>No</option>
+                                <option value="true">Si</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="control-label TextoNegroFormulario">Obra Social</label>
+                            <select name="PersonaObraSocialCrear" id="PersonaObraSocialCrear" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                <option value="false" selected>No</option>
+                                <option value="true">Si</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6" hidden id="div-obrasocial-cual">
+                            <label class="control-label TextoNegroFormulario" id="ObraSocialCual">¿Cual?</label>
+                            <input type="text" id="ObraSocialCualCrear" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                        </div>
+                        <div id="PreguntaUsuario" class="col-lg-3 ocultar">
+                            <label class="control-label TextoNegroFormulario">¿Usuario nuevo?</label>
+                            <select id="Opcion_Crear_Usuario" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                <option value="false" selected>No</option>
+                                <option value="true">Si</option>
+                            </select>
+                        </div>
+                        @*Se agrega el id para ocultarlo en la vista de Persona Con discapacidad a esta opcion*@
+                        <div class="col-lg-12 col-12">
+                            <div hidden class="row " id="Div_Usuario_nuevo">
+                                <input type="hidden" id="PersonaSistemaID" value="0" />
+                                <div class="col-lg-4">
+                                    <label class="control-label TextoNegroFormulario">Email</label>
+                                    <input type="text" id="Email_Sistema" class="form-control form-control-rounded" />
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="control-label TextoNegroFormulario">Contraseña</label>
+                                    <input type="text" id="Contrasenia_Sistema" class="form-control form-control-rounded" />
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="control-label TextoNegroFormulario">Sis. permitido</label>
+                                    <select id="Tipo_Sistema" class="form-control form-control-rounded" style="text-transform:uppercase">
+                                        <option value="1">Carga Datos General</option>
+                                        <option value="2">Seguimiento Infantil</option>
+                                        <option value="3">Carga Personas Discapacidad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer-2">
+                    <button class="BotonCancelar-Modal" id="BotonCancelarPersona" onclick="VaciarFormularioPersona()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" id="BotonGuardarPersona" onclick="GuardarCrearPersona()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    <button class="ocultar BotonVolver" id="BotonVolverPersona" onclick="VaciarFormularioPersona()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                    @*<button type="button" hidden id="BotonGuardarPersonaUsuario" onclick="GuardarPersonaUsuario()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                        Guardarusuario
+                        </button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="modal fade" id="ModalInfoPersona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content-2">
+                <div class="modal-header-2">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">INFO. PERSONA</h5>
+                    <button type="button" class="CruzBlanca" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Acomodar contenido-->
+                <div class="modal-body-2">
+                    <div class="cardfondoclaro tab-content">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/2x6F-uUa1mI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <!-- Botones -->
+                    <div class="modal-footer-2">
+                        <button class="BotonVolver" data-dismiss="modal">
+                            <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,622 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.Preguntas>
+
+@*@{
+        ViewBag.Title = "Index";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Preguntas para Formulario</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalPregunta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">PREGUNTA PARA LOS FORMULARIOS</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="row">
+                        <input type="hidden" id="PreguntasID" name="PreguntasID" value="0" class="form-control" />
+                        <div class="form-group col-12 col-lg-12">
+                            <label class="control-label TextoNegroFormulario" style="text-transform:uppercase">Pregunta<span class="rojo">*</span></label>
+                            <input type="text" id="PreguntasNombre" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="PreguntaValidacion" class="control-label ocultar validaciones">LA PREGUNTA YA EXISTE</label>
+                            <label id="PreguntaNombreValidacion" class="control-label ocultar validaciones">debe escribir una pregunta</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label class="control-label TextoNegroFormulario">Formulario</label>
+                            <select class="form-control form-control-rounded" id="TipoFormularioID">
+                                <option value="1">Formulario 1</option>
+                                <option value="2">Formulario 2</option>
+                                <option value="3">Formulario 3</option>
+                                <option value="4">Formulario 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-lg-6">
+                            <input type="hidden" id="PercentilEdadID" name="PercentilEdadID" value="0" class="form-control" />
+                            <label class="control-label TextoNegroFormulario texto_responsive" data-tablettext="Edad P/Preguntas" data-desktoptext="Edad para preguntas" style="text-transform:uppercase"></label>
+                            <input type="text" name="EdadFormularioDescripcion" id="EdadFormularioDescripcion" onKeyUp="ControlarAutocompletado()" onKeyDown="ControlarAutocompletado()" class="form-control form-control-rounded" style="text-transform:uppercase" />
+                            <label id="EdadNombreValidacion" class="control-label ocultar validaciones">Debe escribir la edad asignada para la pregunta</label>
+                            <label id="EdadIDValidacion" class="control-label ocultar validaciones">La edad no existe</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button type="button" class="BotonCancelar-Modal" id="botoncancelar" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidarEdad()" id="botonguardar" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                    @*//SOLO PARA EL DETALLE DE PREGUNTAS*@
+                    <button class="ocultar BotonVolver " id="BotonVolver" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu imagen-link" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="ESCRIBA AQUÍ PARA ACOTAR LA BUSQUEDA" />
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton TextoNegroTablas ColorCelesteBoton" onclick="Crear()" data-toggle="modal" data-target="#ModalPregunta">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/preguntaio.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button onclick="GenerarImpresion()" class="SombraBoton ColorCelesteBoton TextoNegroTablas">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" data-toggle="modal" data-target="#ModalInfoPreguntas">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalInfoPreguntas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2 ">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFORMACIÓN PARA LA CREACIÓN DE PREGUNTAS</h5>
+                <button type="button" class="CruzBlanca ubicacionCruz" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <label class="control-label TextoNegroFormulario">Para la creación de una pregunta previamente se debe cargar una edad percentil, a la cual se la va a poder relacionar. </label>
+                </div>
+
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">
+                Pregunta
+            </th>
+            <th class="text-left ocultar860 text-white">
+                Tipo de formulario
+            </th>
+            <th class="text-left ocultar1120  text-white">
+                Edad
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-preguntas">
+    </tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>
+                Pregunta
+            </th>
+            <th>
+                Formulario
+            </th>
+            <th>
+                Edad
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tbody-preguntashidden">
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+
+        function ValidarEdad() {
+            $("#EdadNombreValidacion").addClass("ocultar");
+            $("#EdadIDValidacion").addClass("ocultar");
+            $("#PreguntaNombreValidacion").addClass("ocultar");
+
+            var percentilEdadID = $("#PercentilEdadID").val();
+            var edadFormularioDescripcion = $("#EdadFormularioDescripcion").val();
+            var preguntasNombre = $("#PreguntasNombre").val();
+
+            var ValidacionPercentilEdadID = true;
+            var ValidacionEdadFormularioDescripcion = true;
+            var ValidacionPreguntasNombre = true;
+
+
+            if (edadFormularioDescripcion == "" || edadFormularioDescripcion == null) {
+                $("#EdadNombreValidacion").removeClass("ocultar");
+                ValidacionEdadFormularioDescripcion = false;
+            }
+            else {
+                if (percentilEdadID == 0 || percentilEdadID == null) {
+                    $("#EdadIDValidacion").removeClass("ocultar");
+                    ValidacionPercentilEdadID = false;
+                }
+            }
+            if (preguntasNombre == "" || preguntasNombre == null) {
+                $("#PreguntaNombreValidacion").removeClass("ocultar");
+                ValidacionPreguntasNombre = false;
+            }
+
+
+            if (ValidacionEdadFormularioDescripcion == true && ValidacionPercentilEdadID == true && ValidacionPreguntasNombre == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../Preguntas/ValidacionEdadExiste',
+                    data: { PercentilEdadID: percentilEdadID },
+                    success: function (Validacion) {
+                        if (Validacion == true) {
+                            $("#EdadIDValidacion").addClass("ocultar");
+                            GuardarPregunta();
+                        } else {
+                            $("#EdadIDValidacion").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            }
+        }
+
+
+        //FUNCION GUARDAR PREGUNTA
+        function GuardarPregunta() {
+            var preguntasID = $("#PreguntasID").val();
+            var preguntasNombre = $("#PreguntasNombre").val();
+            var tipoFormularioID = $("#TipoFormularioID").val();
+            var percentilEdadID = $("#PercentilEdadID").val();
+
+            $.ajax({
+                type: "POST",
+                url: '../../Preguntas/GuardarPregunta',
+                data: { PreguntasID: preguntasID, PreguntasNombre: preguntasNombre, TipoFormularioID: tipoFormularioID, PercentilEdadID: percentilEdadID },
+                success: function (guardado) {
+
+                    if (guardado == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'La pregunta fue guardada correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $("#PreguntaValidacion").addClass("ocultar");
+                        VaciarFormulario();
+                        BuscarListadoPreguntas();
+                    }
+                    else {
+                        $("#PreguntaValidacion").removeClass("ocultar");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+        //FUNCION BUSCAR/MOSTRAR PREGUNTAS
+        window.onload = BuscarListadoPreguntas();
+
+        function BuscarListadoPreguntas() {
+            $.ajax({
+                type: "POST",
+                url: '../../Preguntas/BuscarListadoPreguntas',
+                data: {},
+                success: function (preguntasMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#ModalPregunta").modal("hide");
+
+                    $("#tbody-preguntas").empty();
+                    $("#tbody-preguntashidden").empty();
+
+                    $.each(preguntasMostrar, function (index, pregunta) {
+
+                        $("#tbody-preguntas").append('<tr>' +
+
+                            '<td style="width:700px" class="text-left TextoNegroTablas contentcasilla ContenidoTablaGris">' +
+                            pregunta.PreguntasNombre +
+                            '</td>' +
+                            '<td style="width:100px"  class="text-left ocultar860 TextoNegroTablas ContenidoTablaGris"> FORMULARIO: ' +
+                            pregunta.TipoFormularioID +
+                            '</td>' +
+                            '<td style="width:100px"  class="text-left ocultar1120 TextoNegroTablas ContenidoTablaGris">' +
+                            pregunta.EdadPercentil.EdadFormularioDescripcion +
+                            '</td>' +
+                            '<td style="width:50px"  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoPregunta(' + pregunta.PreguntasID + ',0)" data-toggle="modal" data-target="#ModalPregunta"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px"  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="BuscarInfoPregunta(' + pregunta.PreguntasID + ',1)" data-toggle="modal" data-target="#ModalPregunta"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '<td style="width:50px"  class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarPregunta(' + pregunta.PreguntasID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla" /></a>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+
+                        $("#tbody-preguntashidden").append('<tr>' +
+
+                            '<td>' +
+                            pregunta.PreguntasNombre +
+                            '</td>' +
+                            '<td>' +
+                            pregunta.TipoFormularioID +
+                            '</td>' +
+
+                            '<td>' +
+                            pregunta.EdadPercentil.EdadFormularioDescripcion +
+                            '</td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function (data) {
+                    /*
+                    * Se ejecuta si la peticón ha sido erronea
+                    * */
+                    alert("Problemas al tratar de enviar el formulario");
+                }
+            });
+        }
+
+        function ControlarAutocompletado() {
+            var nombre = $("#EdadFormularioDescripcion").val();
+            var PercentilEdadID = $("#PercentilEdadID ").val();
+            if (nombre == "" && PercentilEdadID != 0) {
+                $("#PercentilEdadID").val(0);
+            }
+        }
+        $("#EdadFormularioDescripcion").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../EdadPercentilMeses/BuscarEDAD',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (EdadMostrar) {
+                        response($.map(EdadMostrar, function (EdadMostrar) {
+
+                            return {
+                                id: EdadMostrar.PercentilEdadID,
+                                value: EdadMostrar.EdadFormularioDescripcion
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PercentilEdadID").val(ui.item.id);
+            }
+        });
+
+        //FUNCION EDITAR PREGUNTA
+        function BuscarInfoPregunta(PreguntasID, origen) {
+            $.ajax({
+                type: "POST",
+                url: '../../Preguntas/BuscarInfoPregunta',
+                data: { PreguntasID: PreguntasID },
+                success: function (preguntaMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                    * */
+                    $("#PreguntasID").val(preguntaMostrar.PreguntasID);
+                    $("#PreguntasNombre").val(preguntaMostrar.PreguntasNombre);
+                    $("#TipoFormularioID").val(preguntaMostrar.TipoFormularioID);
+                    $("#EdadFormularioDescripcion").val(preguntaMostrar.EdadFormularioDescripcion);
+
+                    if (origen == 1) {//VIENE DEL PRESIONAR BOTÓN DETALLE
+                        $("#PreguntasID").prop("disabled", true);
+                        $("#PreguntasNombre").prop("disabled", true);
+                        $("#TipoFormularioID").prop("disabled", true);
+                        $("#EdadFormularioDescripcion").prop("disabled", true);
+                        $("#botonguardar").prop("hidden", true);
+                        $("#BotonVolver").removeClass("ocultar");
+                        $("#botoncancelar").prop("hidden", true);
+
+                        $("#ModalPregunta").modal("show");
+                    }
+                    else {
+                        $("#PreguntasID").prop("disabled", false);
+                        $("#PreguntasNombre").prop("disabled", false);
+                        $("#TipoFormularioID").prop("disabled", false);
+                        $("#EdadFormularioDescripcion").prop("disabled", false);
+                        $("#botonguardar").prop("hidden", false);
+                        $("#botoncancelar").prop("hidden", false);
+                        $("#BotonVolver").addClass("ocultar");
+                        $("#ModalPregunta").modal("show");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        //Detalle//
+        function Crear() {
+            $("#PreguntaID").prop("disabled", false);
+            $("#PreguntasNombre").prop("disabled", false);
+            $("#TipoFormularioID").prop("disabled", false);
+            $("#EdadFormularioDescripcion").prop("disabled", false);
+            $("#botonguardar").prop("hidden", false);
+            $("#botoncancelar").prop("hidden", false);
+            $("#BotonVolver").addClass("ocultar");
+            $("#ModalPregunta").modal("show");
+        }
+
+
+        //FUNCION ELIMINAR PREGUNTA
+
+        function EliminarPregunta(PreguntasID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar esta pregunta?',
+                text: "Si la eliminas, será para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../Preguntas/EliminarPregunta',
+                        data: { id: PreguntasID },
+                        success: function (guardado) {
+                            if (guardado == true) {
+                                BuscarListadoPreguntas();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado esta pregunta.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (guardado) {
+
+                        }
+                    });
+
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                }
+            })
+        }
+
+
+        //FUNCION VACIAR EL CAMPO PREGUNTA CUANDO SE SALE DEL MODAL
+        function VaciarFormulario() {
+            $("#PreguntasID").val(0);
+            $("#PreguntasNombre").val('');
+            $("#TipoFormularioID").val(1);
+            $("#EdadFormularioDescripcion").val('');
+
+            $("#campo-obligatorio-PreguntaNombre").addClass("ocultar");
+            $("#campo-obligatorio-EdadFormularioDescripcion").addClass("ocultar");
+            $("#PreguntaValidacion").addClass("ocultar");
+            $("#PreguntaNombreValidacion").addClass("ocultar");
+            $("#EdadNombreValidacion").addClass("ocultar");
+            $("#EdadIDValidacion").addClass("ocultar");
+        }
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+    </script>
+
+    <script>
+
+
+        //funcion que nos permite buscar en toda la tabla segun lo que escribamos ya sea nombre o numeros
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+        function GenerarImpresion() {
+
+            /*var doc = new jsPDF();//VERTICAL*/
+
+            var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 283, 24); // HORIZONTAL LINE
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DE PREGUNTAS', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 210 },
+                    1: { columnWidth: 25 },
+                    2: { columnWidth: 35 },
+                    3: { columnWidth: 50 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1/* || opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+
+
+    </script>
+
+
+}

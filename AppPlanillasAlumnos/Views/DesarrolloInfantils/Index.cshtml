@@ -1,0 +1,470 @@
+﻿@model IEnumerable<AppPlanillasAlumnos.Models.SeguimientoInfantil.DesarrolloInfantil>
+
+<h2 class="text-center text-uppercase text-dark letratitulo">LISTADO DE DESARROLLO INFANTIL</h2>
+
+<div class="modal fade" id="ModalDesarrolloInfantil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title" id="exampleModalLabel">DESARROLLO INFANTIL</h5>
+                <button type="button" class="CruzBlanca" onclick="VaciarFormulario()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body-2">
+                <div class="cardfondoclaro text-left tab-content">
+                    <div class="row">
+                        <div class="text-left form-group col-md-12">
+                            <label class="control-label text-left TextoNegroFormulario">PERSONA RELACIONADA<span class="rojo">*</span></label>
+                            <input type="hidden" id="PersonaID" name="PersonaID" value="0" />
+                            <input id="PersonaNombre" name="PersonaNombre" class="form-control form-control-rounded" autocomplete="off" style="text-transform:uppercase" onKeyUp="ControlarAutocompletadoPersona()" onKeyDown="ControlarAutocompletadoPersona()">
+                            <label id="PersonaNombreValidacion" class="control-label ocultar validaciones">Debe escribir el Nombre De la persona</label>
+                            <label id="PersonaIDValidacion" class="control-label ocultar validaciones">El nombre de la persona no existe</label>
+                            <label id="PersonaExiste" class="control-label ocultar validaciones">La persona ya existe para este formulario</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-2">
+                    <button type="button" class="BotonCancelar-Modal" onclick="VaciarFormulario()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/cerrar.png" class="icono-menu" />
+                    </button>
+                    <button type="button" onclick="ValidarPersona()" class="BotonGuardar-Modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/salvar.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-4 EspaciadoBoton">
+        <input id="buscar" type="text" class="form-control text-uppercase BarraBusqueda form-controlCorto" autocomplete="off" autofocus placeholder="Escriba aquí para acotar la búsqueda" />
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="VaciarFormulario()" data-toggle="modal" data-target="#ModalDesarrolloInfantil">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/crecimiento.png" class="icono-menu" />
+            CREAR
+        </button>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="SombraBoton TextoNegroBoton ColorCelesteBoton" onclick="GenerarImpresion();">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu//impresora (2).png" class="icono-menu" />
+            IMPRIMIR LISTADO
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="SombraBoton ColorCelesteBoton boton-Info-Redondo" onclick="AbrirModalVideo()" data-toggle="modal" data-target="#ModalInfoDesarrollo">
+            <img src="~/Content/dashtreme-master/assets/images/iconos menu/informacion negro.png" class="icono-Informacion" />
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalInfoDesarrollo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content-2">
+            <div class="modal-header-2">
+                <h5 class="modal-title text-white" id="exampleModalLabel">INFO. DESARROLLO INFANTIL</h5>
+                <button type="button" class="CruzBlanca" onclick="CerrarModalVideo()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Acomodar contenido-->
+            <div class="modal-body-2">
+                <div class="cardfondoclaro tab-content">
+                    <div class="video">
+
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/vL1rIBHnf3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                    </div>
+                </div>
+                <!-- Botones -->
+                <div class="modal-footer-2">
+                    <button class="BotonVolver" onclick="CerrarModalVideo()" data-dismiss="modal">
+                        <img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="tablaCasillas table table-bordered table-active table-hover" id="tabla">
+    <thead class="letra">
+        <tr class="tablaAzul">
+            <th class="text-left text-white">Nombre y apellido</th>
+            <th class="text-center text-white ocultar640">Fecha de nacimiento</th>
+            <th class="text-left text-white ocultar770">Edad G. al nacer</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-DesarrolloInfantil"></tbody>
+</table>
+
+<table hidden id="tablahidden">
+    <thead>
+        <tr>
+            <th>NOMBRE COMPLETO</th>
+            <th>FECHA DE NACIMIENTO</th>
+            <th>EDAD AL NACER</th>
+        </tr>
+    </thead>
+    <tbody id="tbody-DesarrolloInfantilHIDDEN"></tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+
+        function ValidarPersona() {
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+
+
+            var personaID = $("#PersonaID").val();
+            var personaNombre = $("#PersonaNombre").val();
+
+            var ValidacionPersonaID = true;
+            var ValidacionPersonaNombre = true;
+
+
+            if (personaNombre == "" || personaNombre == null) {
+                $("#PersonaNombreValidacion").removeClass("ocultar");
+                ValidacionPersonaNombre = false;
+            }
+            else {
+                if (personaID == 0 || personaID == null) {
+                    $("#PersonaIDValidacion").removeClass("ocultar");
+                    ValidacionPersonaID = false;
+                }
+            }
+
+            if (ValidacionPersonaNombre == true && ValidacionPersonaID == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '../../DesarrolloInfantils/ValidacionDePersonaExistente',
+                    data: { PersonaID: personaID },
+                    success: function (Validacion) {
+                        if (Validacion == true) {
+                            $("#PersonaIDValidacion").addClass("ocultar");
+                            GuardarDesarrolloInfantil();
+                        } else {
+                            $("#PersonaIDValidacion").removeClass("ocultar");
+                        }
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+
+        function GuardarDesarrolloInfantil() {
+            var personaID = $("#PersonaID").val();
+
+            $("#PersonaExiste").addClass("ocultar");
+
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/GuardarDesarrolloInfantil',
+                data: { PersonaID: personaID },
+                success: function (desarrolloInfantilID) {
+                    if (desarrolloInfantilID > 0) {
+                        $("#ModalDesarrolloInfantil").modal("hide");
+                        location.href = '../../DesarrolloInfantils/Edit/' + desarrolloInfantilID;
+                    }
+                    else {
+                        //AQUI VA EL CODIGO DICIENDO QUE HAY UN ERROR EN CREAR EL DESSARROLLO INFANTIL
+                        $("#PersonaExiste").removeClass("ocultar");
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+        $("#PersonaNombre").autocomplete({
+            dataType: 'JSON',
+            source: function (request, response) {
+                jQuery.ajax({
+                    url: '../../Personas/BuscarPersonas',
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        texto: request.term,
+                    },
+                    success: function (personasMostrar) {
+                        response($.map(personasMostrar, function (personaMostrar) {
+                            return {
+                                id: personaMostrar.PersonaID,
+                                value: personaMostrar.PersonaApellidoNombre
+                            }
+                        }))
+                    }
+                })
+            },
+            select: function (e, ui) {
+                $("#PersonaID").val(ui.item.id);
+            }
+        });
+        //COMIENZO FUNCION BUSCAR LISTADO FORMULARIO
+
+        window.onload = BuscarListadoDesarrolloInfantil();
+
+        function BuscarListadoDesarrolloInfantil() {
+            $.ajax({
+                type: "POST",
+                url: '../../DesarrolloInfantils/BuscarListadoDesarrolloInfantil',
+                data: {},
+                success: function (desarrollosInfantilesMostrar) {
+                    /*
+                    * Se ejecuta cuando termina la petición y esta ha sido
+                    * correcta
+                     */
+                    $("#tbody-DesarrolloInfantil").empty();
+                    $("#DesarrolloInfantilHIDDEN").empty();
+
+                    $.each(desarrollosInfantilesMostrar, function (index, desarrolloInfantil) {
+
+                        $("#tbody-DesarrolloInfantil").append('<tr>' +
+
+                            '<td style="width:400px" class="text-left TextoNegroTablas ContenidoTablaGris" style="text-transform:uppercase">' +
+                            desarrolloInfantil.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td style="width:200px" class="text-center TextoNegroTablas ContenidoTablaGris ocultar640">' +
+                            desarrolloInfantil.PersonaFechaNacimientoString +
+                            '</td>' +
+                            '<td style="width:200px" class="text-left text-uppercase TextoNegroTablas ContenidoTablaGris ocultar770">' +
+                            desarrolloInfantil.DesarrolloInfantilEdadGestionalAlNacer +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" href = "../DesarrolloInfantils/Edit/' + desarrolloInfantil.DesarrolloInfantilID + '"><img src="../Content/dashtreme-master/assets/images/iconos menu/editar.png" class="icono-tabla"/></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" href = "../DesarrolloInfantils/Details/' + desarrolloInfantil.DesarrolloInfantilID + '"><img src="../Content/dashtreme-master/assets/images/iconos menu/detalles.png" class="icono-tabla"/></a>' +
+                            '</td>' +
+                            '<td style="width:50px" class="text-center tdBotones TextoNegroTablas ContenidoTablaGris">' +
+                            '<a class="btn-circle-index" onclick="EliminarDesarrolloInfantil(' + desarrolloInfantil.DesarrolloInfantilID + ')"><img src="../Content/dashtreme-master/assets/images/iconos menu/basura.png" class="icono-tabla"/></a>' +
+                            '</td>' +
+                            '</tr>');
+
+                        $("#tbody-DesarrolloInfantilHIDDEN").append('<tr>' +
+
+                            '<td>' +
+                            desarrolloInfantil.PersonaApellidoNombre +
+                            '</td>' +
+                            '<td>' +
+                            desarrolloInfantil.PersonaFechaNacimientoString +
+                            '</td>' +
+                            '<td>' +
+                            desarrolloInfantil.DesarrolloInfantilEdadGestionalAlNacer +
+                            '</td>' +
+                            '</tr>');
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+        //CIERRE FUNCION BUSCAR LISTADO FORMULARIO
+
+        function EliminarDesarrolloInfantil(DesarrolloInfantilID) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Esta seguro que desea eliminar éste registro?',
+                text: "Si lo eliminas, sera para siempre",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'No, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '../../DesarrolloInfantils/EliminarDesarrolloInfantil',
+                        data: { id: DesarrolloInfantilID },
+                        success: function (guardado) {
+                            if (guardado === true) {
+                                BuscarListadoDesarrolloInfantil();
+                                swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'Has Eliminado este Registro.',
+                                    'success'
+                                )
+                            }
+                        },
+                        error: function (data) {
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                }
+            })
+        }
+
+        function ControlarAutocompletadoPersona() {
+            var nombre = $("#PersonaNombre").val();
+            var personaID = $("#PersonaID").val();
+            if (nombre == "" && personaID != 0) {
+                LimpiarPersona();
+            }
+        }
+
+        //funcion para limpiar todo los campos referidos a persona
+        function LimpiarPersona() {
+            $("#PersonaID").val(0);
+            $("#PersonaNombre").val('');
+
+            $("#PersonaExiste").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+        }
+        function VaciarFormulario() {
+            $("#PersonaNombreValidacion").addClass("ocultar");
+            $("#PersonaIDValidacion").addClass("ocultar");
+            $("#PersonaExiste").addClass("ocultar");
+            $("#PersonaNombre").val('');
+        }
+        document.querySelector("#buscar").onkeyup = function () {
+            $TableFilter("#tabla", this.value);
+        }
+
+        $TableFilter = function (id, value) {
+            var rows = document.querySelectorAll(id + ' tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var showRow = false;
+
+                var row = rows[i];
+                row.style.display = 'none';
+
+                for (var x = 0; x < row.childElementCount; x++) {
+                    if (row.children[x].textContent.toLowerCase().indexOf(value.toLowerCase().trim()) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+
+                if (showRow) {
+                    row.style.display = null;
+                }
+            }
+        }
+
+
+        function GenerarImpresion() {
+
+            var doc = new jsPDF();//VERTICAL
+
+            /* var doc = new jsPDF('l', 'mm', [297, 210]);//HORIZONTAL*/
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+
+                // CABECERA
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+                doc.setDrawColor(200, 226, 234);
+                doc.setLineWidth(22);
+                doc.line(13, 24, 198, 24); // VERTICAL LINE
+
+
+                var imgData = "../img/LogoSinLetrasySinFondo.png";
+
+                doc.addImage(imgData, 'PNG', 18, 17, 15, 15);
+
+
+                doc.setFontSize(14);
+
+                doc.text('LISTADO DESARROLLO INFANTIL', 38, 25);
+
+                // PIE DE PAGINA
+                var str = "Pagina " + data.pageCount;
+
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages == 'function') {
+                    str = str + " de " + totalPagesExp;
+                }
+
+                doc.setFontSize(10);
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+
+            };
+
+
+            var elem = document.getElementById("tablahidden");
+            var res = doc.autoTableHtmlToJson(elem);
+
+            doc.autoTable(res.columns, res.data, {
+                startY: 35, addPageContent: pageContent,
+                margin: { top: 25 },
+                theme: 'striped',
+                headStyles: {
+                    fillColor: '#064768'
+                },
+                columnStyles: {
+                    0: { columnWidth: 105 },
+                    1: { columnWidth: 40 },
+                    2: { columnWidth: 40 },
+                    3: { columnWidth: 50 },
+
+                },
+                createdHeaderCell: function (cell, opts) {
+                    if (opts.column.index == 1 /*|| opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                },
+                createdCell: function (cell, opts) {
+                    if (opts.column.index == 1/* || opts.column.index == 2*/ || opts.column.index == 3 || opts.column.index == 4) {
+                        cell.styles.halign = 'center';
+                    }
+                    //cell.styles.fontSize = '7';
+                }
+            });
+
+            // ESTO SE LLAMA ANTES DE ABRIR EL PDF PARA QUE MUESTRE EN EL PDF EL NRO TOTAL DE PAGINAS. ACA CALCULA EL TOTAL DE PAGINAS.
+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+
+            var string = doc.output('datauristring');
+
+            var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+
+            var x = window.open();
+
+            x.document.open();
+
+            x.document.write(iframe);
+
+            x.document.close();
+
+            //doc.save('Impresion.pdf'); //Para descargar directamente.
+
+        }
+        function CerrarModalVideo() {
+            $('iframe').removeAttr('src');
+            $("#ModalEspecializacion").modal("hide");
+
+        }
+
+        function AbrirModalVideo() {
+            $("#ModalEspecializacion").modal("show");
+            $('iframe').attr('src', 'https://www.youtube.com/embed/vL1rIBHnf3A');
+        }
+    </script>
+}
+

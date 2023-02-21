@@ -1,0 +1,743 @@
+﻿@model AppPlanillasAlumnos.Models.Discapacitados.PersonaConDiscapacidad
+
+@*@{
+        ViewBag.Title = "Details";
+    }*@
+
+<h2 class="text-center text-uppercase text-dark letratitulo">Detalle De <span class="TituloDerivacion font-weight-bold"> @Model.Persona.PersonaApellidoNombre </span> </h2>
+
+<div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link SelectorVista active" id="navDatosPersonales" data-toggle="tab" href="#nav-DatosPersonales" role="tab" aria-controls="nav-home" aria-selected="true" title="Datos Personales">Datos Person.</a>
+            <a class="nav-item nav-link SelectorVista" id="navInfoDiscapacitado" data-toggle="tab" href="#nav-InfoDiscapacitado" role="tab" aria-controls="nav-InfoDiscapacitado" aria-selected="false" title="Informacion sobre la discapacidad">INFO. DE LA DISCAPACIDAD</a>
+            <a class="nav-item nav-link SelectorVista" id="navSituacionHabitacionalylaboral" data-toggle="tab" href="#nav-SituacionHabitacionalylaboral" role="tab" aria-controls="nav-SituacionHabitacionalylaboral" aria-selected="false" title="Situacion Habitacional y laboral">SITUACION HABIT./LAB.</a>
+            <a class="nav-item nav-link SelectorVista" id="navGrupoFAmiliar" data-toggle="tab" href="#nav-GrupoFAmiliar" role="tab" aria-controls="nav-GrupoFAmiliar" aria-selected="false">VINCULACIONES</a>
+            <a class="nav-item nav-link SelectorVista" id="navAntecenteViolencia" data-toggle="tab" href="#nav-AntecenteViolencia" role="tab" aria-controls="nav-AntecenteViolencia" aria-selected="false" title="Antecedente de violencia">ANTEc. DE VIOLENCIA</a>
+        </div>
+    </nav>
+
+    <div class="cardfondo tab-content">
+        <div class="tab-pane fade show active" id="nav-DatosPersonales" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DATOS PERSONALES</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label TextoNegroFormulario">Nombre y Apellido</label>
+                        <input type="text" id="PersonaNombre" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">Fecha de Nacimiento</label>
+                        <input type="text" id="PersonaFechaNacimiento" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">DNI</label>
+                        <input type="text" id="PersonaDNI" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">Domicilio</label>
+                        <input type="text" id="PersonaDomicilio" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">Teléfono de Contacto</label>
+                        <input type="text" id="PersonaTelefono" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">Obra Social</label>
+                        <input type="text" id="Obrasocialsino" disabled class="form-control TextArea-Modal form-control-rounded" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="control-label TextoNegroFormulario">¿Cuál?</label>
+                        <input type="text" id="Obrasocialcual" disabled class="form-control form-control-rounded" />
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                        <label id="NombreConsultanteTitulo" class="control-label TextoNegroFormulario">Nombre y Apellido del Consultante</label>
+                        <input type="text" id="NombreConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label id="FechaNacimientoConsultanteTitulo" class="control-label TextoNegroFormulario">Fecha de Nacimiento del Consultante</label>
+                        <input type="text" id="FechaNacimientoConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label id="DniConsultanteTitulo" class="control-label TextoNegroFormulario">DNI del Consultante</label>
+                        <input type="text" id="DniConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label id="DireccionConsultanteTitulo" class="control-label TextoNegroFormulario">Domicilio del Consultante</label>
+                        <input type="text" id="DireccionConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label id="LocalidadConsultanteTitulo" class="control-label TextoNegroFormulario">Localidad del Consultante</label>
+                        <input type="text" id="LocalidadConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label id="TelefonoConsultanteTitulo" class="control-label TextoNegroFormulario">Telefono del Consultante</label>
+                        <input type="text" id="TelefonoConsultante" disabled class="form-control form-control-rounded" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">NIVEL EDUCATIVO</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Nivel Educativo de Persona Con Discapacidad</label>
+                    <input type="text" id="NivelEducativoIDDiscapacitado" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label id="NivelEducativoIDConsultanteTitulo" class="control-label TextoNegroFormulario">Nivel Educativo Consultante</label>
+                    <input type="text" id="NivelEducativoIDConsultante" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">INSTITUCIONES A LA CUAL ASISTE</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-12">
+                    <table class="col-md-12">
+                        <thead class="letra">
+                            <tr class="RenglonGris">
+                                <th class="text-center TextoNegroFormulario col-md-8">
+                                    Nombre de la institutcion
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-RelacionInstitutoYPersona">
+                            @*se compreta con ajax*@
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">ACCESIBILIDAD AL SERVICIO</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Como Accedio?</label>
+                    <input type="text" id="AccesibilidadAlServicioID" disabled class="form-control form-control-rounded" />
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-InfoDiscapacitado" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">INFORMACION SOBRE LA DISCAPACIDAD</h3>
+                    <hr />
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label TextoNegroFormulario">Diagnostico</label>
+                    <input type="text" id="Diagnostico" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario">Tiene C.U.D.?</label>
+                    <select id="CudExistente" disabled class="form-control form-control-rounded">
+                        <option value="1">Sí</option>
+                        <option value="2">No</option>
+                        <option value="3">En Tramite</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario" id="NumeroCUDTitulo">Numero de C.U.D.</label>
+                    <input type="text" id="NumeroCUD" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label TextoNegroFormulario" id="VencimientoCUDTitulo">Fecha de Vencimienot de C.U.D.</label>
+                    <input type="text" id="VencimientoCud" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Pencion Por incapacidad</label>
+                    <select id="PencionPorincapacidad" disabled class="form-control form-control-rounded">
+                        <option value="1">Sí</option>
+                        <option value="2">No</option>
+                        <option value="3">En Tramite</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Situacion de Postracion</label>
+                    <select id="Postrado" disabled class="form-control form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Inicio de la Discapacidad</label>
+                    <select id="InicioDiscapacidadNacimiento" disabled class="form-control form-control-rounded">
+                        <option value="true">Nacimiento</option>
+                        <option value="false">Adquirido</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario" id="FechaInicioDiscapacidadTitulo">Fecha de Inicio de Discapacidad</label>
+                    <input type="text" id="FechaInicioDiscapacidad" disabled class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">Tipo de Discapacitado</label>
+                    <input type="text" id="TipodeDiscapacidadID" disabled class="form-control form-control-rounded" />
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD</h3>
+                    <hr />
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD PERSONA CON DISCAPACIDAD</h4>
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Tiene Algun Diagnostico de enfermedad?</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <select id="DiagnosticoEnfermedad" disabled class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label class="control-label TextoNegroFormulario" id="CualDiagnostico">¿Cual?</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" id="DetalleDiagnosticoEnfermedad" disabled class="form-control  form-control-rounded" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Se encuentra actualmente con tratamiento medico?</label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <select id="TratamientoMedico" disabled class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label class="control-label TextoNegroFormulario" id="cualTratamiento">¿Cual?</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" id="DetalleTratamientoMedico" disabled class="form-control  form-control-rounded" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" id="DondeTratamiento">¿Donde realiza el Tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" id="LugarTratamientoMedico" disabled class="form-control  form-control-rounded" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario">¿Interrumpio en el ultimo periodo este tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select id="InterrumpioTratamientoMedico" disabled class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" id="TiempoInterrupcionPregunta">¿Tiempo de interrupcio del Tratamiento?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" disabled id="TiempoInterrupcionTratamientoMedico" class="form-control  form-control-rounded" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label TextoNegroFormulario" id="MotivoInterrupcionPregunta">¿Motivo de la interrupcion?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" disabled id="MotivoInterrupcionTratamientoMedico" class="form-control  form-control-rounded" />
+                        </div>
+                    </div>
+
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SALUD CONSULTANTE</h4>
+                    <div class="row">
+                        <div class="form-group text-left col-md-12">
+                            <label class="control-label TextoNegroFormulario">En el embarazo tuvo:</label>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Trastorno de sueño?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="TrastornoSuenio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Trastornos Alimenticios?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="TrastornoAlimenticio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Ingirio Ansio/Antidepre?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="IngestaAnsioAntidepre" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Consumio Alcohol/Droga?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="ConsumioAlcoholoDroga" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Otros trastornos?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="OtrosTrastornos" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Aborto por golpes?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="AbortoPorGolpe" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group text-left col-md-4">
+                            <label class="control-label TextoNegroFormulario">¿Intento de Suicidio?</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select disabled id="IntentoDeSuicidio" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-SituacionHabitacionalylaboral" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACION HABITACIONAL</h3>
+                    <hr />
+                </div>
+                <div class="row col-12" id="SituacionesHabitacionales">
+                    @*El div es rellenado con Json*@
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">SITUACION LABORAL</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-3 col-md-4">
+                </div>
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Consultante</label>
+                </div>
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Discapacitado</label>
+                </div>
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Obrero/a</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionObreroConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionObreroDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Empresario/a</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionEmpresarioConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionEmpresarioDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Empleado/a</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionEmpleadoConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionEmpleadoDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Jub/Pen/ren</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionJubiladoConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionJubiladoDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Servicio Domestico</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionServicioDomesticoConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionServicioDomesticoDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Profesional</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionProfesionalConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionProfesionalDiscapacitado" class="CheckNuevo" />
+                </div>
+
+
+
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">No trabaja</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionNoTrabajaConsultante" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4">
+                    <input type="checkbox" disabled id="SituacionNoTrabajaDiscapacitado" class="CheckNuevo" />
+                </div>
+                <div class="form-group col-4"></div>
+                <div class="form-group col-4">
+                    <label class="control-label TextoNegroFormulario TextonegroCelu">Ingresos</label>
+                </div>
+                <div class="form-group col-4">
+                    <input type="number" id="IngresosFamiliarLaboral" disabled class="form-control form-control-rounded" />
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-GrupoFAmiliar" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">GRUPO FAMILIAR</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-12">
+                    <table id="TablaGrupoFAmiliar">
+                        <thead class="letra">
+                            <tr class="RenglonGris">
+                                <th class="text-center TextoNegroFormulario col-md-3">
+                                    Apellido y Nombre Familiar
+                                </th>
+                                <th class="text-center ocultar860 TextoNegroFormulario col-md-1">
+                                    Fecha de Nacimiento
+                                </th>
+                                <th class="text-center ocultar1120 TextoNegroFormulario col-md-1">
+                                    Sexo
+                                </th>
+                                <th class="text-center TextoNegroFormulario col-md-2">
+                                    Parentesco
+                                </th>
+                                <th class="text-center ocultar1430 TextoNegroFormulario col-md-1">
+                                    Educacion
+                                </th>
+                                <th class="text-center TextoNegroFormulario col-md-1">
+                                    DNI
+                                </th>
+                                <th class="text-center ocultar1120 TextoNegroFormulario col-md-1">
+                                    Ocupacion
+                                </th>
+                                <th class="text-center ocultar1120 TextoNegroFormulario col-md-1">
+                                    Salud
+                                </th>
+                                <th class="text-center ocultar1120 TextoNegroFormulario col-md-1">
+                                    Ingresos
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-GrupoFamiliar">
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">RED SOCIAL Y COMUNITARIA (persona o instituciones con los que cuenta)</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Tiene Parientes a quien concurrir? (no convivientes)</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select id="CuentaConParienteAQuienRecurir" disabled class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" disabled id="AQueParienteRecurirTitulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" name="AQueParienteRecurir" disabled id="AQueParienteRecurir" class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Tiene Amigo/as, Vecinos/as, Compañeros/as de trabajo, etc.?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select disabled id="CuentaConAmigosVecinosCompanieroTrabajo" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" disabled id="QueAmigosVecinosCompanieroTrabajoTirulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" name="QueAmigosVecinosCompanieroTrabajo" disabled id="QueAmigosVecinosCompanieroTrabajo" class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿Asiste a una institucion Comunitaria?(iglesia, Centro Vecinal, Centro de salud, etc.)</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select disabled id="AsisteAIntitucionComunitaria" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" disabled id="CualIntitucionComunitariaTitulo">¿A Cual?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" disabled id="CualIntitucionComunitaria" class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario" disabled id="PersonaDeContactoIntitucionComunitaria">¿Cual es la persona con la que se contacta en esa intitucion?</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" disabled id="ConQuienSeContactaEnIntitucionComunitaria" class="form-control form-control-rounded" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label TextoNegroFormulario">¿A Partir de la discapacidad dejo de conectar con algun contacto?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <select disabled id="DejoDeContactarAAlguien" class="form-control  form-control-rounded">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="control-label TextoNegroFormulario" disabled id="AQuienDejoDeContactarTitulo">¿A Quien?</label>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" disabled id="AQuienDejoDeContactar" class="form-control form-control-rounded" />
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-AntecenteViolencia" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row ">
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">ANTECEDENTE DE VIOLENCIA</h3>
+                    <h4 class="text-center text-dark letratitulo TituloDerivacion">(Antecedente de violencia en la familia de origen y con otras personas)</h4>
+                    <hr />
+                </div>
+                <div class="col-12 row">
+                    <div class="col-12 col-sm-6">
+                        <div class="col-12">
+                            <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">DISCAPACITADO</h3>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">a) Violencia Fisica</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="VioleciaFisicaOPiscDiscapacitado" id="VioleciaFisicaOPiscDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">b) Violacion/Abuso sexual</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="ViolacionAbusoSexualDiscapacitado" id="ViolacionAbusoSexualDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">c) Testigo de Violencia</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="TestigoDeViolenciaDiscapacitado" id="TestigoDeViolenciaDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">d) Abandono</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="AbandonoDiscapacitado" id="AbandonoDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">e) Otras Parejas</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="OtrasParejasDiscapacitado" id="OtrasParejasDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">f) Ignorado</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="IgnoradoDiscapacitado" id="IgnoradoDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">g) Otras...</label>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <select disabled name="SeleccionOtrosDiscapacitado" id="SeleccionOtrosDiscapacitado" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div id="CualOtraViolenciaDiscapacitado" class="ocultar col-12">
+                            <div class="form-group text-left">
+                                <label class="control-label TextoNegroFormulario">¿Cual?</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" style="text-transform:uppercase" disabled name="OtraViolenciaDiscapacitado" id="OtraViolenciaDiscapacitado" class="form-control form-control-rounded" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-sm-6">
+                        <div class="col-12">
+                            <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">CONSULTANTE</h3>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">a) Violencia Fisica</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="VioleciaFisicaOPiscConsultante" id="VioleciaFisicaOPiscConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">b) Violacion/Abuso sexual</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="ViolacionAbusoSexualConsultante" id="ViolacionAbusoSexualConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">c) Testigo de Violencia</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="TestigoDeViolenciaConsultante" id="TestigoDeViolenciaConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">d) Abandono</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="AbandonoConsultante" id="AbandonoConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">e) Otras Parejas</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <select disabled name="OtrasParejasConsultante" id="OtrasParejasConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <label class="control-label TextoNegroFormulario">g) Otras...</label>
+                        </div>
+                        <div class="form-group text-left col-12">
+                            <select disabled name="SeleccionOtrosConsultante" id="SeleccionOtrosConsultante" class="form-control  form-control-rounded">
+                                <option value="true">Sí</option>
+                                <option value="false" selected>No</option>
+                            </select>
+                        </div>
+                        <div id="CualOtraViolenciaConsultante" class="ocultar col-12">
+                            <div class="form-group text-left">
+                                <label class="control-label TextoNegroFormulario">¿Cual?</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" style="text-transform:uppercase" disabled name="OtraViolenciaConsultante" id="OtraViolenciaConsultante" class="form-control form-control-rounded" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3 class="text-center text-dark letratitulo TituloDerivacion font-weight-bold">OBSERVACIONES</h3>
+                    <hr />
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="text" disabled id="Observaciones" class="form-control form-control-rounded" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="form-group text-right">
+    <a class="btn-flotante" title="Volver al listado de personas" href="~/PersonaConDiscapacidads/Index"><img src="~/Content/dashtreme-master/assets/images/iconos menu/regreso.png" class="icono-menu" /></a>
+</div>
+
+@section Scripts {
+
+    <script src="~/Scripts/PersonaConDiscapacidad/DetallePersonaConDiscapacidad.js"></script>
+
+    <script>
+        window.onload = BuscarDetalleDiscapacitado(@Model.PersonaConDiscapacidadID);
+        window.onload = BuscarSituacionesHabitacionales(@Model.PersonaConDiscapacidadID);
+
+    </script>
+}
